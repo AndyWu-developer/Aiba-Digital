@@ -29,6 +29,7 @@ class MediaViewModel{
         let isPlayerMuted: AnyPublisher<Bool,Never>
         let isPlayerPlaying: AnyPublisher<Bool,Never>
         let isPlayerLoading: AnyPublisher<Bool,Never>
+        
     }
     
     private(set) var input: Input!
@@ -100,7 +101,7 @@ class MediaViewModel{
         layerReadyToPlay
             .filter{$0}
             .sink { [weak self] _ in
-                self?.player?.play()
+               // self?.player?.play()
             }.store(in: &subscriptions)
         
         let buttonSubject = PassthroughSubject<Void,Never>()
@@ -121,6 +122,11 @@ class MediaViewModel{
         }else{
             imageDataPublisher = mediaProvider.fetchVideoTumbnail(for: mediaURL).compactMap{$0}.eraseToAnyPublisher()
         }
+        
+        let shouldHideImageSubject = PassthroughSubject<Bool,Never>()
+        
+        
+        
         
         output = Output(imageData: imageDataPublisher,
                        currentPlayer: $player.eraseToAnyPublisher(),

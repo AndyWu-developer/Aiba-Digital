@@ -30,11 +30,9 @@ class MediaView: UIView {
         playerLayer.videoGravity = .resizeAspectFill
         bindViewModelInput()
         bindViewModelOutput()
+        playButton.isHidden = true
     }
     
-
-
-   
     required init?(coder: NSCoder) {
         fatalError("MediaView should only be instantiated through init(viewModel:)")
     }
@@ -58,7 +56,16 @@ class MediaView: UIView {
             guard let ok = change.newValue else { return }
             layerReadyToPlay.send(ok)
         }
+        
         layerReadyToPlay.subscribe(viewModel.input.isReadyForDisplay)
+        
+        layerReadyToPlay
+            .assign(to: \.isHidden, on: imageView)
+            .store(in: &subscriptions)
+        
+        layerReadyToPlay.map{!$0}
+            .assign(to: \.isHidden, on: muteButton)
+            .store(in: &subscriptions)
         
         muteButton.publisher(for: .touchUpInside)
             .map{ _ in}
@@ -87,19 +94,19 @@ class MediaView: UIView {
             .assign(to: \.isSelected, on: muteButton)
             .store(in: &subscriptions)
 
-        viewModel.output.isPlayerPlaying
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] isPlaying in
-                if isPlaying{
-                    self?.imageView.isHidden = true
-                    self?.muteButton.isHidden = false
-                    self?.playButton.isHidden = true
-                }else{
-                    self?.playButton.isHidden = false
-                    self?.imageView.isHidden = false
-                    self?.muteButton.isHidden = true
-                }
-            }.store(in: &subscriptions)
+//        viewModel.output.isPlayerPlaying
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] isPlaying in
+//                if isPlaying{
+//                    self?.imageView.isHidden = true
+//                    self?.muteButton.isHidden = false
+//                    self?.playButton.isHidden = true
+//                }else{
+//                    self?.playButton.isHidden = false
+//                    self?.imageView.isHidden = false
+//                    self?.muteButton.isHidden = true
+//                }
+//            }.store(in: &subscriptions)
         
         viewModel.output.isPlayerLoading
             .receive(on: DispatchQueue.main)

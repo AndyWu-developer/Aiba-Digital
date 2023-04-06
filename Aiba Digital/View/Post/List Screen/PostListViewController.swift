@@ -16,11 +16,13 @@ protocol PostListViewControllerDelegate: AnyObject{
 
 class PostListViewController: UIViewController {
     
-    var totalPlayers = [AVPlayer(),AVPlayer(),AVPlayer()]
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var plusButton: AnimatedButton!
-    var updating = false
-    let cellViewModels = [PostCellViewModel(indexPath: IndexPath(item: 0, section: 0)),
+    
+    private let sharedPlayers = [AVPlayer(),AVPlayer(),AVPlayer()]
+    private var currentPlayingIndexPath: IndexPath?
+    
+    private let cellViewModels = [PostCellViewModel(indexPath: IndexPath(item: 0, section: 0)),
                       PostCellViewModel(indexPath: IndexPath(item: 1, section: 0)),
                       PostCellViewModel(indexPath: IndexPath(item: 2, section: 0)),
                       PostCellViewModel(indexPath: IndexPath(item: 3, section: 0)),
@@ -32,7 +34,6 @@ class PostListViewController: UIViewController {
                       PostCellViewModel(indexPath: IndexPath(item: 9, section: 0))
     ]
     private let viewModel: PostViewModel
-  //  private var cellViewModels = [PostCellViewModel]()
     weak var flowDelegate: PostListViewControllerDelegate?
     
     let viewDidAppearSubject = PassthroughSubject<Void,Never>()
@@ -41,7 +42,7 @@ class PostListViewController: UIViewController {
     private let tableViewLayout: UICollectionViewLayout = {
         // To acheive a tableview dynamic height layout, make sure to:
         // 1. use .estimated height dimension for BOTH NSCollectionLayoutItem and NSCollectionLayoutGroup
-//        // 2. the group must be .horizontal not .vertical, so the group's heightDimension can be .estimated :)
+        // 2. the group must be .horizontal not .vertical, so the group's heightDimension can be .estimated :)
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                   heightDimension: .estimated(300))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -54,11 +55,6 @@ class PostListViewController: UIViewController {
         section.interGroupSpacing = 5
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
-//       Using ListConfiguration does the same thing with less code, but you cannot change the collectionView's background color :(
-//        var config = UICollectionLayoutListConfiguration(appearance: .plain)
-//        config.showsSeparators = false
-//        let layout = UICollectionViewCompositionalLayout.list(using: config)
-//        return layout
     }()
     
     init(viewModel: PostViewModel) {
@@ -72,12 +68,14 @@ class PostListViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
          super.viewDidAppear(animated)
-       
+        //collectionView.scrollsToTop
     }
     
     override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
-       
+         sharedPlayers.forEach{$0.pause()}
+        
+        
      }
     
     override func viewDidLoad() {
@@ -109,75 +107,40 @@ extension PostListViewController: UICollectionViewDataSource, UICollectionViewDe
     }
     //The purpose of cellForRowAtIndexPath is to dequeue a cell and hand it data. That’s it. Full stop. The cell should take care of all of its state internally from this data. Simply pass the model object (or view model, depending on your architecture) and let the cell work its magic :)
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("cell for row \(indexPath)")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCell.reuseIdentifier, for: indexPath) as! PostCell
         cell.viewModel = cellViewModels[indexPath.row]
         cell.delegate = self
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        print("pressed")
-        collectionView.performBatchUpdates(nil)
-        //collectionView.reloadItems(at: [indexPath])
-    }
-    
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
     }
     
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate: Bool ) {
-//
-//         let visibleIndexPaths = collectionView.indexPathsForVisibleItems
-//         let fullyVisibleIndexPaths = visibleIndexPaths.filter { indexPath in
-//             let layoutAttribute = collectionView.layoutAttributesForItem(at: indexPath)!
-//             let cellFrame = layoutAttribute.frame.insetBy(dx: 0, dy: layoutAttribute.frame.height/3)
-//             let isCellFullyVisible = collectionView.bounds.contains(cellFrame)
-//             return isCellFullyVisible
-//         }
-//        print("can play at \(fullyVisibleIndexPaths.map{$0.row})")
-//        let visibleTags = Notification.Name("visibleTags")
-//        NotificationCenter.default.post(name: visibleTags, object: fullyVisibleIndexPaths)
-//    }
-    
-   
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         (cell as! PostCell).player = nil
     }
     
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
-//        let visibleIndexPaths = collectionView.indexPathsForVisibleItems
-//        let fullyVisibleIndexPaths = visibleIndexPaths.filter { indexPath in
-//             let layoutAttribute = collectionView.layoutAttributesForItem(at: indexPath)!
-//             let cellFrame = layoutAttribute.frame.insetBy(dx: 0, dy: layoutAttribute.frame.height/3)
-//             let isCellFullyVisible = collectionView.bounds.contains(cellFrame)
-//             return isCellFullyVisible
-//        }
-//        print("can play at \(fullyVisibleIndexPaths.map{$0.row})")
-//        var visibleCells = collectionView.visibleCells
-//        visibleCells.sort { cell1, cell2 in
-//            collectionView.indexPath(for: cell1)!.row < collectionView.indexPath(for: cell2)!.row
-//        }
-//
-//        visibleCells.enumerated().forEach { <#EnumeratedSequence<[UICollectionViewCell]>.Iterator.Element#> in
-//            <#code#>
-//        }
-        let fullyVisibleIndexpath = collectionView.indexPathsForFullyVisibleItems()
-        collectionView.indexPathsForVisibleItems.sorted{$0 < $1}.prefix(3).forEach { index in
-            if let cell = collectionView.cellForItem(at: index) as? PostCell{
-                cell.player = totalPlayers[index.row % 3]
-                if fullyVisibleIndexpath.firstIndex(of: index) != nil{
-                    //cell.player?.play()
-                }else{
-                    cell.player?.pause()
-                }
-            }
+        
+        guard let indexPathToPlay = collectionView.indexPathsForVisibleItems.filter({ indexPath in
+            let cellFrame = collectionView.layoutAttributesForItem(at: indexPath)!.frame
+            let cellCenter = CGPoint(x: cellFrame.midX, y: cellFrame.minY + cellFrame.height/3)
+            let isCellVisible = collectionView.bounds.contains(cellCenter)
+            return isCellVisible
+        }).min() else {
+            sharedPlayers.forEach{$0.pause()}
+            return
         }
         
-        
-
-
+        if indexPathToPlay != currentPlayingIndexPath, currentPlayingIndexPath != nil {
+            sharedPlayers[currentPlayingIndexPath!.row % sharedPlayers.count].pause()
+        }
+            
+        let cell = collectionView.cellForItem(at: indexPathToPlay) as! PostCell
+        cell.player = sharedPlayers[indexPathToPlay.row % sharedPlayers.count]
+        cell.player?.play()
+        currentPlayingIndexPath = indexPathToPlay
     }
     
 //    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -252,22 +215,6 @@ extension UICollectionView {
         let visibleIndexPaths = indexPathsForVisibleItems
 
         return visibleIndexPaths.sorted{$0 < $1}.filter { indexPath in
-            return isCellAtIndexPathFullyVisible(indexPath)
-        }
-    }
-}
-
-extension UITableView {
-
-    func isCellAtIndexPathFullyVisible(_ indexPath: IndexPath) -> Bool {
-        let cellFrame = rectForRow(at: indexPath)
-        return bounds.contains(cellFrame)
-    }
-
-    func indexPathsForFullyVisibleRows() -> [IndexPath] {
-
-        let visibleIndexPaths = indexPathsForVisibleRows ?? []
-        return visibleIndexPaths.filter { indexPath in
             return isCellAtIndexPathFullyVisible(indexPath)
         }
     }
