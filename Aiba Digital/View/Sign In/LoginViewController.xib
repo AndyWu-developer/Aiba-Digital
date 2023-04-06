@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController" customModule="Aiba_Digital" customModuleProvider="target">
+            <connections>
+                <outlet property="appleSignInButton" destination="otC-d5-kTQ" id="Ciy-XN-OT3"/>
+                <outlet property="googleSignInButton" destination="eGl-ab-mTL" id="CiZ-Tm-WBP"/>
+                <outlet property="logo" destination="YYl-JC-GYy" id="QBq-4C-Pdf"/>
+                <outlet property="phoneNumberField" destination="GYc-zd-5Wg" id="PwE-bA-fOu"/>
+                <outlet property="phoneSignInButton" destination="UbD-NR-3Xd" id="Kma-xC-oHz"/>
+                <outlet property="scrollView" destination="2BR-6L-k1k" id="Vxn-P4-gqX"/>
+                <outlet property="signInView" destination="8rv-KS-h27" id="B98-cp-mqS"/>
+                <outlet property="verificationCodeField" destination="mjl-Fa-5kU" id="skq-ch-jTK"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2BR-6L-k1k">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cci-K4-cOj" userLabel="Content View">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YYl-JC-GYy" userLabel="Logo" customClass="LogoView" customModule="Aiba_Digital" customModuleProvider="target">
+                                    <rect key="frame" x="59.666666666666657" y="241.33333333333337" width="295" height="100"/>
+                                    <viewLayoutGuide key="safeArea" id="fxa-Db-gVg"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="295" id="2z1-UY-NQT"/>
+                                        <constraint firstAttribute="height" constant="100" id="jt4-2H-whU"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8rv-KS-h27" userLabel="Sign in View">
+                                    <rect key="frame" x="31" y="361.33333333333326" width="352" height="359"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="ALP-hr-sUH" userLabel="Phone Sign in View">
+                                            <rect key="frame" x="0.0" y="0.0" width="352" height="210"/>
+                                            <subviews>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GYc-zd-5Wg" userLabel="Phone Number Field" customClass="PhoneNumberField" customModule="Aiba_Digital" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="352" height="50"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="qzJ-92-Vbg"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="phonePad" returnKeyType="next" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="25"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="leftImageColor">
+                                                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="placeholderText" value="手機號碼"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </textField>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mjl-Fa-5kU" userLabel="Password Text Field" customClass="VerificationCodeField" customModule="Aiba_Digital" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="80" width="352" height="50"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="8ly-AT-Dzy"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="placeholderText" value="驗證碼"/>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="leftImageColor">
+                                                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </textField>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UbD-NR-3Xd" userLabel="Login Button" customClass="SignInButton" customModule="Aiba_Digital" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="160.00000000000006" width="352" height="50"/>
+                                                    <color key="backgroundColor" red="0.14626693730000001" green="0.20358553530000001" blue="0.42899915579999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="QhA-G3-X0K"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
+                                                    <state key="normal" title="登入">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="25"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </button>
+                                            </subviews>
+                                        </stackView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8az-Oh-UKj" userLabel="Separate View">
+                                            <rect key="frame" x="86" y="220.00000000000006" width="180" height="17"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NqS-PU-Sf3" userLabel="Separate Line">
+                                                    <rect key="frame" x="0.0" y="8" width="180" height="1"/>
+                                                    <color key="backgroundColor" systemColor="quaternaryLabelColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="Ju2-x2-JN5"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="或" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BG6-GP-cTg" userLabel="Separator Text">
+                                                    <rect key="frame" x="72.666666666666657" y="0.0" width="35" height="17"/>
+                                                    <color key="backgroundColor" red="0.98237353559999996" green="0.82003986839999998" blue="0.19923976060000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="35" id="7k4-fl-Sme" userLabel="width = 30"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="NqS-PU-Sf3" firstAttribute="width" secondItem="8az-Oh-UKj" secondAttribute="width" id="04H-l6-aGQ"/>
+                                                <constraint firstItem="NqS-PU-Sf3" firstAttribute="centerX" secondItem="8az-Oh-UKj" secondAttribute="centerX" id="5EW-Kf-3sy"/>
+                                                <constraint firstItem="NqS-PU-Sf3" firstAttribute="centerY" secondItem="8az-Oh-UKj" secondAttribute="centerY" id="DJC-og-4Jk"/>
+                                                <constraint firstItem="BG6-GP-cTg" firstAttribute="centerX" secondItem="8az-Oh-UKj" secondAttribute="centerX" id="Har-Wb-8TZ"/>
+                                                <constraint firstAttribute="height" secondItem="BG6-GP-cTg" secondAttribute="height" id="Qbf-7F-ql6"/>
+                                                <constraint firstItem="BG6-GP-cTg" firstAttribute="centerY" secondItem="8az-Oh-UKj" secondAttribute="centerY" id="cSh-tR-qWK"/>
+                                            </constraints>
+                                        </view>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="nrb-Wd-quq" userLabel="Third Party Sign in View">
+                                            <rect key="frame" x="76" y="247.00000000000006" width="200" height="112"/>
+                                            <subviews>
+                                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="otC-d5-kTQ" userLabel="Apple Signin Button" customClass="SignInButton" customModule="Aiba_Digital" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="46"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="46" id="NOO-bo-knQ"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                    <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="8" maxY="0.0"/>
+                                                    <state key="normal" title="用Apple帳號登入" image="Logo - SIWA - Logo-only - White">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="23"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </button>
+                                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="leading" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eGl-ab-mTL" userLabel="Google Signin Button" customClass="SignInButton" customModule="Aiba_Digital" customModuleProvider="target">
+                                                    <rect key="frame" x="0.0" y="66" width="200" height="46"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="46" id="g2Z-bo-U26"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="ze1-Uw-B8u"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                    <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="8" maxY="0.0"/>
+                                                    <state key="normal" title="用Google帳號登入" image="image (2)">
+                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="23"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </button>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstItem="8az-Oh-UKj" firstAttribute="top" secondItem="ALP-hr-sUH" secondAttribute="bottom" constant="10" id="2uk-ir-OMj"/>
+                                        <constraint firstItem="ALP-hr-sUH" firstAttribute="top" secondItem="8rv-KS-h27" secondAttribute="top" id="5Pi-P4-nOd"/>
+                                        <constraint firstItem="8az-Oh-UKj" firstAttribute="centerX" secondItem="8rv-KS-h27" secondAttribute="centerX" id="63I-5q-sml"/>
+                                        <constraint firstItem="ALP-hr-sUH" firstAttribute="leading" secondItem="8rv-KS-h27" secondAttribute="leading" id="94q-bT-wSU"/>
+                                        <constraint firstItem="nrb-Wd-quq" firstAttribute="top" secondItem="8az-Oh-UKj" secondAttribute="bottom" constant="10" id="E5s-LP-8eA"/>
+                                        <constraint firstAttribute="trailing" secondItem="ALP-hr-sUH" secondAttribute="trailing" id="ISH-em-NMF"/>
+                                        <constraint firstItem="nrb-Wd-quq" firstAttribute="centerX" secondItem="8rv-KS-h27" secondAttribute="centerX" id="Ioe-8i-rlA"/>
+                                        <constraint firstAttribute="bottom" secondItem="nrb-Wd-quq" secondAttribute="bottom" id="l76-UF-IfB"/>
+                                        <constraint firstItem="8az-Oh-UKj" firstAttribute="width" secondItem="nrb-Wd-quq" secondAttribute="width" multiplier="0.9" id="z6H-bB-eLH"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" red="0.98237353559999996" green="0.82003986839999998" blue="0.19923976060000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstItem="8rv-KS-h27" firstAttribute="top" secondItem="YYl-JC-GYy" secondAttribute="bottom" constant="20" id="3iI-md-qik"/>
+                                <constraint firstItem="8rv-KS-h27" firstAttribute="width" secondItem="cci-K4-cOj" secondAttribute="width" multiplier="0.85" id="3vO-2w-qwa"/>
+                                <constraint firstItem="8rv-KS-h27" firstAttribute="centerX" secondItem="cci-K4-cOj" secondAttribute="centerX" id="EOD-0D-ePc"/>
+                                <constraint firstItem="YYl-JC-GYy" firstAttribute="centerX" secondItem="cci-K4-cOj" secondAttribute="centerX" id="FD6-Yz-WTT"/>
+                                <constraint firstItem="YYl-JC-GYy" firstAttribute="centerY" secondItem="cci-K4-cOj" secondAttribute="centerY" multiplier="0.65" id="U7e-VD-OJQ"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="cci-K4-cOj" firstAttribute="top" secondItem="wbX-g0-sL4" secondAttribute="top" id="F6M-NO-jea"/>
+                        <constraint firstItem="wbX-g0-sL4" firstAttribute="trailing" secondItem="cci-K4-cOj" secondAttribute="trailing" id="HiT-q3-5mt"/>
+                        <constraint firstItem="cci-K4-cOj" firstAttribute="width" secondItem="K1c-Z0-Z4f" secondAttribute="width" id="IYh-RY-5p1"/>
+                        <constraint firstItem="cci-K4-cOj" firstAttribute="centerX" secondItem="K1c-Z0-Z4f" secondAttribute="centerX" id="PPS-tr-MYx"/>
+                        <constraint firstItem="cci-K4-cOj" firstAttribute="height" secondItem="K1c-Z0-Z4f" secondAttribute="height" id="Prj-LM-k5u"/>
+                        <constraint firstItem="cci-K4-cOj" firstAttribute="leading" secondItem="wbX-g0-sL4" secondAttribute="leading" id="TqZ-EJ-Sgo"/>
+                        <constraint firstItem="wbX-g0-sL4" firstAttribute="bottom" secondItem="cci-K4-cOj" secondAttribute="bottom" id="kEN-JL-eFa"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="wbX-g0-sL4"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="K1c-Z0-Z4f"/>
+                </scrollView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" red="0.98237353559999996" green="0.82003986839999998" blue="0.19923976060000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="2BR-6L-k1k" secondAttribute="trailing" id="7VX-b7-ZsC"/>
+                <constraint firstItem="2BR-6L-k1k" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="CTf-Nh-hz5"/>
+                <constraint firstItem="2BR-6L-k1k" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="cHw-e1-UhA"/>
+                <constraint firstAttribute="bottom" secondItem="2BR-6L-k1k" secondAttribute="bottom" id="dDJ-dS-eDy"/>
+            </constraints>
+            <point key="canvasLocation" x="137.68115942028987" y="108.48214285714285"/>
+        </view>
+    </objects>
+    <designables>
+        <designable name="GYc-zd-5Wg">
+            <size key="intrinsicContentSize" width="32" height="34"/>
+        </designable>
+        <designable name="mjl-Fa-5kU">
+            <size key="intrinsicContentSize" width="32" height="34"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="Logo - SIWA - Logo-only - White" width="44" height="44"/>
+        <image name="image (2)" width="44" height="44"/>
+        <systemColor name="quaternaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.17999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MediaView" customModule="Aiba_Digital" customModuleProvider="target">
+            <connections>
+                <outlet property="imageView" destination="IVC-vG-F4b" id="By9-Rp-V49"/>
+                <outlet property="muteButton" destination="LhY-2X-rwA" id="gl4-fK-Euw"/>
+                <outlet property="spinningView" destination="QcN-S8-ztj" id="ZMY-k7-Q5I"/>
+                <outlet property="videoIcon" destination="iG9-MQ-mJE" id="W3S-4O-rPA"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="MSv-TU-cL4">
+            <rect key="frame" x="0.0" y="0.0" width="317" height="276"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play.rectangle.fill" catalog="system" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iG9-MQ-mJE" userLabel="Video Icon">
+                    <rect key="frame" x="288" y="245" width="24" height="28"/>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="3Zr-Qe-rRC"/>
+                        <constraint firstAttribute="width" constant="24" id="Vxm-iX-wpI"/>
+                    </constraints>
+                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                </imageView>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LhY-2X-rwA" userLabel="Mute Button">
+                    <rect key="frame" x="288" y="247" width="24" height="24"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="YQD-50-YhK"/>
+                        <constraint firstAttribute="width" constant="24" id="qKE-1c-PqK"/>
+                    </constraints>
+                    <color key="tintColor" systemColor="secondarySystemBackgroundColor"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="speaker.wave.2.fill" catalog="system">
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="12"/>
+                    </state>
+                    <state key="selected" image="speaker.slash.fill" catalog="system">
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="15" weight="ultraLight"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="12"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </button>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QcN-S8-ztj" userLabel="Spinning View" customClass="SpinningView" customModule="Aiba_Digital" customModuleProvider="target">
+                    <rect key="frame" x="140.5" y="120" width="36" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="36" id="wKY-t4-qGz"/>
+                        <constraint firstAttribute="height" constant="36" id="yTS-NT-Dpf"/>
+                    </constraints>
+                </view>
+                <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IVC-vG-F4b">
+                    <rect key="frame" x="0.0" y="0.0" width="317" height="276"/>
+                    <color key="backgroundColor" red="0.92941176470588238" green="0.93725490196078431" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                </imageView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="IVC-vG-F4b" secondAttribute="trailing" id="10Q-en-qoL"/>
+                <constraint firstAttribute="trailing" secondItem="LhY-2X-rwA" secondAttribute="trailing" constant="5" id="B31-ee-OrY"/>
+                <constraint firstAttribute="bottom" secondItem="IVC-vG-F4b" secondAttribute="bottom" id="Dee-4q-yGY"/>
+                <constraint firstItem="IVC-vG-F4b" firstAttribute="top" secondItem="MSv-TU-cL4" secondAttribute="top" id="E6e-Rt-QcM"/>
+                <constraint firstItem="IVC-vG-F4b" firstAttribute="leading" secondItem="MSv-TU-cL4" secondAttribute="leading" id="J5b-tD-Pbo"/>
+                <constraint firstAttribute="trailing" secondItem="iG9-MQ-mJE" secondAttribute="trailing" constant="5" id="Ljh-0G-IKo"/>
+                <constraint firstAttribute="bottom" secondItem="LhY-2X-rwA" secondAttribute="bottom" constant="5" id="NH5-AH-Gma"/>
+                <constraint firstAttribute="bottom" secondItem="iG9-MQ-mJE" secondAttribute="bottom" constant="5" id="Y4z-Or-PJ3"/>
+                <constraint firstItem="QcN-S8-ztj" firstAttribute="centerY" secondItem="MSv-TU-cL4" secondAttribute="centerY" id="haM-5f-jIA"/>
+                <constraint firstItem="QcN-S8-ztj" firstAttribute="centerX" secondItem="MSv-TU-cL4" secondAttribute="centerX" id="rdm-Xt-WSp"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="2.1739130434782612" y="-2.6785714285714284"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="play.rectangle.fill" catalog="system" width="128" height="93"/>
+        <image name="speaker.slash.fill" catalog="system" width="118" height="128"/>
+        <image name="speaker.wave.2.fill" catalog="system" width="128" height="88"/>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

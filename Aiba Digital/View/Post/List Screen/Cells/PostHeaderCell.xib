@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="YDJ-BN-P5G" customClass="PostHeaderCell" customModule="Aiba_Digital" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="711" height="199"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="LIa-7R-ZaQ">
+                <rect key="frame" x="0.0" y="0.0" width="711" height="199"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5EH-RP-cJH">
+                        <rect key="frame" x="0.0" y="0.0" width="711" height="199"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xVv-ak-J6Y" userLabel="Profile Button">
+                                <rect key="frame" x="0.0" y="74.666666666666671" width="611" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="dqz-F7-mze"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DwT-gJ-ALd" userLabel="Pin Button">
+                                <rect key="frame" x="611" y="74.666666666666671" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="AoI-QH-HEn"/>
+                                    <constraint firstAttribute="height" constant="50" id="sZ6-GG-qen"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ZH-Q8-91J" userLabel="More Button">
+                                <rect key="frame" x="661" y="74.666666666666671" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="MrA-rU-Gbe"/>
+                                    <constraint firstAttribute="width" constant="50" id="mTJ-1Z-pJ8"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            </button>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="5EH-RP-cJH" firstAttribute="top" secondItem="LIa-7R-ZaQ" secondAttribute="top" id="LoY-Ne-9fF"/>
+                    <constraint firstAttribute="trailing" secondItem="5EH-RP-cJH" secondAttribute="trailing" id="b49-1t-jof"/>
+                    <constraint firstItem="5EH-RP-cJH" firstAttribute="leading" secondItem="LIa-7R-ZaQ" secondAttribute="leading" id="fgD-PY-vVM"/>
+                    <constraint firstAttribute="bottom" secondItem="5EH-RP-cJH" secondAttribute="bottom" id="r4H-IZ-yYp"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="711" height="199"/>
+            <connections>
+                <outlet property="moreButton" destination="8ZH-Q8-91J" id="mn2-LT-NAc"/>
+                <outlet property="pinButton" destination="8ZH-Q8-91J" id="pOj-Un-WlV"/>
+                <outlet property="profileButton" destination="xVv-ak-J6Y" id="OIX-oj-MqX"/>
+            </connections>
+            <point key="canvasLocation" x="510.68702290076334" y="-45.422535211267608"/>
+        </collectionViewCell>
+    </objects>
+</document>

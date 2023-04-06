@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>177867456312-glge0cm997dlisl4o570d1etbrv8he8b.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.177867456312-glge0cm997dlisl4o570d1etbrv8he8b</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAAeiFFsxVRJErLL5o8rV9rRbVU6rG0ySc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>177867456312</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.AibaDigital</string>
+	<key>PROJECT_ID</key>
+	<string>aiba-digital</string>
+	<key>STORAGE_BUCKET</key>
+	<string>aiba-digital.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:177867456312:ios:10b4f22a911a75265ecbcd</string>
+</dict>
+</plist>
