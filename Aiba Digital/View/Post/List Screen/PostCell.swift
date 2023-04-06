@@ -29,7 +29,7 @@ static var count = 0
     @IBOutlet private weak var shareButton: UIButton!
     
     weak var delegate: PostCellDelegate?
-    
+    var test = true
     weak var player: AVPlayer? {
         didSet{
             if oldValue != player{
