@@ -13,11 +13,10 @@ protocol PostListViewControllerDelegate: AnyObject{
     func plusButtonTapped()
 }
 
+
 class PostListViewController: UIViewController {
     
     var totalPlayers = [AVPlayer(),AVPlayer(),AVPlayer()]
-    
-    var playercount = 1
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var plusButton: AnimatedButton!
     var updating = false
@@ -38,42 +37,28 @@ class PostListViewController: UIViewController {
     
     let viewDidAppearSubject = PassthroughSubject<Void,Never>()
     let viewWillDisAppearSubject = PassthroughSubject<Void,Never>()
-    
-    
-    private let postLayout: UICollectionViewLayout = {
-        
-        let postHeaderItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),heightDimension: .absolute(50)))
-        let postMediaItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),heightDimension: .absolute(50)))
-        let postTextItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),heightDimension: .absolute(50)))
-        let postActionItem = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),heightDimension: .absolute(40)))
-        
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),heightDimension: .estimated(600)), subitems: [postHeaderItem, postMediaItem, postTextItem, postActionItem])
-        let section = NSCollectionLayoutSection(group: group)
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
-    }()
-    
+ 
     private let tableViewLayout: UICollectionViewLayout = {
         // To acheive a tableview dynamic height layout, make sure to:
         // 1. use .estimated height dimension for BOTH NSCollectionLayoutItem and NSCollectionLayoutGroup
 //        // 2. the group must be .horizontal not .vertical, so the group's heightDimension can be .estimated :)
-//        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-//                                                  heightDimension: .estimated(300))
-//        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-//                                                   heightDimension: .estimated(300))
-//        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,subitem: item,
-//              count: 1)
-//        let gp = NSCollectionLayoutGroup.vertical(layoutSize: groupSize , subitems: [item])
-//        let section = NSCollectionLayoutSection(group: group)
-//        section.interGroupSpacing = 5
-//        let layout = UICollectionViewCompositionalLayout(section: section)
-//        return layout
-//       Using ListConfiguration does the same thing with less code, but you cannot change the collectionView's background color :(
-        var config = UICollectionLayoutListConfiguration(appearance: .plain)
-        config.showsSeparators = false
-        let layout = UICollectionViewCompositionalLayout.list(using: config)
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: .estimated(300))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                   heightDimension: .estimated(300))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,subitem: item,
+              count: 1)
+        let gp = NSCollectionLayoutGroup.vertical(layoutSize: groupSize , subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 5
+        let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
+//       Using ListConfiguration does the same thing with less code, but you cannot change the collectionView's background color :(
+//        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+//        config.showsSeparators = false
+//        let layout = UICollectionViewCompositionalLayout.list(using: config)
+//        return layout
     }()
     
     init(viewModel: PostViewModel) {
@@ -125,16 +110,16 @@ extension PostListViewController: UICollectionViewDataSource, UICollectionViewDe
     //The purpose of cellForRowAtIndexPath is to dequeue a cell and hand it data. That’s it. Full stop. The cell should take care of all of its state internally from this data. Simply pass the model object (or view model, depending on your architecture) and let the cell work its magic :)
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         print("cell for row \(indexPath)")
-    
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PostCell.reuseIdentifier, for: indexPath) as! PostCell
         cell.viewModel = cellViewModels[indexPath.row]
-       // cell. = self
+        cell.delegate = self
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         print("pressed")
+        collectionView.performBatchUpdates(nil)
         //collectionView.reloadItems(at: [indexPath])
     }
     
@@ -178,11 +163,19 @@ extension PostListViewController: UICollectionViewDataSource, UICollectionViewDe
 //        visibleCells.enumerated().forEach { <#EnumeratedSequence<[UICollectionViewCell]>.Iterator.Element#> in
 //            <#code#>
 //        }
+        let fullyVisibleIndexpath = collectionView.indexPathsForFullyVisibleItems()
         collectionView.indexPathsForVisibleItems.sorted{$0 < $1}.prefix(3).forEach { index in
             if let cell = collectionView.cellForItem(at: index) as? PostCell{
                 cell.player = totalPlayers[index.row % 3]
+                if fullyVisibleIndexpath.firstIndex(of: index) != nil{
+                    //cell.player?.play()
+                }else{
+                    cell.player?.pause()
+                }
             }
         }
+        
+        
 
 
     }
@@ -231,11 +224,9 @@ extension PostListViewController: UICollectionViewDataSource, UICollectionViewDe
 
 extension PostListViewController: PostCellDelegate{
     func update(_ cell: PostCell) {
-       // updating = true
-//        DispatchQueue.main.async {
-//            self.collectionView.performBatchUpdates(nil)
-//        }
-       
+        UIView.performWithoutAnimation {
+            self.collectionView.performBatchUpdates(nil)
+        }
     }
   
 //

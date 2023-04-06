@@ -49,7 +49,7 @@ class MainFlowController: UIViewController {
         settingFlowVC.start()
 
         
-        let vc1 = UIViewController()
+        let vc1 = CollectionViewController()
         vc1.tabBarItem = UITabBarItem(title: "來去逛逛", image: UIImage(named: "Shop")!.withTintColor(.black, renderingMode: .alwaysOriginal),
                                        selectedImage:  UIImage(named: "Shop-1"))
         

@@ -49,6 +49,7 @@
                         </subviews>
                     </stackView>
                 </subviews>
+                <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="5EH-RP-cJH" firstAttribute="top" secondItem="LIa-7R-ZaQ" secondAttribute="top" id="LoY-Ne-9fF"/>
                     <constraint firstAttribute="trailing" secondItem="5EH-RP-cJH" secondAttribute="trailing" id="b49-1t-jof"/>
@@ -56,6 +57,7 @@
                     <constraint firstAttribute="bottom" secondItem="5EH-RP-cJH" secondAttribute="bottom" id="r4H-IZ-yYp"/>
                 </constraints>
             </collectionViewCellContentView>
+            <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <size key="customSize" width="711" height="199"/>
             <connections>
                 <outlet property="moreButton" destination="8ZH-Q8-91J" id="mn2-LT-NAc"/>

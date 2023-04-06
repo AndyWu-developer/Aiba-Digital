@@ -29,7 +29,6 @@ static var count = 0
     @IBOutlet private weak var shareButton: UIButton!
     
     weak var delegate: PostCellDelegate?
-    var test = true
     weak var player: AVPlayer? {
         didSet{
             if oldValue != player{
@@ -74,15 +73,15 @@ static var count = 0
    
     private func bindViewModelInput(){
        
-//       shopButton.publisher(for: .touchUpInside)
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] _ in
-//                guard let self = self else { return }
-//
-//                self.viewModel.isExpanded = true
-//                textLabel.numberOfLines = 0
-//                self.delegate?.update(self)
-//            }.store(in: &subscriptions)
+       shopButton.publisher(for: .touchUpInside)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+
+                self.viewModel.isExpanded = true
+                textLabel.numberOfLines = 0
+                self.delegate?.update(self)
+            }.store(in: &subscriptions)
         
 //            .subscribe(viewModel.input.expand)
 //
@@ -92,7 +91,7 @@ static var count = 0
     }
     
     private func bindViewModelOutput(){
-       // self.textLabel.numberOfLines = viewModel.isExpanded ? 0 : 3
+        self.textLabel.numberOfLines = viewModel.isExpanded ? 0 : 3
 //        viewModel.output.isExpanded
 //            .removeDuplicates()
 //            .sink { isExpand in

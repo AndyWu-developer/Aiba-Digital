@@ -58,14 +58,14 @@ class MediaProvider: MediaProviding {
      
         Deferred { () -> AnyPublisher<Data?, Never> in
             if let cachedImageData = self.imageCache.object(forKey: urlString as NSString){
-                print("thumbnail cached :)")
+               // print("thumbnail cached :)")
                 return Just(cachedImageData as Data).eraseToAnyPublisher()
             }
             if let publisher = self.pendingImagePublishers[urlString] {
-                print("thumbail duplicates :)")
+               //print("thumbail duplicates :)")
                 return publisher
             }else{
-                print("fetching thumbail...")
+               // print("fetching thumbail...")
                 guard let url = URL(string: urlString) else { return Just(nil).eraseToAnyPublisher() }
                 
                 let publisher = Future<Data?,Never>{ promise in
@@ -73,12 +73,12 @@ class MediaProvider: MediaProviding {
                         let thumbnailGenerator = AVAssetImageGenerator(asset: AVAsset(url: url))
                         thumbnailGenerator.appliesPreferredTrackTransform = true
                         thumbnailGenerator.maximumSize = UIScreen.main.bounds.size
-                        let thumnailTime = CMTimeMake(value: 2, timescale: 1)
+                        let thumnailTime = CMTimeMake(value: 1, timescale: 1)
                         do {
                             let cgThumbImage = try thumbnailGenerator.copyCGImage(at: thumnailTime, actualTime: nil)
                             let thumbImage = UIImage(cgImage: cgThumbImage)
                             if let data = thumbImage.pngData(){
-                                print("thumbnail fetched :)")
+                               // print("thumbnail fetched :)")
                                 self.imageCache.setObject(data as NSData, forKey: urlString as NSString)
                                 self.pendingImagePublishers[urlString] = nil
                                 promise(.success(data))
@@ -119,11 +119,11 @@ class MediaProvider: MediaProviding {
     func fetchVideoAsset(for urlString: String) -> AnyPublisher<AVAsset?, Never> {
        Deferred { () -> AnyPublisher<AVAsset?, Never> in
             if let cachedAsset = self.videoAssetCache.object(forKey: urlString as NSString){
-                print("asset cached :)")
+               //print("asset cached :)")
                 return Just(cachedAsset).eraseToAnyPublisher()
             }
             guard let url = URL(string: urlString) else { return Just(nil).eraseToAnyPublisher() }
-            print("fetching asset...")
+            //print("fetching asset...")
             return Future<AVAsset?,Never> { promise in
                 let asset = AVURLAsset(url: url)
                 let track = #keyPath(AVURLAsset.tracks)
@@ -132,7 +132,7 @@ class MediaProvider: MediaProviding {
                 asset.loadValuesAsynchronously(forKeys: [track]) { [weak self] in
                     let status = asset.statusOfValue(forKey: track, error: nil)
                     if status == .loaded{
-                        print("asset fetched :)")
+                        //print("asset fetched :)")
                         self?.videoAssetCache.setObject(asset, forKey: urlString as NSString)
                         promise(.success(asset))
                     }else{

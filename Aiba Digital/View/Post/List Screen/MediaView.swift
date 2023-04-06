@@ -12,15 +12,16 @@ import Combine
 class MediaView: UIView {
  
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var videoIcon: UIImageView!
     @IBOutlet weak var spinningView: UIView!
     @IBOutlet weak var muteButton: UIButton!
+    @IBOutlet weak var playButton: UIButton!
 
     override static var layerClass: AnyClass { AVPlayerLayer.self }
     private var playerLayer: AVPlayerLayer { layer as! AVPlayerLayer }
     private var subscriptions = Set<AnyCancellable>()
     private let viewModel: MediaViewModel
     private var ob: NSKeyValueObservation!
+   
    
     init(viewModel: MediaViewModel){
         self.viewModel = viewModel
@@ -31,6 +32,9 @@ class MediaView: UIView {
         bindViewModelOutput()
     }
     
+
+
+   
     required init?(coder: NSCoder) {
         fatalError("MediaView should only be instantiated through init(viewModel:)")
     }
@@ -89,11 +93,11 @@ class MediaView: UIView {
                 if isPlaying{
                     self?.imageView.isHidden = true
                     self?.muteButton.isHidden = false
-                    self?.videoIcon.isHidden = true
+                    self?.playButton.isHidden = true
                 }else{
+                    self?.playButton.isHidden = false
                     self?.imageView.isHidden = false
                     self?.muteButton.isHidden = true
-                    self?.videoIcon.isHidden = false
                 }
             }.store(in: &subscriptions)
         
