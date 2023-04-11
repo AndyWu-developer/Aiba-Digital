@@ -35,6 +35,9 @@ class PostViewModel {
         configureOutputs()
     }
   
+    
+    
+    
     private func configureInputs(){
         let viewAppearSubject = PassthroughSubject<Void,Never>()
         let viewDisappearSubject = PassthroughSubject<Void,Never>()

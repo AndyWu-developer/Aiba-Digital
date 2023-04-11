@@ -63,7 +63,7 @@ class MainFlowController: UIViewController {
         vc3.tabBarItem = UITabBarItem(title: "關於本店", image: UIImage(systemName: "info.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal),selectedImage:  UIImage(systemName: "info.circle.fill")?.withTintColor(.lightYellow, renderingMode: .alwaysOriginal))
     
         embeddedTabBarController.setViewControllers([vc3,postFlowController,vc1,settingFlowVC], animated: false)
-        embeddedTabBarController.selectedIndex = 1
+        embeddedTabBarController.selectedIndex = 2
         
         addChild(embeddedTabBarController)
         view.addSubview(embeddedTabBarController.view)

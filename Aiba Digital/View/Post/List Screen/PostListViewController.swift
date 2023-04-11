@@ -13,6 +13,13 @@ protocol PostListViewControllerDelegate: AnyObject{
     func plusButtonTapped()
 }
 
+class MyCompositionalLayout: UICollectionViewCompositionalLayout {
+//    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
+//        print("scrolling to content offset: \(proposedContentOffset)")
+//        return super.targetContentOffset(forProposedContentOffset: proposedContentOffset, withScrollingVelocity: velocity)
+//    }
+}
+
 
 class PostListViewController: UIViewController {
     
@@ -21,7 +28,7 @@ class PostListViewController: UIViewController {
     
     private let sharedPlayers = [AVPlayer(),AVPlayer(),AVPlayer()]
     private var currentPlayingIndexPath: IndexPath?
-    
+    private var dataSource: UICollectionViewDiffableDataSource<String, String>!
     private let cellViewModels = [PostCellViewModel(indexPath: IndexPath(item: 0, section: 0)),
                       PostCellViewModel(indexPath: IndexPath(item: 1, section: 0)),
                       PostCellViewModel(indexPath: IndexPath(item: 2, section: 0)),
@@ -53,7 +60,7 @@ class PostListViewController: UIViewController {
         let gp = NSCollectionLayoutGroup.vertical(layoutSize: groupSize , subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 5
-        let layout = UICollectionViewCompositionalLayout(section: section)
+        let layout = MyCompositionalLayout(section: section)
         return layout
     }()
     
@@ -74,8 +81,6 @@ class PostListViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
          super.viewWillDisappear(animated)
          sharedPlayers.forEach{$0.pause()}
-        
-        
      }
     
     override func viewDidLoad() {
@@ -116,13 +121,8 @@ extension PostListViewController: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
     }
     
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        (cell as! PostCell).player = nil
-    }
-    
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
+        print("did scroll")
         guard let indexPathToPlay = collectionView.indexPathsForVisibleItems.filter({ indexPath in
             let cellFrame = collectionView.layoutAttributesForItem(at: indexPath)!.frame
             let cellCenter = CGPoint(x: cellFrame.midX, y: cellFrame.minY + cellFrame.height/3)
@@ -143,32 +143,30 @@ extension PostListViewController: UICollectionViewDataSource, UICollectionViewDe
         currentPlayingIndexPath = indexPathToPlay
     }
     
-//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//
-//       // collectionView.collectionViewLayout.ite
-//        let visibleHeight:CGFloat = 349
-//        // It's either we go forwards or backwards.
-//        let indexOfItemToSnap = round(targetContentOffset.pointee.y / visibleHeight)
-//        // Create custom flickVelocity.
-//            let flickVelocity = velocity.y * 0.3
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+
+       // collectionView.collectionViewLayout.ite
+        let visibleHeight:CGFloat = collectionView.bounds.width
+        // It's either we go forwards or backwards.
+        let indexOfItemToSnap = round(targetContentOffset.pointee.y / visibleHeight)
+        // Create custom flickVelocity.
+       // collectionView.scrollToItem(at: IndexPath(item: Int(indexOfItemToSnap), section: 0), at: .top, animated: true)
+//        let flickVelocity = velocity.y * 0.3
 //
 //            // Check how many pages the user flicked, if <= 1 then flickedPages should return 0.
-//            let flickedPages = (abs(round(flickVelocity)) <= 1) ? 0 : round(flickVelocity)
+//        let flickedPages = (abs(round(flickVelocity)) <= 1) ? 0 : round(flickVelocity)
 //
-//            let newVerticalOffset = ((indexOfItemToSnap + flickedPages) * 349) - collectionView.contentInset.top
+//        let newVerticalOffset = ((indexOfItemToSnap + flickedPages) * 349) - collectionView.contentInset.top
 //
 //        var stoppedYPosition = targetContentOffset.pointee.y
 //        let currentCell = Int(floor((stoppedYPosition) / 349))
-//        print(currentCell)
-//        print("stop at \(stoppedYPosition)")
-//        let firstIndex = collectionView.indexPathsForVisibleItems.first!
-//        print("fully visible index \(firstIndex)")
-//        print(heights)
+//
 //        let offset = heights[0...firstIndex.row].reduce(0){ $0 + $1!}
 //        print(offset)
 //        let point = CGPoint(x: 0, y: (indexOfItemToSnap)*349 )
 //        targetContentOffset.pointee = point
-//    }
+
+    }
     //paging for pagingScrollView
 //    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
 //        // Switch the indicator when more than 50% of the previous/next page is visible.
@@ -191,31 +189,5 @@ extension PostListViewController: PostCellDelegate{
             self.collectionView.performBatchUpdates(nil)
         }
     }
-  
-//
-//
     
-}
-
-
-extension UICollectionView {
-
-    func isCellAtIndexPathFullyVisible(_ indexPath: IndexPath) -> Bool {
-
-        guard let layoutAttribute = layoutAttributesForItem(at: indexPath) else {
-            return false
-        }
-
-        let cellFrame = layoutAttribute.frame
-        return self.bounds.contains(cellFrame)
-    }
-
-    func indexPathsForFullyVisibleItems() -> [IndexPath] {
-
-        let visibleIndexPaths = indexPathsForVisibleItems
-
-        return visibleIndexPaths.sorted{$0 < $1}.filter { indexPath in
-            return isCellAtIndexPathFullyVisible(indexPath)
-        }
-    }
 }

@@ -8,12 +8,12 @@
 import UIKit
 
 class PostActionCell: UICollectionViewCell {
-    static let reuseIdentifier = "post-action-cell-reuse-identifier"
-    static let nibName = "PostActionCell"
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    func configure(with viewModel: PostActionViewModel){
+        
     }
-
+    
+    
+    
+    
 }

@@ -10,6 +10,7 @@ import Combine
 /*
  the ViewModel should depend on the abstract protocol for the service, only the coordinator which is responsible for setting up dependencies knows about the concrete implementation.
 */
+
 protocol HasAuthManager{
     var authManager: AuthManaging { get }
 }
@@ -177,7 +178,6 @@ class SignInViewModel {
                         signInErrorMessage: errorMessagePublisher.eraseToAnyPublisher())
     }
     
-    
     private func startCountDownTimer(_ totalTime: Int) -> AnyPublisher<Int,Never> {
         Timer.publish(every: 1, on: .main, in: .common)
             .autoconnect()
@@ -185,7 +185,6 @@ class SignInViewModel {
             .prefix(totalTime)
             .eraseToAnyPublisher()
     }
-    
     
     deinit{
         print("SignInViewModel deinit")

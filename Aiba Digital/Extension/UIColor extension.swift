@@ -31,4 +31,5 @@ extension UIColor {
    static var midGreen : UIColor {UIColor(rgb: 0xCBF1F5)}
    static var loadGray : UIColor {UIColor(rgb: 0xDEE2E6)}
    static var backgroundWhite : UIColor {UIColor(red: 254, green: 254, blue: 254)}
+   static var gapGray : UIColor {UIColor(rgb: 0xF4F4F4)}
 }

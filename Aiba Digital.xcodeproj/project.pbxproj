@@ -82,6 +82,12 @@
 		E86E544929DDBEB0008A3855 /* PostActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E86E544729DDBEB0008A3855 /* PostActionCell.xib */; };
 		E897538329DE6D5A002C820C /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E897538229DE6D5A002C820C /* CollectionViewController.swift */; };
 		E897538529DEAD07002C820C /* hello.txt in Resources */ = {isa = PBXBuildFile; fileRef = E897538429DEAD07002C820C /* hello.txt */; };
+		E897538829E055C0002C820C /* PostMediaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E897538729E055C0002C820C /* PostMediaViewModel.swift */; };
+		E897538A29E055D9002C820C /* PostHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E897538929E055D9002C820C /* PostHeaderViewModel.swift */; };
+		E897538C29E055F0002C820C /* PostActionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E897538B29E055F0002C820C /* PostActionViewModel.swift */; };
+		E897538E29E0562F002C820C /* PostTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E897538D29E0562F002C820C /* PostTextViewModel.swift */; };
+		E897539229E17A59002C820C /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E897539129E17A59002C820C /* CollectionViewModel.swift */; };
+		E897539429E45332002C820C /* InstantPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E897539329E45332002C820C /* InstantPlayViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -165,6 +171,12 @@
 		E86E544729DDBEB0008A3855 /* PostActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostActionCell.xib; sourceTree = "<group>"; };
 		E897538229DE6D5A002C820C /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		E897538429DEAD07002C820C /* hello.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = hello.txt; sourceTree = "<group>"; };
+		E897538729E055C0002C820C /* PostMediaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMediaViewModel.swift; sourceTree = "<group>"; };
+		E897538929E055D9002C820C /* PostHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderViewModel.swift; sourceTree = "<group>"; };
+		E897538B29E055F0002C820C /* PostActionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostActionViewModel.swift; sourceTree = "<group>"; };
+		E897538D29E0562F002C820C /* PostTextViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTextViewModel.swift; sourceTree = "<group>"; };
+		E897539129E17A59002C820C /* CollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
+		E897539329E45332002C820C /* InstantPlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantPlayViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -367,7 +379,9 @@
 		A181B9B429D5718C00945ED4 /* List Screen */ = {
 			isa = PBXGroup;
 			children = (
+				E897538629E05577002C820C /* Post */,
 				E897538229DE6D5A002C820C /* CollectionViewController.swift */,
+				E897539129E17A59002C820C /* CollectionViewModel.swift */,
 				E86E543D29DDBC63008A3855 /* Cells */,
 				A175DE5629C3F3FA00A0C092 /* PostListViewController.swift */,
 				A175DE6829C41BC000A0C092 /* PostListViewController.xib */,
@@ -455,6 +469,18 @@
 				E86E544729DDBEB0008A3855 /* PostActionCell.xib */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		E897538629E05577002C820C /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				E897538929E055D9002C820C /* PostHeaderViewModel.swift */,
+				E897538729E055C0002C820C /* PostMediaViewModel.swift */,
+				E897538D29E0562F002C820C /* PostTextViewModel.swift */,
+				E897538B29E055F0002C820C /* PostActionViewModel.swift */,
+				E897539329E45332002C820C /* InstantPlayViewController.swift */,
+			);
+			path = Post;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -611,14 +637,17 @@
 				A176AB6F29B5C2A2008F4030 /* CountryPickerViewModel.swift in Sources */,
 				A1A71A182999E3FB00876973 /* AppFlowController.swift in Sources */,
 				A1A71A162999E3FB00876973 /* UIViewController extension.swift in Sources */,
+				E897539229E17A59002C820C /* CollectionViewModel.swift in Sources */,
 				A141799A2999CD980097FD21 /* AppDelegate.swift in Sources */,
 				A1A71A172999E3FB00876973 /* UIColor extension.swift in Sources */,
 				A175DE9C29C5E87100A0C092 /* PostCell.swift in Sources */,
+				E897538829E055C0002C820C /* PostMediaViewModel.swift in Sources */,
 				A14BF71429BF0DB0001E0F4B /* SpinningLayer.swift in Sources */,
 				E86E544829DDBEB0008A3855 /* PostActionCell.swift in Sources */,
 				A1A71A1C2999E44400876973 /* LogoView.swift in Sources */,
 				A176AB7529B5CEA4008F4030 /* SettingViewController.swift in Sources */,
 				A14BF71A29C0422E001E0F4B /* SendSMSButton.swift in Sources */,
+				E897539429E45332002C820C /* InstantPlayViewController.swift in Sources */,
 				A141799C2999CD980097FD21 /* SceneDelegate.swift in Sources */,
 				A10E9CBF29BCD5B500FE55B7 /* SignInButton.swift in Sources */,
 				A1E19BD3299CB456000354BE /* UIControlPublisher.swift in Sources */,
@@ -627,6 +656,7 @@
 				A1E19BD1299CABA4000354BE /* UIResponder Extension.swift in Sources */,
 				A1A71A122999E3FB00876973 /* LaunchViewController.swift in Sources */,
 				A14BF71E29C1E833001E0F4B /* SettingFlowController.swift in Sources */,
+				E897538A29E055D9002C820C /* PostHeaderViewModel.swift in Sources */,
 				E86E544429DDBDB5008A3855 /* PostTextCell.swift in Sources */,
 				A14599B029B5C0A700F4409E /* CountryPickerViewController.swift in Sources */,
 				A115B38629AC64DA00EB5A72 /* AuthError.swift in Sources */,
@@ -634,8 +664,10 @@
 				A199DFA529CBF24F0071C568 /* SpinningView.swift in Sources */,
 				A1A71A132999E3FB00876973 /* VerificationCodeField.swift in Sources */,
 				A14599A429B48F0100F4409E /* PhoneNumberField.swift in Sources */,
+				E897538E29E0562F002C820C /* PostTextViewModel.swift in Sources */,
 				A14599A629B5015C00F4409E /* Country.swift in Sources */,
 				A10E9CBD29BCB42000FE55B7 /* AnimatedButton.swift in Sources */,
+				E897538C29E055F0002C820C /* PostActionViewModel.swift in Sources */,
 				A1FE4643299E453700319CEC /* SignInViewModel.swift in Sources */,
 				A176AB7A29B5DFAB008F4030 /* CountryCell.swift in Sources */,
 				A14D7ADB29D1308900FDA88B /* MediaViewModel.swift in Sources */,

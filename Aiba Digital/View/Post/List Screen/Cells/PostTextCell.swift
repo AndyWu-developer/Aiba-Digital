@@ -9,12 +9,16 @@ import UIKit
 
 class PostTextCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "post-text-cell-reuse-identifier"
-    static let nibName = "PostTextCell"
+    @IBOutlet weak var textLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-       
+    private var isExpanded = false {
+        didSet{
+            textLabel.numberOfLines = isExpanded ? 0 : 3
+        }
     }
-
+    
+    func configure(with viewModel: PostTextViewModel){
+        
+        
+    }
 }

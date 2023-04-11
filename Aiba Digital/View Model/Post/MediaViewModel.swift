@@ -54,7 +54,6 @@ class MediaViewModel{
     private let isPlayerPlayingSubject = PassthroughSubject<Bool,Never>()
     private let isPlayerLoadingSubject = PassthroughSubject<Bool,Never>()
   
-    
     init(url: String, fileExtension: String){
         
         mediaType = fileExtension == ".mp4" ? .video : .image
@@ -101,7 +100,7 @@ class MediaViewModel{
         layerReadyToPlay
             .filter{$0}
             .sink { [weak self] _ in
-               // self?.player?.play()
+                self?.player?.play()
             }.store(in: &subscriptions)
         
         let buttonSubject = PassthroughSubject<Void,Never>()
@@ -124,9 +123,6 @@ class MediaViewModel{
         }
         
         let shouldHideImageSubject = PassthroughSubject<Bool,Never>()
-        
-        
-        
         
         output = Output(imageData: imageDataPublisher,
                        currentPlayer: $player.eraseToAnyPublisher(),

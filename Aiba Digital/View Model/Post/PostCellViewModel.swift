@@ -45,6 +45,7 @@ class PostCellViewModel{
         mediaViewModels[currentIndex].player = nil
         currentIndex = (currentIndex+1) % indices.count
         mediaViewModels[currentIndex].player = sharedPlayer
+      //  mediaViewModels[currentIndex].player?.play()
     }
     
     @Published var text: String
@@ -87,9 +88,9 @@ class PostCellViewModel{
         
         let videoURL1 = "https://testPullZone20230325.b-cdn.net/360.mp4"
         let videoURL2 = "https://testPullZone20230325.b-cdn.net/OtterBox.mp4"
-        let videoURL3 = "https://firebasestorage.googleapis.com/v0/b/stock-check-e7b95.appspot.com/o/media%2Fdemo.mp4?alt=media&token=37a2bf32-1788-4686-9a23-be572f1154d7"
+        let videoURL3 = "https://testPullZone20230325.b-cdn.net/SerialApp%20480p.mp4"
         
-        var urlStrings = [videoURL2,videoURL1, imageURL3, imageURL4, imageURL5,imageURL1]
+        var urlStrings = [videoURL3,videoURL1, imageURL3, imageURL4, imageURL5,imageURL1]
         var types = [".mp4",".mp4",".jpg",".jpg",".jpg",".jpg"]
       
         urlStrings = Array(urlStrings[0...indexPath!.row % 6])

@@ -23,6 +23,7 @@ protocol AuthManaging {
     func signOut() -> AnyPublisher<Void,AuthError>
 }
 
+
 class AuthManager: NSObject, AuthManaging {
     
     private(set) var user: User?
@@ -122,6 +123,7 @@ class AuthManager: NSObject, AuthManaging {
         var result = ""
         var remainingLength = length
 
+        
         while remainingLength > 0 {
             let randoms: [UInt8] = (0 ..< 16).map { _ in
                 var random: UInt8 = 0
@@ -169,6 +171,7 @@ class AuthManager: NSObject, AuthManaging {
 }
 
 @available(iOS 13.0, *)
+
 extension AuthManager: ASAuthorizationControllerDelegate{
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
