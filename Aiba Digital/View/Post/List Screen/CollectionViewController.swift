@@ -9,6 +9,7 @@ import UIKit
 import Combine
 import AVFoundation
 
+
 class CollectionViewController: UICollectionViewController {
     
     init(){
@@ -30,7 +31,7 @@ class CollectionViewController: UICollectionViewController {
         configureCollectionView()
         configureDataSource()
        
-        viewModel.output.postViewModels
+        viewModel.output.sectionViewModels
             .sink { [unowned self] viewModelGroup in
                 var snapshot = self.postListDataSource.snapshot()
                 viewModelGroup.forEach { viewModels in
@@ -118,4 +119,14 @@ class CollectionViewController: UICollectionViewController {
 //        currentPlayingIndexPath = indexPathToPlay
 //    }
 
+    func medaiViewTapped(_ view: UIView, player: AVPlayer, post: Post){
+        
+    }
+    
+    func mediaItemTapped(_ cell: PostMediaCell, mediaItem : UIView){
+      
+        
+    }
 }
+
+

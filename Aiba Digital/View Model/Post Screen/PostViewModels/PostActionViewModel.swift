@@ -1,5 +1,5 @@
 //
-//  PostTextViewModel.swift
+//  PostActionCellViewModel.swift
 //  Aiba Digital
 //
 //  Created by Andy Wu on 2023/4/7.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class PostTextViewModel{
+class PostActionViewModel{
     
     struct Input {
         
@@ -20,13 +20,17 @@ class PostTextViewModel{
     
     private(set) var input: Input!
     private(set) var output: Output!
-    
+    private(set) var postID: String
     private var subscriptions = Set<AnyCancellable>()
-    typealias Dependencies = HasPostManager
+    typealias Dependencies = HasPostManager 
     private var dependencies: Dependencies!
     
-    init(){
-       // self.dependencies = dependencies
+    private let post: Post
+    
+    init(post: Post, dependencies :Dependencies){
+        self.post = post
+        postID = UUID().uuidString
+      //  self.dependencies = dependencies
         configureInput()
         configureOutput()
     }
@@ -38,10 +42,11 @@ class PostTextViewModel{
     private func configureOutput(){
         
     }
+
 }
 
-extension PostTextViewModel: Hashable, Identifiable{
-    static func == (lhs: PostTextViewModel, rhs: PostTextViewModel) -> Bool {
+extension PostActionViewModel: Hashable, Identifiable{
+    static func == (lhs: PostActionViewModel, rhs: PostActionViewModel) -> Bool {
         return lhs.id == rhs.id
     }
     

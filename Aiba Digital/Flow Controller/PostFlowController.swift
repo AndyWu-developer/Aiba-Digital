@@ -26,5 +26,8 @@ class PostFlowController: UIViewController {
         transition(to: postViewController)
     }
 
-
+//    func mediaItemSelected(for post: Post){
+//        let detailViewController = PostMediaDetailViewController()
+//        detailViewController.transitioningDelegate = self
+//    }
 }

@@ -58,12 +58,11 @@ class MainFlowController: UIViewController {
         postFlowController.tabBarItem = UITabBarItem(title: "店長動態", image: UIImage(named: "News")!.withTintColor(.black, renderingMode: .alwaysOriginal),selectedImage:  UIImage(named: "News-1"))
         postFlowController.start()
         
-        let vc3 = UIViewController()
-        vc3.view.backgroundColor = .white
+        let vc3 = MediaDetailViewController()
         vc3.tabBarItem = UITabBarItem(title: "關於本店", image: UIImage(systemName: "info.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal),selectedImage:  UIImage(systemName: "info.circle.fill")?.withTintColor(.lightYellow, renderingMode: .alwaysOriginal))
     
-        embeddedTabBarController.setViewControllers([vc3,postFlowController,vc1,settingFlowVC], animated: false)
-        embeddedTabBarController.selectedIndex = 2
+        embeddedTabBarController.setViewControllers([vc3,postFlowController,settingFlowVC], animated: false)
+        embeddedTabBarController.selectedIndex = 0
         
         addChild(embeddedTabBarController)
         view.addSubview(embeddedTabBarController.view)

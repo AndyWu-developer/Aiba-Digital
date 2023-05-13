@@ -15,7 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         if let windowScene = scene as? UIWindowScene{
             self.window = UIWindow(windowScene: windowScene)
-            self.window?.rootViewController = AppFlowController()
+            self.window?.rootViewController = MediaDetailViewController()
             self.window?.makeKeyAndVisible()
         }
     }

@@ -1,5 +1,5 @@
 //
-//  PostHeaderCellViewModel.swift
+//  PostTextViewModel.swift
 //  Aiba Digital
 //
 //  Created by Andy Wu on 2023/4/7.
@@ -8,14 +8,10 @@
 import Foundation
 import Combine
 
-protocol HasMediaProvider{
-    var mediaProvider: MediaProviding { get }
-}
-
-class PostHeaderViewModel{
+class PostTextViewModel{
     
     struct Input {
-        let shouldPinToTop: AnySubscriber<Bool,Never>
+        
     }
     
     struct Output {
@@ -29,8 +25,11 @@ class PostHeaderViewModel{
     typealias Dependencies = HasPostManager
     private var dependencies: Dependencies!
     
-    init(){
-        //self.dependencies = dependencies
+    private let post: Post
+    
+    init(post: Post, dependencies :Dependencies){
+        self.post = post
+       // self.dependencies = dependencies
         configureInput()
         configureOutput()
     }
@@ -42,11 +41,10 @@ class PostHeaderViewModel{
     private func configureOutput(){
         
     }
-
 }
 
-extension PostHeaderViewModel: Hashable, Identifiable {
-    static func == (lhs: PostHeaderViewModel, rhs: PostHeaderViewModel) -> Bool {
+extension PostTextViewModel: Hashable, Identifiable{
+    static func == (lhs: PostTextViewModel, rhs: PostTextViewModel) -> Bool {
         return lhs.id == rhs.id
     }
     
@@ -54,3 +52,4 @@ extension PostHeaderViewModel: Hashable, Identifiable {
         hasher.combine(id)
     }
 }
+

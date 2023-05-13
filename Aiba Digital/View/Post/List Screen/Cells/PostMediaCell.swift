@@ -11,10 +11,10 @@ import AVFoundation
 
 
 protocol PostMediaCellDelegate: AnyObject{
-    func mediaItemTapped(_ : UIView, mediaIndex: Int, for: Post)
-    
+    func mediaItemTapped(_ cell: PostMediaCell, mediaItem : UIView)
 }
-                                    
+               
+
 class PostMediaCell: UICollectionViewCell {
     
     @IBOutlet weak var gridView: GridView!
@@ -25,13 +25,9 @@ class PostMediaCell: UICollectionViewCell {
         }
     }
     
-    
     func configure(with viewModel: PostMediaViewModel){
-        viewModel.output.videoLayer
-            .sink { _ in
-                
-            }
             
+        
     }
     
     enum Mode {

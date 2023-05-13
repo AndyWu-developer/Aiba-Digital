@@ -49,9 +49,8 @@
                         <constraint firstAttribute="height" constant="36" id="yTS-NT-Dpf"/>
                     </constraints>
                 </view>
-                <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IVC-vG-F4b">
+                <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IVC-vG-F4b">
                     <rect key="frame" x="0.0" y="0.0" width="317" height="276"/>
-                    <color key="backgroundColor" red="0.92941176470588238" green="0.93725490196078431" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NhK-Dc-34b">
                     <rect key="frame" x="143" y="121" width="31" height="34.5"/>

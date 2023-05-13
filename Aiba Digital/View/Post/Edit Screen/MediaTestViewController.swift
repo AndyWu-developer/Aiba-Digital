@@ -54,7 +54,7 @@ class MediaTestViewController: UIViewController {
                 let imageView = UIImageView(image: image)
                 imageView.contentMode = .scaleAspectFill
                 imageView.isUserInteractionEnabled = true
-                self?.mediaGridView.add(imageView)
+                //self?.mediaGridView.add(imageView)
             }.store(in: &subscriptions)
         
         removeButton.publisher(for: .touchUpInside)

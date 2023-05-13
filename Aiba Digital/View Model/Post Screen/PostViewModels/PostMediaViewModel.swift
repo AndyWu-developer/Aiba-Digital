@@ -28,7 +28,7 @@ class PostMediaViewModel{
     
     private var mediaURL: String = ""
     typealias Dependencies = HasPostManager & HasMediaProvider
-    private var dependencies: Dependencies!
+    private let dependencies: Dependencies
     @Published private var imageData: [Data]
     /// This function does magic by converting an array of links into a publisher
     
@@ -44,7 +44,12 @@ class PostMediaViewModel{
             .flatMap { $0 }
             .eraseToAnyPublisher()
     }
-    init(){
+    private let post: Post
+    
+    init(post: Post, dependencies :Dependencies){
+        self.post = post
+        self.dependencies = dependencies
+        
         let urls = [String]()
         imageData = Array(repeating: Data(), count: urls.count)
         

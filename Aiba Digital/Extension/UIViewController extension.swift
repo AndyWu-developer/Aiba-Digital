@@ -26,45 +26,32 @@ extension UIViewController {
             })
             
         }else {
+//            addChild(child)
+//            view.addSubview(child.view)
+//            UIView.animate(withDuration: duration, delay: 0, options: animation, animations: {
+//                child.view.translatesAutoresizingMaskIntoConstraints = false
+//                NSLayoutConstraint.activate([
+//                    child.view.topAnchor.constraint(equalTo: self.view.topAnchor),
+//                    child.view.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+//                    child.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+//                    child.view.leftAnchor.constraint(equalTo: self.view.leftAnchor)
+//                ])
+//            }, completion: { done in
+//                child.didMove(toParent: self)
+//                completion?(done)
+//            })
+            
             addChild(child)
             view.addSubview(child.view)
-            UIView.animate(withDuration: duration, delay: 0, options: animation, animations: {
-                child.view.translatesAutoresizingMaskIntoConstraints = false
-                NSLayoutConstraint.activate([
-                    child.view.topAnchor.constraint(equalTo: self.view.topAnchor),
-                    child.view.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-                    child.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-                    child.view.leftAnchor.constraint(equalTo: self.view.leftAnchor)
-                ])
-            }, completion: { done in
-                child.didMove(toParent: self)
-                completion?(done)
-            })
+            child.view.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                child.view.topAnchor.constraint(equalTo: view.topAnchor),
+                child.view.rightAnchor.constraint(equalTo: view.rightAnchor),
+                child.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                child.view.leftAnchor.constraint(equalTo: view.leftAnchor)
+            ])
+            child.didMove(toParent: self)
         }
     }
 }
 
-extension UIView {
-    
-    public func removeAllConstraints() {
-        var _superview = self.superview
-        
-        while let superview = _superview {
-            for constraint in superview.constraints {
-                
-                if let first = constraint.firstItem as? UIView, first == self {
-                    superview.removeConstraint(constraint)
-                }
-                
-                if let second = constraint.secondItem as? UIView, second == self {
-                    superview.removeConstraint(constraint)
-                }
-            }
-            
-            _superview = superview.superview
-        }
-        
-        self.removeConstraints(self.constraints)
-        self.translatesAutoresizingMaskIntoConstraints = true
-    }
-}

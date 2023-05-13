@@ -119,7 +119,7 @@ class MediaProvider: MediaProviding {
     func fetchVideoAsset(for urlString: String) -> AnyPublisher<AVAsset?, Never> {
        Deferred { () -> AnyPublisher<AVAsset?, Never> in
             if let cachedAsset = self.videoAssetCache.object(forKey: urlString as NSString){
-               //print("asset cached :)")
+                //print("asset cached :)")
                 return Just(cachedAsset).eraseToAnyPublisher()
             }
             guard let url = URL(string: urlString) else { return Just(nil).eraseToAnyPublisher() }
@@ -132,10 +132,11 @@ class MediaProvider: MediaProviding {
                 asset.loadValuesAsynchronously(forKeys: [track]) { [weak self] in
                     let status = asset.statusOfValue(forKey: track, error: nil)
                     if status == .loaded{
-                        //print("asset fetched :)")
+                       // print("asset fetched :)")
                         self?.videoAssetCache.setObject(asset, forKey: urlString as NSString)
                         promise(.success(asset))
                     }else{
+                       // print("asset not fetched :(")
                         promise(.success(nil))
                     }
                 }

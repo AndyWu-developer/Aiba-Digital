@@ -76,16 +76,29 @@ class AuthManager: NSObject, AuthManaging {
     
     func signInWithGoogle() -> AnyPublisher<Bool,AuthError> {
         Future<Bool,AuthError> { promise in
-            // Create Google Sign In configuration object
+//            // Create Google Sign In configuration object
             let clientID = FirebaseApp.app()!.options.clientID!
             let config = GIDConfiguration(clientID: clientID)
+            GIDSignIn.sharedInstance.configuration = config
             let rootVC = UIApplication.shared.windows.first!.rootViewController!
-            GIDSignIn.sharedInstance.signIn(with: config, presenting: rootVC) { user, error in
-                if let error = error {
-                    promise(.failure(AuthError(error)))
+            
+            
+            
+            GIDSignIn.sharedInstance.signIn(withPresenting: rootVC) { [unowned self] result, error in
+                guard error == nil else {
+                    promise(.failure(AuthError(error!)))
                     return
                 }
-                let credential = GoogleAuthProvider.credential(withIDToken: user!.authentication.idToken!, accessToken: user!.authentication.accessToken)
+                
+                guard let user = result?.user,
+                      let idToken = user.idToken?.tokenString
+                else {
+                   promise(.failure(AuthError(error!)))
+                   return // ...
+                }
+                
+                let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                               accessToken: user.accessToken.tokenString)
                 Auth.auth().signIn(with: credential){ authResult, error in
                     if let error = error {
                         promise(.failure(AuthError(error)))
@@ -94,6 +107,21 @@ class AuthManager: NSObject, AuthManaging {
                     }
                 }
             }
+              // ...
+//            GIDSignIn.sharedInstance.signIn(with: config, presenting: rootVC) { user, error in
+//                if let error = error {
+//                    promise(.failure(AuthError(error)))
+//                    return
+//                }
+//                let credential = GoogleAuthProvider.credential(withIDToken: user!.authentication.idToken!, accessToken: user!.authentication.accessToken)
+//                Auth.auth().signIn(with: credential){ authResult, error in
+//                    if let error = error {
+//                        promise(.failure(AuthError(error)))
+//                    }else{
+//                        promise(.success(true))
+//                    }
+//                }
+//            }
         }.eraseToAnyPublisher()
     }
     

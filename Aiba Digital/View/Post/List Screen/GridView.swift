@@ -8,17 +8,9 @@
 import UIKit
 import Combine
 
-struct GridItem {
-    let view: UIView
-    let size: (width: CGFloat,height: CGFloat)
-}
-
 class GridView: UIView {
     
-    enum Mode {
-        case view
-        case edit
-    }
+    enum Mode { case view, edit }
     
     static let removeButtonTag = 111
     let maxHeightToWidthRatio: CGFloat = 4/3
@@ -61,18 +53,11 @@ class GridView: UIView {
     }
     
     private var ratio = 0.0
-    private var itemSizes: [(width: CGFloat, height: CGFloat)] = [(1920,1080)]
+    private var itemSizes: [(width: CGFloat, height: CGFloat)] = []
 
     private var subscriptions = Set<AnyCancellable>()
     
-    var gridItems: [GridItem] = [] {
-        didSet{
-            itemSizes = self.gridItems.map{$0.size}
-            items = self.gridItems.map{$0.view}
-        }
-    }
-    
-    var items: [UIView] = [] {
+    var items: [UIView] = [] { //Assume that each item has its own aspectRatio whose priority = .defaultHigh
         didSet{
             itemsInTopRow = 1
             items.forEach(addRemoveButton)
@@ -98,27 +83,12 @@ class GridView: UIView {
         return ratio
     }
 
-    func add(_ item: UIView, size: (width: Double, height: Double) = (1920.0,1080.0)){
-//        itemSizes.append((1920,1680))
-//        items.append(item)
-    }
-    
-    func removeItem(at index: Int){
-        print("remove item \(index)")
-        items.remove(at: index)
-    }
-    
-    func removeAll(){
-        items.removeAll()
-    }
-    
     private func updateLayout() {
         subviews.forEach{ $0.removeFromSuperview() }
         guard !items.isEmpty else { return }
         
         let groupItems = [Array(items[0..<itemsInTopRow]), Array(items[itemsInTopRow..<items.count])].filter{!$0.isEmpty}
         let stackViews = groupItems.map(createScrollableStackView)
-        
         
         let allStackView = newStackView(subviews: stackViews)
         allStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -134,7 +104,9 @@ class GridView: UIView {
     }
     
     private func createScrollableStackView(subviews: [UIView]) -> UIScrollView{
-        subviews.forEach(addSquareConstraint) // must add constraint beforehand
+        if subviews.count > 1 {
+            subviews.forEach(addSquareConstraint) // must add constraint beforehand
+        }
         let sv = UIStackView(arrangedSubviews: subviews)
         //sv.arrangedSubviews.forEach(addSquareConstraint) won't work ???
         sv.spacing = 1
@@ -167,8 +139,12 @@ class GridView: UIView {
         let stackView = UIStackView(arrangedSubviews: subviews)
         stackView.axis = .vertical
         stackView.spacing = 1
+        let maxRatio = maxHeightToWidthRatio - ratio
+        let minRatio = minHeightToWidthRatio
+        subviews[0].heightAnchor.constraint(lessThanOrEqualTo: subviews[0].widthAnchor,multiplier: maxRatio).isActive = true
+        subviews[0].heightAnchor.constraint(greaterThanOrEqualTo: subviews[0].widthAnchor,multiplier:  minRatio).isActive = true
         if defaultHeightToWidthRatio != 0 {
-            subviews[0].heightAnchor.constraint(equalTo: subviews[0].widthAnchor,multiplier: getLayoutRatio()).isActive = true
+           
         }
         return stackView
     }
@@ -177,9 +153,10 @@ class GridView: UIView {
         view.removeFromSuperview() //remove all constraints before adding new ones
         view.translatesAutoresizingMaskIntoConstraints = false
         let squareConstraint = view.widthAnchor.constraint(equalTo: view.heightAnchor)
-        squareConstraint.priority = UILayoutPriority(999)
+        //squareConstraint.priority = UILayoutPriority(999)
         squareConstraint.isActive = true
     }
+    
     private func addRemoveButton(_ view: UIView){
         if view.viewWithTag(Self.removeButtonTag) != nil { return }
         let removeButton = UIButton()
@@ -205,19 +182,8 @@ class GridView: UIView {
             .compactMap{ [unowned self] in
                 items.firstIndex(of:$0)
             }.sink { [unowned self] in
-                removeItem(at: $0)
+                //removeItem(at: $0)
             }.store(in: &subscriptions)
-    }
-    
-    private func getLayoutRatio() -> CGFloat {
-        if let width = itemSizes.first?.width, let height = itemSizes.first?.height {
-            let r = CGFloat(height) / CGFloat(width)
-            let maxRatio = maxHeightToWidthRatio - ratio
-            let minRatio = minHeightToWidthRatio
-            return min(maxRatio, max(r, minRatio))
-        }else{
-            return defaultHeightToWidthRatio
-        }
     }
 
 }

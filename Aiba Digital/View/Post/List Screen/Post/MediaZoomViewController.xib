@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MediaZoomViewController" customModule="Aiba_Digital" customModuleProvider="target">
+            <connections>
+                <outlet property="doubleTap" destination="zgB-H2-GVs" id="mix-sS-elp"/>
+                <outlet property="pinch" destination="qTc-A6-g8s" id="y4G-v9-i7m"/>
+                <outlet property="scrollView" destination="oMl-g4-qYy" id="LNG-bD-USe"/>
+                <outlet property="singleTap" destination="r04-Wo-Kpo" id="qGk-wD-sAb"/>
+                <outlet property="view" destination="iN0-l3-epB" id="e0N-Dj-hqB"/>
+                <outlet property="zoomView" destination="aqv-6C-0ju" id="IVT-lt-O8w"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oMl-g4-qYy">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="image2" translatesAutoresizingMaskIntoConstraints="NO" id="aqv-6C-0ju" userLabel="Zoom View">
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <viewLayoutGuide key="contentLayoutGuide" id="8Ax-AB-wzQ"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="vDV-5e-pDH"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="8V5-0g-Mab"/>
+                    </connections>
+                </scrollView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <gestureRecognizers/>
+            <constraints>
+                <constraint firstItem="oMl-g4-qYy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="0vd-by-sVF"/>
+                <constraint firstItem="oMl-g4-qYy" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="pnd-Ro-Yav"/>
+                <constraint firstItem="oMl-g4-qYy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="rVW-eQ-pHb"/>
+                <constraint firstItem="oMl-g4-qYy" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="xTE-91-uzC"/>
+            </constraints>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="zgB-H2-GVs" appends="YES" id="ZQG-Tx-DYw"/>
+                <outletCollection property="gestureRecognizers" destination="r04-Wo-Kpo" appends="YES" id="8g4-lk-Tbg"/>
+                <outletCollection property="gestureRecognizers" destination="qTc-A6-g8s" appends="YES" id="fEu-n3-e1G"/>
+            </connections>
+            <point key="canvasLocation" x="-115.94202898550725" y="19.419642857142858"/>
+        </view>
+        <tapGestureRecognizer id="r04-Wo-Kpo" userLabel="Single Tap Gesture Recognizer"/>
+        <tapGestureRecognizer numberOfTapsRequired="2" id="zgB-H2-GVs" userLabel="Double Tap Gesture Recognizer"/>
+        <pinchGestureRecognizer id="qTc-A6-g8s">
+            <connections>
+                <outlet property="delegate" destination="-1" id="ruH-sB-7Rn"/>
+            </connections>
+        </pinchGestureRecognizer>
+    </objects>
+    <resources>
+        <image name="image2" width="1080" height="1080"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

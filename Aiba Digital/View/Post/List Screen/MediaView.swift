@@ -18,26 +18,48 @@ class MediaView: UIView {
 
     override static var layerClass: AnyClass { AVPlayerLayer.self }
     private var playerLayer: AVPlayerLayer { layer as! AVPlayerLayer }
+    
     private var subscriptions = Set<AnyCancellable>()
+    private var videoPipelineSubscriptions = Set<AnyCancellable>()
+    
     private let viewModel: MediaViewModel
-    private var ob: NSKeyValueObservation!
    
-   
+    weak var player: AVPlayer?{
+        didSet{
+            createNewVideoPipeline()
+        }
+    }
+    
+    private func createNewVideoPipeline(){
+        videoPipelineSubscriptions.removeAll()
+        
+        playerLayer.player = player
+        
+        viewModel.output.videoAsset
+            .sink { [weak self] in
+                self?.player?.replaceCurrentItem(with: AVPlayerItem(asset: $0))
+            }.store(in: &videoPipelineSubscriptions)
+        
+        player?.publisher(for: \.isMuted)
+            .assign(to: \.isSelected, on: muteButton)
+            .store(in: &videoPipelineSubscriptions)
+    }
+    
     init(viewModel: MediaViewModel){
         self.viewModel = viewModel
         super.init(frame: .zero)
-        customInit()
+        setupViews()
         playerLayer.videoGravity = .resizeAspectFill
-        bindViewModelInput()
         bindViewModelOutput()
-        playButton.isHidden = true
     }
     
     required init?(coder: NSCoder) {
         fatalError("MediaView should only be instantiated through init(viewModel:)")
     }
 
-    private func customInit(){
+    private func setupViews(){
+        translatesAutoresizingMaskIntoConstraints = false
+        clipsToBounds = true
         let view = Bundle.main.loadNibNamed("MediaView", owner : self)!.first as! UIView
         view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(view)
@@ -47,31 +69,28 @@ class MediaView: UIView {
             view.leadingAnchor.constraint(equalTo: leadingAnchor),
             view.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
+        
+        let aspectRatio = viewModel.mediaContentSize.width / viewModel.mediaContentSize.height
+        let ratioConstraint = widthAnchor.constraint(equalTo: heightAnchor, multiplier: aspectRatio)
+        ratioConstraint.priority = .defaultHigh
+        ratioConstraint.isActive = true
     }
 
-    private func bindViewModelInput(){
+    private func configure(){
         
-        let layerReadyToPlay = PassthroughSubject<Bool,Never>()
-        ob = playerLayer.observe(\.isReadyForDisplay, options: [.initial,.new]){ _, change in
-            guard let ok = change.newValue else { return }
-            layerReadyToPlay.send(ok)
-        }
-        
-        layerReadyToPlay.subscribe(viewModel.input.isReadyForDisplay)
-        
-        layerReadyToPlay
-            .assign(to: \.isHidden, on: imageView)
-            .store(in: &subscriptions)
-        
-        layerReadyToPlay.map{!$0}
-            .assign(to: \.isHidden, on: muteButton)
-            .store(in: &subscriptions)
+        playerLayer.publisher(for: \.isReadyForDisplay)
+            .sink { [weak self] isReady in
+                self?.imageView.isHidden = isReady
+                self?.muteButton.isHidden = !isReady
+            }.store(in: &subscriptions)
         
         muteButton.publisher(for: .touchUpInside)
-            .map{ _ in}
-            .subscribe(viewModel.input.muteButtonPressed)
+            .map{_ in}
+            .sink{ [weak self] in
+                self?.player?.isMuted.toggle()
+            }.store(in: &subscriptions)
     }
-    
+ 
     private func bindViewModelOutput(){
 
         viewModel.output.imageData
@@ -82,36 +101,5 @@ class MediaView: UIView {
              .receive(on: DispatchQueue.main)
              .assign(to: \.image, on: imageView)
              .store(in: &subscriptions)
-
-        viewModel.output.currentPlayer
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] player in
-                self?.playerLayer.player = player
-            }.store(in: &subscriptions)
-        
-        viewModel.output.isPlayerMuted
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.isSelected, on: muteButton)
-            .store(in: &subscriptions)
-
-//        viewModel.output.isPlayerPlaying
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] isPlaying in
-//                if isPlaying{
-//                    self?.imageView.isHidden = true
-//                    self?.muteButton.isHidden = false
-//                    self?.playButton.isHidden = true
-//                }else{
-//                    self?.playButton.isHidden = false
-//                    self?.imageView.isHidden = false
-//                    self?.muteButton.isHidden = true
-//                }
-//            }.store(in: &subscriptions)
-        
-        viewModel.output.isPlayerLoading
-            .receive(on: DispatchQueue.main)
-            .map{!$0}
-            .assign(to: \.isHidden, on: spinningView)
-            .store(in: &subscriptions)
     }
 }
