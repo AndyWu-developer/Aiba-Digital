@@ -12,7 +12,7 @@ import Combine
 protocol MediaProviding {
     func fetchImage(for urlString: String) -> AnyPublisher<Data?,Never>
     func fetchVideoTumbnail(for urlString: String) -> AnyPublisher<Data?,Never>
-    func fetchVideoAsset(for urlString: String) -> AnyPublisher<AVAsset?,Never>
+    func fetchVideo(for urlString: String) -> AnyPublisher<AVURLAsset?,Never>
 }
 
 class MediaProvider: MediaProviding {
@@ -21,7 +21,7 @@ class MediaProvider: MediaProviding {
     private init() { }
     
     private let imageCache = NSCache<NSString, NSData>()
-    private let videoAssetCache = NSCache<NSString, AVAsset>()
+    private let videoAssetCache = NSCache<NSString, AVURLAsset>()
 
     private var pendingImagePublishers = [String : AnyPublisher<Data?,Never>]()
     
@@ -116,27 +116,27 @@ class MediaProvider: MediaProviding {
 //    }
 
     
-    func fetchVideoAsset(for urlString: String) -> AnyPublisher<AVAsset?, Never> {
-       Deferred { () -> AnyPublisher<AVAsset?, Never> in
+    func fetchVideo(for urlString: String) -> AnyPublisher<AVURLAsset?, Never> {
+       Deferred { () -> AnyPublisher<AVURLAsset?, Never> in
             if let cachedAsset = self.videoAssetCache.object(forKey: urlString as NSString){
                 //print("asset cached :)")
                 return Just(cachedAsset).eraseToAnyPublisher()
             }
             guard let url = URL(string: urlString) else { return Just(nil).eraseToAnyPublisher() }
             //print("fetching asset...")
-            return Future<AVAsset?,Never> { promise in
+            return Future<AVURLAsset?,Never> { promise in
                 let asset = AVURLAsset(url: url)
                 let track = #keyPath(AVURLAsset.tracks)
                 let duration = #keyPath(AVURLAsset.duration)
-                let playable = #keyPath(AVURLAsset.isReadable)
-                asset.loadValuesAsynchronously(forKeys: [track]) { [weak self] in
+          
+                asset.loadValuesAsynchronously(forKeys: [track, duration]) { [weak self] in
                     let status = asset.statusOfValue(forKey: track, error: nil)
                     if status == .loaded{
                        // print("asset fetched :)")
                         self?.videoAssetCache.setObject(asset, forKey: urlString as NSString)
                         promise(.success(asset))
                     }else{
-                       // print("asset not fetched :(")
+                        print("asset not fetched :(")
                         promise(.success(nil))
                     }
                 }

@@ -54,7 +54,7 @@ class PostMediaViewModel{
         imageData = Array(repeating: Data(), count: urls.count)
         
       //  let imageArrayPublisher = Publishers.Sequence.init(sequence: [imageDataPublisher])
-        mediaProvider.fetchVideoAsset(for: mediaURL)
+        mediaProvider.fetchVideo(for: mediaURL)
             .compactMap{$0}
             .sink { [weak self] item in
                 self?.playerAssetSubject.value = item

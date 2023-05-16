@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import AVFoundation
 
-class MediaCellViewModel {
+class VideoCellViewModel: MediaCellViewModel{
     
     struct Input {
     
@@ -30,23 +30,22 @@ class MediaCellViewModel {
    
     @Published private var videoData: AVAsset?
     @Published private var imageData: Data?
-    @Published private var dimensions = CGSize(width: 640, height: 360)
+    @Published private var dimensions = CGSize(width: 320, height: 180)
     
     private let mediaProvider: MediaProviding = MediaProvider.shared
     
-    init(){
+    override init(){
+        super.init()
         configureInput()
         configureOutput()
     }
     
     private func configureInput(){
-        
-        
     }
     
     private func configureOutput(){
        
-        mediaProvider.fetchVideoAsset(for: mediaURL)
+        mediaProvider.fetchVideo(for: mediaURL1)
             .compactMap{$0}
             .sink { [weak self] in
                 print("video arrived")
@@ -59,17 +58,6 @@ class MediaCellViewModel {
     }
     
     deinit{
-        print("MediaCellViewModel deinit")
-    }
-}
-
-
-extension MediaCellViewModel: Hashable, Identifiable {
-    static func == (lhs: MediaCellViewModel, rhs: MediaCellViewModel) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        print("VideoCellViewModel deinit")
     }
 }

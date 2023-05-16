@@ -6,3 +6,8 @@
 //
 
 import Foundation
+import AVFoundation
+
+struct VideoData{
+    
+}

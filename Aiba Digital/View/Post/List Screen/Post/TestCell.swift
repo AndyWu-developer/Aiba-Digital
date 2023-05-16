@@ -70,11 +70,11 @@ class TestCell: UICollectionViewCell {
 //
 
     
-    func configure(with viewModel: MediaCellViewModel, index : Int){
+    func configure(with viewModel: VideoCellViewModel, index : Int){
         layoutIfNeeded() //Key!!! or roation would look weird
         
         subscriptions.removeAll()
-        mediaView.image = nil
+        mediaView.thumbnailImage = nil
         mediaView.video = nil
      
         viewModel.output.mediaDimensions
@@ -99,7 +99,7 @@ class TestCell: UICollectionViewCell {
             .receive(on: DispatchQueue.main)
             .map(UIImage.init(data:))
             .sink { [weak self] image in
-                self?.mediaView.image = image
+                self?.mediaView.thumbnailImage = image
             }.store(in: &subscriptions)
 
 //        viewModel.output.videoData

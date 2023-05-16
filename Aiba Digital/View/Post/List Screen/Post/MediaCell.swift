@@ -39,18 +39,18 @@ class MediaCell: UICollectionViewCell {
     }()
     
     
-    private lazy var muteButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .black.withAlphaComponent(0.4)
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular ,scale: .default)
-        button.setImage(UIImage(systemName: "speaker.wave.2.fill")?.withConfiguration(symbolConfig).withTintColor(.white, renderingMode: .alwaysOriginal), for: .normal)
-        button.setImage(UIImage(systemName: "play.fill")?.withConfiguration(symbolConfig).withTintColor(.white, renderingMode: .alwaysOriginal), for: .selected)
-        button.layer.cornerRadius = 20
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        return button
-    }()
+//    private lazy var muteButton: UIButton = {
+//        let button = UIButton()
+//        button.backgroundColor = .black.withAlphaComponent(0.4)
+//        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular ,scale: .default)
+//        button.setImage(UIImage(systemName: "speaker.wave.2.fill")?.withConfiguration(symbolConfig).withTintColor(.white, renderingMode: .alwaysOriginal), for: .normal)
+//        button.setImage(UIImage(systemName: "play.fill")?.withConfiguration(symbolConfig).withTintColor(.white, renderingMode: .alwaysOriginal), for: .selected)
+//        button.layer.cornerRadius = 20
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.widthAnchor.constraint(equalToConstant: 40).isActive = true
+//        button.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//        return button
+//    }()
     
     
     private lazy var singleTapGesture: UIGestureRecognizer = {
@@ -69,11 +69,10 @@ class MediaCell: UICollectionViewCell {
         scrollView.addSubview(mediaView)
         contentView.addSubview(scrollView)
         mediaView.player = player
-      
+        contentView.addSubview(playButton)
         playButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         playButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         mediaView.addGestureRecognizer(singleTapGesture)
-        contentView.addSubview(playButton)
     }
     
     required init?(coder: NSCoder) {
@@ -90,14 +89,13 @@ class MediaCell: UICollectionViewCell {
         super.layoutSubviews()
         scrollView.frame = contentView.bounds
         configureZoomScale(for: scrollView)
-        //centerZoomedView(in: scrollView)
     }
  
-    func configure(with viewModel: MediaCellViewModel, index : Int){
+    func configure(with viewModel: VideoCellViewModel, index : Int){
         //layoutIfNeeded() //Key!!! or roation would look weird
         subscriptions.removeAll()
         configureButtonActions()
-        mediaView.image = nil
+        mediaView.thumbnailImage = nil
         mediaView.video = nil
      
         viewModel.output.mediaDimensions
@@ -115,7 +113,7 @@ class MediaCell: UICollectionViewCell {
             .receive(on: DispatchQueue.main)
             .map(UIImage.init(data:))
             .sink { [weak self] image in
-                self?.mediaView.image = image
+                self?.mediaView.thumbnailImage = image
             }.store(in: &subscriptions)
 
         viewModel.output.videoData
@@ -123,6 +121,7 @@ class MediaCell: UICollectionViewCell {
             .sink { [weak self] video in
                 guard let self else { return }
                 mediaView.video = video
+                print(video.duration)
                 print("cell \(index) receieved video")
             }
             .store(in: &subscriptions)
@@ -150,13 +149,13 @@ class MediaCell: UICollectionViewCell {
                     self.playButton.alpha = self.playButton.alpha == 0 ? 1 : 0
                 }
             }.store(in: &subscriptions)
-        //scrollView.gestureRecognizers?.forEach{ $0.require(toFail: singleTapGesture)}
+ 
         
-        muteButton.publisher(for: .touchUpInside)
-            .map{_ in}
-            .sink{ [weak self] in
-                self?.player.isMuted.toggle()
-            }.store(in: &subscriptions)
+//        muteButton.publisher(for: .touchUpInside)
+//            .map{_ in}
+//            .sink{ [weak self] in
+//                self?.player.isMuted.toggle()
+//            }.store(in: &subscriptions)
     }
     
     //Key Function1
@@ -212,7 +211,6 @@ extension MediaCell: UIGestureRecognizerDelegate{
             print("Button tapped")
         }
       
-        
         return true
     }
     

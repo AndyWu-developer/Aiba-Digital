@@ -18,7 +18,7 @@ class VideoView: UIView {
         set { playerLayer.player = newValue }
     }
     
-    var image: UIImage? {
+    var thumbnailImage: UIImage? {
         get { imageView.image }
         set { imageView.image = newValue }
     }
@@ -26,12 +26,14 @@ class VideoView: UIView {
     var video: AVAsset? {
         get { player?.currentItem?.asset }
         set {
+            guard newValue != player?.currentItem?.asset else { print("duplicate"); return }
             if let asset = newValue {
                 let item = AVPlayerItem(asset: asset)
                 playerLayer.player?.replaceCurrentItem(with: item)
                 if shouldAutoPlay { player?.play() }
-            }else{
+            } else {
                 playerLayer.player?.replaceCurrentItem(with: nil)
+            
             }
         }
     }
@@ -53,50 +55,25 @@ class VideoView: UIView {
         return imageView
     }()
     
-    private lazy var playButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .black.withAlphaComponent(0.4)
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular ,scale: .default)
-        button.setImage(UIImage(systemName: "pause.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal), for: .normal)
-        button.setImage(UIImage(systemName: "play.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal), for: .selected)
-       
-        return button
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(imageView)
-        //addSubview(playButton)
-        //playButton.isUserInteractionEnabled = false
         playerLayer.publisher(for: \.isReadyForDisplay)
             .sink { [weak self] ready in
                 self?.imageView.isHidden = ready
             }.store(in: &subscriptions)
-        
-        playButton.publisher(for: .touchUpInside)
-            .sink { [weak self] button in
-                self?.shouldAutoPlay.toggle()
-                button.isSelected.toggle()
-            }.store(in: &subscriptions)
-        
     }
-    
+
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        addSubview(imageView)
+        playerLayer.publisher(for: \.isReadyForDisplay)
+            .sink { [weak self] ready in
+                self?.imageView.isHidden = ready
+            }.store(in: &subscriptions)
     }
     
     override func layoutSubviews() {
         imageView.frame = self.bounds
-      //  playButton.frame = CGRect(x: bounds.midX - 30 , y: bounds.midY - 30, width: 60, height: 60)
-        // Calculate the scale factor of the zoom
-//        let zoomScale = self.transform.a
-//        let dx = self.transform.tx
-//        let dy = self.transform.ty
-//        print((dx,dy))
-//        // Calculate the size of the play button based on the zoom scale
-//        let buttonSize = 60 / zoomScale
-//        // Update the frame of the play button
-//        playButton.frame = CGRect(x: bounds.midX - buttonSize/2, y: bounds.midY - buttonSize/2, width: buttonSize, height: buttonSize)
-//        playButton.layer.cornerRadius = buttonSize/2
     }
 }

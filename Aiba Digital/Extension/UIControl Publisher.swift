@@ -74,6 +74,7 @@ struct UIGestureRecognizerPublisher<T: UIGestureRecognizer> : Publisher {
     func receive<S>(subscriber: S) where S : Subscriber, S.Input == Output, S.Failure == Failure {
         subscriber.receive(subscription: Inner(downstream: subscriber, sender: control))
     }
+    
     class Inner <S:Subscriber>: NSObject, Subscription where S.Input == Output, S.Failure == Failure {
         weak var sender : T?
         var downstream : S?

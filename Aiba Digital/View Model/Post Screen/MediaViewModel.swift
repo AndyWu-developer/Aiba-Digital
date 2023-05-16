@@ -44,7 +44,7 @@ class MediaViewModel{
         mediaType = fileExtension == ".mp4" ? .video : .image
         mediaURL = url
         if mediaType == .video{
-            mediaProvider.fetchVideoAsset(for: mediaURL)
+            mediaProvider.fetchVideo(for: mediaURL)
                 .compactMap{$0}
                 .subscribe(videoAssetSubject)
                 .store(in: &subscriptions)
