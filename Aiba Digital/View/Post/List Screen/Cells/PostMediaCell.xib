@@ -2,8 +2,8 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,14 +11,37 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ypC-6h-D4M" customClass="PostMediaCell" customModule="Aiba_Digital" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="222" height="113"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Wyc-uJ-ioW">
-                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="Wyc-uJ-ioW">
+                <rect key="frame" x="0.0" y="0.0" width="222" height="113"/>
                 <autoresizingMask key="autoresizingMask"/>
-                <color key="backgroundColor" red="0.094117647060000004" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O1v-Pt-2HV" customClass="GridView" customModule="Aiba_Digital" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="222" height="200"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="200" id="HjK-cf-Cxb"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="O1v-Pt-2HV" firstAttribute="leading" secondItem="Wyc-uJ-ioW" secondAttribute="leading" id="96G-HX-HUI"/>
+                    <constraint firstAttribute="bottom" secondItem="O1v-Pt-2HV" secondAttribute="bottom" id="Ra3-E6-x4k"/>
+                    <constraint firstAttribute="trailing" secondItem="O1v-Pt-2HV" secondAttribute="trailing" id="pVp-me-BP0"/>
+                    <constraint firstItem="O1v-Pt-2HV" firstAttribute="top" secondItem="Wyc-uJ-ioW" secondAttribute="top" id="wbi-Eg-F3R"/>
+                </constraints>
             </collectionViewCellContentView>
-            <point key="canvasLocation" x="221" y="-69"/>
+            <size key="customSize" width="222" height="113"/>
+            <connections>
+                <outlet property="gridView" destination="O1v-Pt-2HV" id="dCT-Xj-NXZ"/>
+            </connections>
+            <point key="canvasLocation" x="363.35877862595419" y="-46.83098591549296"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
