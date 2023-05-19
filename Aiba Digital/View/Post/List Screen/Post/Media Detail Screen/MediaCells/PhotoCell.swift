@@ -15,7 +15,7 @@ protocol PhotoCellDelegate: AnyObject{
 }
 
 class PhotoCell: UICollectionViewCell {
-
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
     
@@ -48,7 +48,7 @@ class PhotoCell: UICollectionViewCell {
         configureZoomScale(for: scrollView)
         centerZoomedView(in: scrollView)
     }
-     
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         imageProcessSubscription.removeAll()
@@ -58,7 +58,7 @@ class PhotoCell: UICollectionViewCell {
         // layoutIfNeeded() //Key!!! or roation would look weird
         imageProcessSubscription.removeAll()
         imageView.image = nil
-     
+        
         viewModel.output.imageDimensions
             .receive(on: DispatchQueue.main)
             .sink{ [weak self] in
@@ -76,9 +76,8 @@ class PhotoCell: UICollectionViewCell {
                 self?.imageView.image = image
             }.store(in: &imageProcessSubscription)
     }
-
+    
     private func configureGestures(){
-        
         contentView.addGestureRecognizer(singleTap)
         imageView.addGestureRecognizer(doubleTap)
         singleTap.require(toFail: doubleTap)
@@ -95,22 +94,21 @@ class PhotoCell: UICollectionViewCell {
                 let tappedView = gestureRecognizer.view!
                 let pointInView = gestureRecognizer.location(in: tappedView)
                 var newZoomScale = scrollView.minimumZoomScale + (scrollView.maximumZoomScale - scrollView.minimumZoomScale) / 2
-            
+                
                 if scrollView.zoomScale >= newZoomScale || abs(scrollView.zoomScale - newZoomScale) <= 0.01 {
                     newZoomScale = scrollView.minimumZoomScale
                 }
-            
+                
                 let width = scrollView.bounds.width / newZoomScale
                 let height = scrollView.bounds.height / newZoomScale
                 let originX = pointInView.x - (width / 2.0)
                 let originY = pointInView.y - (height / 2.0)
-            
+                
                 let rectToZoomTo = CGRect(x: originX, y: originY, width: width, height: height)
                 scrollView.zoom(to: rectToZoomTo, animated: true)
-        }.store(in: &subscriptions)
-    
+            }.store(in: &subscriptions)
     }
-
+    
     //Key Function1
     private func configureZoomScale(for scrollView: UIScrollView){
         guard let zoomedView = scrollView.delegate?.viewForZooming?(in: scrollView) else { return }
@@ -138,12 +136,12 @@ extension PhotoCell: UIScrollViewDelegate{
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
-
+    
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         centerZoomedView(in: scrollView)
         scrollView.isScrollEnabled = scrollView.zoomScale > scrollView.minimumZoomScale
     }
-
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.zoomScale > scrollView.minimumZoomScale, !hasZoomedIn {
             hasZoomedIn = true
@@ -157,5 +155,5 @@ extension PhotoCell: UIScrollViewDelegate{
             delegate?.cellDidEndZoom(self)
         }
     }
-   
+    
 }

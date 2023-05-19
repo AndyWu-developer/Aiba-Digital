@@ -34,7 +34,7 @@ class ScrollIndicator: UIView {
         let scale = CGAffineTransform(scaleX: 1 / CGFloat(totalPages), y: 1)
         let translation = CGAffineTransform(translationX: startPoint + (range * percentage), y: 0)
         
-        UIView.animate(withDuration: 0.1) {
+        UIView.animate(withDuration: 0.05) {
             self.indicatorBar.transform = scale.concatenating(translation)
         }
         
@@ -42,7 +42,7 @@ class ScrollIndicator: UIView {
     
     private func customInit(){
         clipsToBounds = true
-        indicatorBar.backgroundColor = .systemYellow
+        indicatorBar.backgroundColor = .white.withAlphaComponent(0.8)
         indicatorBar.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(indicatorBar)
@@ -53,5 +53,10 @@ class ScrollIndicator: UIView {
             indicatorBar.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
     }
+    
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        indicatorBar.frame = self.bounds
+//    }
 
 }

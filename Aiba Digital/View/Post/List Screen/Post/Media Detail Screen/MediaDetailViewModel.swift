@@ -26,13 +26,13 @@ class MediaDetailViewModel{
     private(set) var output: Output!
     
     
-    let imageURL1 = "https://firebasestorage.googleapis.com/v0/b/aiba-digital.appspot.com/o/test%2Fimage1.jpg?alt=media&token=3a8c22cf-9b77-49d7-845b-e3f116a7ad20"
-    let imageURL2 = "https://firebasestorage.googleapis.com/v0/b/aiba-digital.appspot.com/o/test%2Fimage2.jpg?alt=media&token=df7ced21-0f9c-492a-9d29-e97b86029bba"
-    let imageURL3 = "https://firebasestorage.googleapis.com/v0/b/aiba-digital.appspot.com/o/test%2Fimage3.jpg?alt=media&token=85637121-53ff-4d78-b8bd-d25a09f891e0"
-    let imageURL4 = "https://firebasestorage.googleapis.com/v0/b/aiba-digital.appspot.com/o/test%2Fimage4.jpg?alt=media&token=b96f13d3-0343-4d73-92d2-0e9cb18b5d2e"
+    let imageURL1 = "https://firebasestorage.googleapis.com/v0/b/aiba-digital.appspot.com/o/test%2Fcase4.JPG?alt=media&token=e64f46d3-d2af-4212-99ea-399a4a9beaaf"
+    let imageURL2 = "https://firebasestorage.googleapis.com/v0/b/aiba-digital.appspot.com/o/test%2Fcase3.JPG?alt=media&token=ed68985f-edd6-4bbc-b88e-34d21196fd73"
+    let imageURL3 = "https://firebasestorage.googleapis.com/v0/b/aiba-digital.appspot.com/o/test%2Fcase2.JPG?alt=media&token=b269e97c-9f46-4c89-aa3e-832cca3966ef"
+    let imageURL4 = "https://firebasestorage.googleapis.com/v0/b/aiba-digital.appspot.com/o/test%2Fcase1.JPG?alt=media&token=9538508c-2ef2-4586-9845-6be4b59c97c1"
     let imageURL5 = "https://firebasestorage.googleapis.com/v0/b/aiba-digital.appspot.com/o/test%2Fimage5.jpg?alt=media&token=b0d2fb5a-5fc9-4292-94f8-b445673833d8"
     
-    let imageSize1 = CGSize(width: 1080, height: 1080)
+    let imageSize1 = CGSize(width: 1080, height: 1440)
     let imageSize2 = CGSize(width: 1080, height: 1080)
     @Published private var mediaViewModels: [MediaCellViewModel]
     
@@ -43,13 +43,12 @@ class MediaDetailViewModel{
             PhotoCellViewModel(url: imageURL2, size: imageSize1, imageProvider: MediaProvider.shared),
             PhotoCellViewModel(url: imageURL3, size: imageSize1, imageProvider: MediaProvider.shared),
             PhotoCellViewModel(url: imageURL4, size: imageSize1, imageProvider: MediaProvider.shared),
-            PhotoCellViewModel(url: imageURL5, size: imageSize1, imageProvider: MediaProvider.shared),
-            PhotoCellViewModel(url: imageURL1, size: imageSize1, imageProvider: MediaProvider.shared),
-            VideoCellViewModel()
+//            PhotoCellViewModel(url: imageURL5, size: imageSize1, imageProvider: MediaProvider.shared),
+//            PhotoCellViewModel(url: imageURL1, size: imageSize1, imageProvider: MediaProvider.shared),
+//            VideoCellViewModel()
         ]
         
        output = Output(mediaViewModels: $mediaViewModels.eraseToAnyPublisher())
-      
     }
     
 }

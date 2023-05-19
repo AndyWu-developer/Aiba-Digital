@@ -83,6 +83,7 @@
 		E85ED3B229F3A8F2008070B9 /* MediaGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85ED3B029F3A8F2008070B9 /* MediaGalleryViewController.swift */; };
 		E85ED3B329F3A8F2008070B9 /* MediaGalleryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E85ED3B129F3A8F2008070B9 /* MediaGalleryViewController.xib */; };
 		E85ED3B529F422F8008070B9 /* TTViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E85ED3B429F422F8008070B9 /* TTViewController.swift */; };
+		E86B370C2A16FF5700FE2251 /* ShowMoreLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86B370B2A16FF5700FE2251 /* ShowMoreLabel.swift */; };
 		E86E543929DDB58F008A3855 /* PostMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86E543729DDB58F008A3855 /* PostMediaCell.swift */; };
 		E86E543A29DDB58F008A3855 /* PostMediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E86E543829DDB58F008A3855 /* PostMediaCell.xib */; };
 		E86E543C29DDB6D9008A3855 /* PostMediaCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86E543B29DDB6D9008A3855 /* PostMediaCellViewModel.swift */; };
@@ -114,6 +115,9 @@
 		E89CEA252A1214AF002A4CF1 /* PhotoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89CEA242A1214AF002A4CF1 /* PhotoCellViewModel.swift */; };
 		E89CEA282A121B6F002A4CF1 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89CEA262A121B6F002A4CF1 /* PhotoCell.swift */; };
 		E89CEA292A121B6F002A4CF1 /* PhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E89CEA272A121B6F002A4CF1 /* PhotoCell.xib */; };
+		E8C2347F2A14C86F00133138 /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C2347D2A14C86F00133138 /* TextViewController.swift */; };
+		E8C852F02A15AF3800D9A413 /* FadeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C852EF2A15AF3800D9A413 /* FadeTextView.swift */; };
+		E8C852F22A16135300D9A413 /* UILabel Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C852F12A16135300D9A413 /* UILabel Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -198,6 +202,7 @@
 		E85ED3B029F3A8F2008070B9 /* MediaGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaGalleryViewController.swift; sourceTree = "<group>"; };
 		E85ED3B129F3A8F2008070B9 /* MediaGalleryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MediaGalleryViewController.xib; sourceTree = "<group>"; };
 		E85ED3B429F422F8008070B9 /* TTViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TTViewController.swift; sourceTree = "<group>"; };
+		E86B370B2A16FF5700FE2251 /* ShowMoreLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreLabel.swift; sourceTree = "<group>"; };
 		E86E543729DDB58F008A3855 /* PostMediaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMediaCell.swift; sourceTree = "<group>"; };
 		E86E543829DDB58F008A3855 /* PostMediaCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostMediaCell.xib; sourceTree = "<group>"; };
 		E86E543B29DDB6D9008A3855 /* PostMediaCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostMediaCellViewModel.swift; sourceTree = "<group>"; };
@@ -229,6 +234,9 @@
 		E89CEA242A1214AF002A4CF1 /* PhotoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCellViewModel.swift; sourceTree = "<group>"; };
 		E89CEA262A121B6F002A4CF1 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		E89CEA272A121B6F002A4CF1 /* PhotoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoCell.xib; sourceTree = "<group>"; };
+		E8C2347D2A14C86F00133138 /* TextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
+		E8C852EF2A15AF3800D9A413 /* FadeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadeTextView.swift; sourceTree = "<group>"; };
+		E8C852F12A16135300D9A413 /* UILabel Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -479,6 +487,9 @@
 				A13E2E9329B8DC530039B640 /* UserDefaults Extension.swift */,
 				A175DE9E29C814DF00A0C092 /* LargeTapAreaButton.swift */,
 				E8738A5D2A137B9B001A8F8A /* ScrollIndicator.swift */,
+				E8C852EF2A15AF3800D9A413 /* FadeTextView.swift */,
+				E8C852F12A16135300D9A413 /* UILabel Extension.swift */,
+				E86B370B2A16FF5700FE2251 /* ShowMoreLabel.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -570,6 +581,7 @@
 				E89CEA242A1214AF002A4CF1 /* PhotoCellViewModel.swift */,
 				E89CEA062A0C7F37002A4CF1 /* VideoCellViewModel.swift */,
 				E89CEA1C2A120CF1002A4CF1 /* MediaCellVIewModel.swift */,
+				E8C2347D2A14C86F00133138 /* TextViewController.swift */,
 			);
 			path = "Media Detail Screen";
 			sourceTree = "<group>";
@@ -752,8 +764,10 @@
 				A176AB6F29B5C2A2008F4030 /* CountryPickerViewModel.swift in Sources */,
 				A1A71A182999E3FB00876973 /* AppFlowController.swift in Sources */,
 				A1A71A162999E3FB00876973 /* UIViewController extension.swift in Sources */,
+				E8C852F02A15AF3800D9A413 /* FadeTextView.swift in Sources */,
 				E89CEA0F2A0F3870002A4CF1 /* TestScrollView.swift in Sources */,
 				E897539229E17A59002C820C /* CollectionViewModel.swift in Sources */,
+				E8C852F22A16135300D9A413 /* UILabel Extension.swift in Sources */,
 				A141799A2999CD980097FD21 /* AppDelegate.swift in Sources */,
 				A1A71A172999E3FB00876973 /* UIColor extension.swift in Sources */,
 				E85ED3B229F3A8F2008070B9 /* MediaGalleryViewController.swift in Sources */,
@@ -783,7 +797,9 @@
 				E897538A29E055D9002C820C /* PostHeaderViewModel.swift in Sources */,
 				E86E544429DDBDB5008A3855 /* PostTextCell.swift in Sources */,
 				A14599B029B5C0A700F4409E /* CountryPickerViewController.swift in Sources */,
+				E86B370C2A16FF5700FE2251 /* ShowMoreLabel.swift in Sources */,
 				A115B38629AC64DA00EB5A72 /* AuthError.swift in Sources */,
+				E8C2347F2A14C86F00133138 /* TextViewController.swift in Sources */,
 				A115B38329AC32B100EB5A72 /* SettingViewModel.swift in Sources */,
 				A199DFA529CBF24F0071C568 /* SpinningView.swift in Sources */,
 				A1A71A132999E3FB00876973 /* VerificationCodeField.swift in Sources */,
