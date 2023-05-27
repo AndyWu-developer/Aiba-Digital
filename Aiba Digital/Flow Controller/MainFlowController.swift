@@ -49,20 +49,20 @@ class MainFlowController: UIViewController {
         settingFlowVC.start()
 
         
-        let vc1 = CollectionViewController()
+        let vc1 = UIViewController()
         vc1.tabBarItem = UITabBarItem(title: "來去逛逛", image: UIImage(named: "Shop")!.withTintColor(.black, renderingMode: .alwaysOriginal),
                                        selectedImage:  UIImage(named: "Shop-1"))
         
-        let postFlowController = PostFlowController(dependencies: dependencies)
-        //postFlowController.flowDelegate = self
-        postFlowController.tabBarItem = UITabBarItem(title: "店長動態", image: UIImage(named: "News")!.withTintColor(.black, renderingMode: .alwaysOriginal),selectedImage:  UIImage(named: "News-1"))
-        postFlowController.start()
+//        let postFlowController = PostFlowController(dependencies: dependencies)
+//        //postFlowController.flowDelegate = self
+//        postFlowController.tabBarItem = UITabBarItem(title: "店長動態", image: UIImage(named: "News")!.withTintColor(.black, renderingMode: .alwaysOriginal),selectedImage:  UIImage(named: "News-1"))
+//        postFlowController.start()
         
-        let vc3 = MediaDetailViewController()
+        let vc3 = MediaDetailViewController(viewModel: MediaDetailViewModel())
         vc3.tabBarItem = UITabBarItem(title: "關於本店", image: UIImage(systemName: "info.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal),selectedImage:  UIImage(systemName: "info.circle.fill")?.withTintColor(.lightYellow, renderingMode: .alwaysOriginal))
-    
-        embeddedTabBarController.setViewControllers([vc3,postFlowController,settingFlowVC], animated: false)
-        embeddedTabBarController.selectedIndex = 0
+
+        embeddedTabBarController.setViewControllers([vc3,FeedListViewController(),settingFlowVC], animated: false)
+        embeddedTabBarController.selectedIndex = 1
         
         addChild(embeddedTabBarController)
         view.addSubview(embeddedTabBarController.view)

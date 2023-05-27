@@ -13,7 +13,6 @@ class Post {
     let isPinned: Bool = false
     var mediaURLs: [String] = [".mp4"]
     var text: String = "I'm Little Johnny"
-    
 }
 
 

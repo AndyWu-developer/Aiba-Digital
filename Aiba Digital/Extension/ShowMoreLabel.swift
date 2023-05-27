@@ -5,57 +5,67 @@
 //  Created by Andy Wu on 2023/5/19.
 //
 
+// Adapted from https://gist.github.com/Catherine-K-George/3bffbf1433b34b630b7bc572d6af9f6d
 import UIKit
 
 class ShowMoreLabel: UILabel {
 
     var truncationToken = " ...顯示更多"
+    //Make sure to set the correct the default font, seems weird with "." at the beginning, try PingFang TC Regular 17.0 which works
+    private var originalText: String = ""
     
+//    override var text: String? {
+//        set {
+//            originalText = newValue
+//            super.text = newValue
+//
+//        }
+//        get { return super.text }
+//    }
     override func layoutSubviews() {
         super.layoutSubviews()
         addShowMoreIfNeeded()
     }
+    
+    func update(){
+        addShowMoreIfNeeded()
+    }
 
     private func heightForText(_ text: String) -> CGFloat {
-        let textStorage = NSTextStorage(string: text)
-        let textContainer = NSTextContainer(size: CGSize(width: bounds.width, height: .greatestFiniteMagnitude))
+        
+        let size = CGSize(width: bounds.width, height: .greatestFiniteMagnitude)
+        
+        let textContainer = NSTextContainer(size: size)
         textContainer.lineFragmentPadding = .zero
+       // textContainer.lineBreakMode = .byWordWrapping
+        
         let layoutManager = NSLayoutManager()
         layoutManager.usesFontLeading = false
         layoutManager.addTextContainer(textContainer)
-        textStorage.addLayoutManager(layoutManager)
+        
+        let textStorage = NSTextStorage(string: text)
         textStorage.addAttribute(NSAttributedString.Key.font, value: font!, range: NSRange(location: 0, length: textStorage.length))
-
-        layoutManager.glyphRange(for: textContainer)
-        return layoutManager.usedRect(for: textContainer).size.height
+        textStorage.addLayoutManager(layoutManager)
+        
+        layoutManager.glyphRange(for: textContainer) //force layout manager to lay out the text
+        return layoutManager.usedRect(for: textContainer).height
     }
-  
+    
     private func addShowMoreIfNeeded(){
-        
+        guard numberOfLines != 0 else { return }
         let linesOfText = String(repeating: "\n", count: numberOfLines)
-        let sentenceText = NSString(string: text!)
-        let sentenceRange = NSRange(location: 0, length: sentenceText.length)
-        var endIndex = sentenceRange.upperBound
-        var truncatedSentence = sentenceText
-        
-        while heightForText(truncatedSentence as String) >= heightForText(linesOfText){
-            if endIndex == 0 { break }
-            endIndex -= 1
-            truncatedSentence = NSString(string: sentenceText.substring(with: NSRange(location: 0, length: endIndex)))
-            truncatedSentence = (String(truncatedSentence) + truncationToken) as NSString
+        let maxHeight = heightForText(linesOfText)
+       
+        var tempText = text!
+        var count = tempText.count
+      
+        while heightForText(tempText) >= maxHeight {
+            if count == 0 { break }
+            count -= 1
+            tempText = tempText.prefix(count) + truncationToken
         }
-        text = truncatedSentence as String
+        text = tempText
     }
   
 }
 
-
-//    func heightForText(text: NSString) -> CGFloat{
-//      //  let string = text as NSString
-//        let pargraph = NSMutableParagraphStyle()
-//        pargraph.lineBreakMode = .byTruncatingTail
-//        let attr: [NSAttributedString.Key: Any] = [.font: self.font!]
-//        let size = CGSize(width: bounds.width, height: .greatestFiniteMagnitude)
-//
-//        return ceil(text.boundingRect(with: size,options: .usesLineFragmentOrigin, attributes: attr, context: nil).height)
-//    }

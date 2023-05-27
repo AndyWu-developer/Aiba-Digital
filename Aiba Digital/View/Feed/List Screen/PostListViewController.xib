@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostListViewController" customModule="Aiba_Digital" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="Dec-nM-cxn" id="JPv-IB-bKa"/>
+                <outlet property="plusButton" destination="U6R-a0-V7n" id="fAE-wu-g7Z"/>
+                <outlet property="view" destination="iN0-l3-epB" id="jry-fx-k6P"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Dec-nM-cxn">
+                    <rect key="frame" x="0.0" y="48" width="414" height="814"/>
+                    <color key="backgroundColor" red="0.95686274509803915" green="0.95686274509803915" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WaB-C0-fCl">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="7ID-pP-AeM"/>
+                        <outlet property="delegate" destination="-1" id="dJU-5h-Epk"/>
+                        <outlet property="prefetchDataSource" destination="-1" id="Pi6-6y-NWE"/>
+                    </connections>
+                </collectionView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U6R-a0-V7n" customClass="AnimatedButton" customModule="Aiba_Digital" customModuleProvider="target">
+                    <rect key="frame" x="341" y="774" width="58" height="58"/>
+                    <color key="backgroundColor" red="1" green="0.74509803921568629" blue="0.043137254901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="58" id="54i-WD-Ic0"/>
+                        <constraint firstAttribute="height" constant="58" id="gD5-an-Rad"/>
+                    </constraints>
+                    <color key="tintColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal">
+                        <imageReference key="image" image="plus" catalog="system" symbolScale="large"/>
+                        <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large" weight="bold"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="29"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="Dec-nM-cxn" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="2Nw-aO-iM9"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="U6R-a0-V7n" secondAttribute="trailing" constant="15" id="3fd-CL-oDM"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Dec-nM-cxn" secondAttribute="bottom" id="B8a-Af-7AV"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="U6R-a0-V7n" secondAttribute="bottom" constant="30" id="QnO-fC-kBI"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Dec-nM-cxn" secondAttribute="trailing" id="ZYL-eE-hk2"/>
+                <constraint firstItem="Dec-nM-cxn" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="sMa-LB-CDh"/>
+            </constraints>
+            <point key="canvasLocation" x="131.8840579710145" y="78.348214285714278"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="plus" catalog="system" width="128" height="113"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

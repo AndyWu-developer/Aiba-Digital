@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="XRT-Ui-tXK" customClass="VideoDetailCell" customModule="Aiba_Digital" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="560"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Aot-Sq-VJt">
+                <rect key="frame" x="0.0" y="0.0" width="393" height="560"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o9j-H3-eob" customClass="AutoCenterScrollView" customModule="Aiba_Digital" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="560"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yxh-KM-yO3" customClass="VideoView" customModule="Aiba_Digital" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="560"/>
+                            </view>
+                        </subviews>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="yxh-KM-yO3" firstAttribute="height" relation="lessThanOrEqual" secondItem="4da-0N-q1I" secondAttribute="height" id="2t7-CZ-qIY"/>
+                            <constraint firstItem="yxh-KM-yO3" firstAttribute="trailing" secondItem="a9e-ff-rnr" secondAttribute="trailing" id="6jL-Xl-ryl"/>
+                            <constraint firstItem="yxh-KM-yO3" firstAttribute="bottom" secondItem="a9e-ff-rnr" secondAttribute="bottom" id="8Ou-WF-xXP"/>
+                            <constraint firstItem="yxh-KM-yO3" firstAttribute="width" secondItem="4da-0N-q1I" secondAttribute="width" priority="750" id="ApU-4r-2RH"/>
+                            <constraint firstItem="yxh-KM-yO3" firstAttribute="leading" secondItem="a9e-ff-rnr" secondAttribute="leading" id="Hbj-zd-vIu"/>
+                            <constraint firstItem="yxh-KM-yO3" firstAttribute="width" relation="lessThanOrEqual" secondItem="4da-0N-q1I" secondAttribute="width" id="I4K-mB-n9d"/>
+                            <constraint firstItem="yxh-KM-yO3" firstAttribute="top" secondItem="a9e-ff-rnr" secondAttribute="top" id="LDA-eI-2sw"/>
+                            <constraint firstItem="yxh-KM-yO3" firstAttribute="height" secondItem="4da-0N-q1I" secondAttribute="height" priority="750" id="Ynj-WA-fHI"/>
+                        </constraints>
+                        <viewLayoutGuide key="contentLayoutGuide" id="a9e-ff-rnr"/>
+                        <viewLayoutGuide key="frameLayoutGuide" id="4da-0N-q1I"/>
+                        <connections>
+                            <outlet property="delegate" destination="XRT-Ui-tXK" id="jMv-fj-wCi"/>
+                        </connections>
+                    </scrollView>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="0io-KQ-CLu" userLabel="PlayBack Control View">
+                        <rect key="frame" x="0.0" y="376" width="393" height="30"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jAt-a0-0Q0" userLabel="Play Button">
+                                <rect key="frame" x="8" y="8" width="14.333333333333336" height="14.333333333333336"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="jAt-a0-0Q0" secondAttribute="height" multiplier="1:1" id="Gt5-V1-Byd"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="pause.fill" catalog="system"/>
+                                <state key="selected" image="play.fill" catalog="system"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ksG-fE-fWG" userLabel="current time label">
+                                <rect key="frame" x="25.333333333333332" y="7.3333333333333135" width="0.0" height="15.666666666666664"/>
+                                <edgeInsets key="layoutMargins" top="0.0" left="8" bottom="0.0" right="8"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="YuY-Bg-9Ro" customClass="VideoSlider" customModule="Aiba_Digital" customModuleProvider="target">
+                                <rect key="frame" x="26.333333333333343" y="0.0" width="326.66666666666663" height="31"/>
+                                <color key="tintColor" systemColor="systemYellowColor"/>
+                                <color key="maximumTrackTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="roundImage">
+                                        <imageReference key="value" image="circle.fill" catalog="system" symbolScale="small"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="roundHighlightedImage">
+                                        <imageReference key="value" image="circle.fill" catalog="system" symbolScale="default"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="59:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6b4-oY-LFL" userLabel="total time label">
+                                <rect key="frame" x="354" y="7.3333333333333135" width="0.0" height="15.666666666666664"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IBh-3V-hht" userLabel="Mute Button">
+                                <rect key="frame" x="357" y="1" width="28" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="VQq-mE-fiw"/>
+                                    <constraint firstAttribute="width" secondItem="IBh-3V-hht" secondAttribute="height" multiplier="1:1" id="eCx-8t-frk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="speaker.wave.2.fill" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="15"/>
+                                </state>
+                                <state key="selected" image="speaker.slash.fill" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="15"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="14"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="6nE-PT-UMd"/>
+                        </constraints>
+                        <edgeInsets key="layoutMargins" top="0.0" left="8" bottom="0.0" right="8"/>
+                    </stackView>
+                </subviews>
+                <viewLayoutGuide key="safeArea" id="3qO-V2-t7d"/>
+                <constraints>
+                    <constraint firstItem="o9j-H3-eob" firstAttribute="top" secondItem="Aot-Sq-VJt" secondAttribute="top" id="1ot-xf-wHx"/>
+                    <constraint firstItem="o9j-H3-eob" firstAttribute="leading" secondItem="3qO-V2-t7d" secondAttribute="leading" id="CCt-JJ-JPy"/>
+                    <constraint firstItem="3qO-V2-t7d" firstAttribute="trailing" secondItem="0io-KQ-CLu" secondAttribute="trailing" id="CcJ-Tw-z9a"/>
+                    <constraint firstItem="0io-KQ-CLu" firstAttribute="leading" secondItem="3qO-V2-t7d" secondAttribute="leading" id="UES-UJ-8pK"/>
+                    <constraint firstItem="o9j-H3-eob" firstAttribute="trailing" secondItem="3qO-V2-t7d" secondAttribute="trailing" id="lAI-2V-Y8E"/>
+                    <constraint firstAttribute="bottom" secondItem="o9j-H3-eob" secondAttribute="bottom" id="qQW-d1-gHv"/>
+                    <constraint firstItem="0io-KQ-CLu" firstAttribute="bottom" secondItem="3qO-V2-t7d" secondAttribute="bottom" constant="-120" id="xgr-Ws-Z7u"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="393" height="560"/>
+            <connections>
+                <outlet property="bottomConstraint" destination="xgr-Ws-Z7u" id="G89-h9-ZxM"/>
+                <outlet property="currentTimeLabel" destination="ksG-fE-fWG" id="VlM-SG-fIQ"/>
+                <outlet property="muteButton" destination="IBh-3V-hht" id="6Hy-CB-GdA"/>
+                <outlet property="playButton" destination="jAt-a0-0Q0" id="gN4-D2-2FQ"/>
+                <outlet property="playbackControlView" destination="0io-KQ-CLu" id="B5D-NL-78C"/>
+                <outlet property="playbackSlider" destination="YuY-Bg-9Ro" id="5II-jZ-xao"/>
+                <outlet property="scrollView" destination="o9j-H3-eob" id="sIw-XC-Ixu"/>
+                <outlet property="totalTimeLabel" destination="6b4-oY-LFL" id="pGF-oI-QHp"/>
+                <outlet property="videoView" destination="yxh-KM-yO3" id="OTS-Hh-3Od"/>
+            </connections>
+            <point key="canvasLocation" x="194.6564885496183" y="3.5211267605633805"/>
+        </collectionViewCell>
+    </objects>
+    <designables>
+        <designable name="YuY-Bg-9Ro">
+            <size key="intrinsicContentSize" width="-1" height="30"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="circle.fill" catalog="system" width="128" height="123"/>
+        <image name="pause.fill" catalog="system" width="117" height="128"/>
+        <image name="play.fill" catalog="system" width="117" height="128"/>
+        <image name="speaker.slash.fill" catalog="system" width="118" height="128"/>
+        <image name="speaker.wave.2.fill" catalog="system" width="128" height="88"/>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

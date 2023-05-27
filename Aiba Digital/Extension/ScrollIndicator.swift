@@ -42,7 +42,7 @@ class ScrollIndicator: UIView {
     
     private func customInit(){
         clipsToBounds = true
-        indicatorBar.backgroundColor = .white.withAlphaComponent(0.8)
+        indicatorBar.backgroundColor = .systemYellow//.white.withAlphaComponent(0.8)
         indicatorBar.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(indicatorBar)
@@ -53,7 +53,8 @@ class ScrollIndicator: UIView {
             indicatorBar.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
     }
-    
+
+
 //    override func layoutSubviews() {
 //        super.layoutSubviews()
 //        indicatorBar.frame = self.bounds

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Kgw-Vz-4Qd" customClass="PostTextCell" customModule="Aiba_Digital" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="402" height="196"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="X73-YA-UfY">
+                <rect key="frame" x="0.0" y="0.0" width="402" height="196"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" clipsSubviews="YES" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IB2-mv-f7E" userLabel="Preview Text Label" customClass="ShowMoreLabel" customModule="Aiba_Digital" customModuleProvider="target">
+                        <rect key="frame" x="15" y="8" width="372" height="180"/>
+                        <string key="text">QuadLock手機殼，是一款專為現代生活設計的手機保護殼。它輕薄耐用，採用高質量的材料製成，可以在日常生活中保護您的手機免受損壞。它的獨特設計還可以快速輕鬆地將手機固定在您的自行車、汽車、運動器材上，讓您在運動、旅行和日常使用中更方便地使用手機。選擇 Quadlock 手機殼，讓您的手機更安全，更方便。</string>
+                        <fontDescription key="fontDescription" name="PingFangTC-Regular" family="PingFang TC" pointSize="17"/>
+                        <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                        <nil key="highlightedColor"/>
+                        <lineBreakStrategy key="lineBreakStrategy"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" red="0.99607843139999996" green="0.99607843139999996" blue="0.99607843139999996" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="IB2-mv-f7E" secondAttribute="trailing" constant="15" id="8tx-yg-Aek"/>
+                    <constraint firstItem="IB2-mv-f7E" firstAttribute="top" secondItem="X73-YA-UfY" secondAttribute="top" constant="8" id="D2Q-34-ZQr"/>
+                    <constraint firstItem="IB2-mv-f7E" firstAttribute="leading" secondItem="X73-YA-UfY" secondAttribute="leading" constant="15" id="goA-LA-gEt"/>
+                    <constraint firstAttribute="bottom" secondItem="IB2-mv-f7E" secondAttribute="bottom" constant="8" id="prr-4M-670"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="402" height="196"/>
+            <connections>
+                <outlet property="textLabel" destination="IB2-mv-f7E" id="7pz-9c-Dcf"/>
+            </connections>
+            <point key="canvasLocation" x="258.01526717557249" y="61.267605633802823"/>
+        </collectionViewCell>
+    </objects>
+</document>
