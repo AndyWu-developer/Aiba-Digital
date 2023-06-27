@@ -30,7 +30,7 @@ class LoginFlowController: UIViewController {
         let loginViewModel = SignInViewModel(dependencies: dependencies)
         let loginVC = LoginViewController(viewModel: loginViewModel)
         loginVC.flowDelegate = self
-        transition(to: loginVC,animation: .transitionCrossDissolve){ _ in
+        transition(to: loginVC, animation: .transitionCrossDissolve){ _ in
             loginVC.showAppearAnimation()
         }
     }

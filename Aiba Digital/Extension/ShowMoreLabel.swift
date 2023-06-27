@@ -18,19 +18,32 @@ class ShowMoreLabel: UILabel {
 //        set {
 //            originalText = newValue
 //            super.text = newValue
-//
 //        }
 //        get { return super.text }
 //    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        addShowMoreIfNeeded()
-    }
-    
-    func update(){
-        addShowMoreIfNeeded()
+        truncateIfNeeded()
     }
 
+    private func truncateIfNeeded(){
+        if numberOfLines == 0 { return }
+        let maxHeight = heightForText(String(repeating: "\n", count: numberOfLines))
+
+        if heightForText(text!) > maxHeight {
+            var count = 0
+            var needTruncate = true
+            while heightForText(String(text!.prefix(count)) + truncationToken) < maxHeight {
+                if count == text!.count { needTruncate = false ; break }
+                count += 1
+            }
+            if needTruncate{
+                text = String(text!.prefix(count-1)) + truncationToken
+            }
+        }
+    }
+    
     private func heightForText(_ text: String) -> CGFloat {
         
         let size = CGSize(width: bounds.width, height: .greatestFiniteMagnitude)
@@ -47,25 +60,31 @@ class ShowMoreLabel: UILabel {
         textStorage.addAttribute(NSAttributedString.Key.font, value: font!, range: NSRange(location: 0, length: textStorage.length))
         textStorage.addLayoutManager(layoutManager)
         
-        layoutManager.glyphRange(for: textContainer) //force layout manager to lay out the text
+        layoutManager.glyphRange(for: textContainer) //force layout manager to layout the text
         return layoutManager.usedRect(for: textContainer).height
     }
     
-    private func addShowMoreIfNeeded(){
-        guard numberOfLines != 0 else { return }
-        let linesOfText = String(repeating: "\n", count: numberOfLines)
-        let maxHeight = heightForText(linesOfText)
-       
-        var tempText = text!
-        var count = tempText.count
-      
-        while heightForText(tempText) >= maxHeight {
-            if count == 0 { break }
-            count -= 1
-            tempText = tempText.prefix(count) + truncationToken
-        }
-        text = tempText
-    }
-  
 }
 
+//    private func addShowMoreIfNeeded(){
+//        guard numberOfLines != 0 else { return }
+//        let linesOfText = String(repeating: "\n", count: numberOfLines)
+//        let maxHeight = heightForText(linesOfText)
+//
+//        var tempText = text!
+//        var count = tempText.count
+//        heightForText(tempText)
+////
+//        while heightForText(tempText) >= maxHeight {
+//            if count == 0 { break }
+//            count -= 1
+//            tempText = tempText.prefix(count) + truncationToken
+//        }
+//        if text != "mfortmfoirmifmormfirfvrtf"{
+//            text = "mfortmfoirmifmormfirfvrtf"
+//            //setNeedsLayout()
+//        }
+//
+//
+//
+//    }

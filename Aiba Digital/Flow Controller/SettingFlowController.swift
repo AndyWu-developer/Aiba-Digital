@@ -17,6 +17,11 @@ class SettingFlowController: UIViewController {
     private let dependencies: Dependencies
     weak var flowDelegate: SettingFlowControllerDelegate?
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        start()
+    }
+    
     init(dependencies: Dependencies){
         self.dependencies = dependencies
         super.init(nibName: nil, bundle: nil)
@@ -26,7 +31,7 @@ class SettingFlowController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func start(){
+    private func start(){
         let settingViewModel = SettingViewModel(dependencies: dependencies)
         let settingVC = SettingViewController(viewModel: settingViewModel)
         settingVC.flowDelegate = self

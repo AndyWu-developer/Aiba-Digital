@@ -23,16 +23,14 @@ import FirebaseCore
 @objc(FIRStorageProvider)
 protocol StorageProvider {
   @objc func storage(for bucket: String) -> Storage
-  // TODO: See if we can avoid the `type` parameter by either making it a `Storage` argument to
-  // allow subclasses, or avoid it entirely and fix tests. This was done for StorageCombineUnit,
-  // although we may be able to now port to using `@testable` instead of using the mock.
 }
 
 @objc(FIRStorageComponent) class StorageComponent: NSObject, Library, StorageProvider {
   // MARK: - Private Variables
 
   /// The app associated with all Storage instances in this container.
-  private let app: FirebaseApp
+  /// This is `unowned` instead of `weak` so it can be used without unwrapping in `storage(...)`
+  private unowned let app: FirebaseApp
 
   /// A map of active instances, grouped by app. Keys are FirebaseApp names and values are arrays
   /// containing all instances of Storage associated with the given app.

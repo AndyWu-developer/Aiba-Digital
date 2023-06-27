@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AppDependency: HasAuthManager & HasPostManager & HasMediaProvider {
+class AppDependency: HasAuthManager & HasMediaProvider {
     let authManager: AuthManaging
     let postManager: PostManaging
     let mediaProvider: MediaProviding

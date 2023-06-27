@@ -28,16 +28,21 @@
 #include "Firestore/core/src/core/field_filter.h"
 #include "Firestore/core/src/core/filter.h"
 #include "Firestore/core/src/core/order_by.h"
-#include "Firestore/core/src/immutable/append_only_list.h"
 #include "Firestore/core/src/model/field_index.h"
 #include "Firestore/core/src/model/resource_path.h"
 #include "Firestore/core/src/remote/serializer.h"
 
 namespace firebase {
 namespace firestore {
+
 namespace bundle {
 class BundleSerializer;
-}
+}  // namespace bundle
+
+namespace local {
+class LevelDbIndexManager;
+}  // namespace local
+
 namespace core {
 
 using CollectionGroupId = std::shared_ptr<const std::string>;
@@ -80,17 +85,21 @@ class Target {
   bool IsDocumentQuery() const;
 
   /** The filters on the documents returned by the target. */
-  const FilterList& filters() const {
+  const std::vector<Filter>& filters() const {
     return filters_;
   }
 
   /** Returns the list of ordering constraints by the target. */
-  const OrderByList& order_bys() const {
+  const std::vector<OrderBy>& order_bys() const {
     return order_bys_;
   }
 
   int32_t limit() const {
     return limit_;
+  }
+
+  bool HasLimit() const {
+    return limit_ != kNoLimit;
   }
 
   const absl::optional<Bound>& start_at() const {
@@ -101,38 +110,44 @@ class Target {
     return end_at_;
   }
 
+  /** Returns the order of the document key component. */
+  core::Direction GetKeyOrder() const {
+    return order_bys_.back().direction();
+  }
+
+  /** Returns the number of segments of a perfect index for this target. */
+  size_t GetSegmentCount() const;
+
   /**
    * Returns the values that are used in ArrayContains or ArrayContainsAny
    * filters.
    *
    * Returns `nullopt` if there are no such filters.
    */
-  IndexedValues GetArrayValues(const model::FieldIndex& field_index);
+  IndexedValues GetArrayValues(const model::FieldIndex& field_index) const;
 
   /**
    * Returns the list of values that are used in != or NotIn filters.
    *
    * Returns `nullopt` if there are no such filters.
    */
-  IndexedValues GetNotInValues(const model::FieldIndex& field_index);
+  IndexedValues GetNotInValues(const model::FieldIndex& field_index) const;
 
   /**
    * Returns a lower bound of field values that can be used as a starting point
    * to scan the index defined by `field_index`.
    *
-   * Returns `nullopt` if no lower bound exists.
+   * Returns `model::MinValue()` if no lower bound exists.
    */
-  absl::optional<IndexBoundValues> GetLowerBound(
-      const model::FieldIndex& field_index);
+  IndexBoundValues GetLowerBound(const model::FieldIndex& field_index) const;
 
   /**
    * Returns an upper bound of field values that can be used as an ending point
    * when scanning the index defined by `field_index`.
    *
-   * Returns `nullopt` if no upper bound exists.
+   * Returns `model::MaxValue()` if no upper bound exists.
    */
-  absl::optional<IndexBoundValues> GetUpperBound(
-      const model::FieldIndex& field_index);
+  IndexBoundValues GetUpperBound(const model::FieldIndex& field_index) const;
 
   const std::string& CanonicalId() const;
 
@@ -149,7 +164,7 @@ class Target {
    */
   struct IndexBoundValue {
     bool inclusive;
-    absl::optional<google_firestore_v1_Value> value;
+    google_firestore_v1_Value value;
   };
 
   /**
@@ -162,8 +177,8 @@ class Target {
    */
   Target(model::ResourcePath path,
          CollectionGroupId collection_group,
-         FilterList filters,
-         OrderByList order_bys,
+         std::vector<Filter> filters,
+         std::vector<OrderBy> order_bys,
          int32_t limit,
          absl::optional<Bound> start_at,
          absl::optional<Bound> end_at)
@@ -177,10 +192,11 @@ class Target {
   }
   friend class Query;
   friend class remote::Serializer;
-  friend class bundle::BundleSerializer;
+  friend class local::LevelDbIndexManager;
 
   /** Returns the field filters that target the given field path. */
-  std::vector<FieldFilter> GetFieldFiltersForPath(const model::FieldPath& path);
+  std::vector<FieldFilter> GetFieldFiltersForPath(
+      const model::FieldPath& path) const;
 
   /**
    * Returns the value for an ascending bound of `segment`, using `bound` to
@@ -190,7 +206,7 @@ class Target {
    * and a bool to indicate if the result is inclusive.
    */
   IndexBoundValue GetAscendingBound(const model::Segment& segment,
-                                    const absl::optional<Bound>& bound);
+                                    const absl::optional<Bound>& bound) const;
   /**
    * Returns the value for a descending bound of `segment`, using `bound` to
    * narrow down the result.
@@ -199,12 +215,12 @@ class Target {
    * and a bool to indicate if the result is inclusive.
    */
   IndexBoundValue GetDescendingBound(const model::Segment& segment,
-                                     const absl::optional<Bound>& bound);
+                                     const absl::optional<Bound>& bound) const;
 
   model::ResourcePath path_;
   std::shared_ptr<const std::string> collection_group_;
-  FilterList filters_;
-  OrderByList order_bys_;
+  std::vector<Filter> filters_;
+  std::vector<OrderBy> order_bys_;
   int32_t limit_ = kNoLimit;
   absl::optional<Bound> start_at_;
   absl::optional<Bound> end_at_;

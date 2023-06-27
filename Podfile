@@ -11,6 +11,8 @@ target 'Aiba Digital' do
     pod 'FirebaseStorage'
     pod 'FirebaseDatabase'
     pod 'GoogleSignIn'
+    pod 'FirebaseFirestoreSwift'
+    pod "Mobile-Buy-SDK"
 
 end
 

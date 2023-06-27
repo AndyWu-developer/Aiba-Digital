@@ -13,22 +13,59 @@ protocol MainFlowControllerDelegate: AnyObject {
 
 class MainFlowController: UIViewController {
     
-    private var embeddedTabBarController = UITabBarController()
-    weak var flowDelegate: MainFlowControllerDelegate?
-    typealias Dependencies = HasAuthManager & HasPostManager
-    private let dependencies: Dependencies
+    private lazy var embeddedTabBarController: UITabBarController = {
+        let tabBarController = UITabBarController()
+        tabBarController.tabBar.barTintColor = .backgroundWhite
+        tabBarController.tabBar.tintColor = .black
+        tabBarController.tabBar.unselectedItemTintColor = .black
+        // embeddedTabBarController.delegate = self
+        return tabBarController
+    }()
     
+    weak var flowDelegate: MainFlowControllerDelegate?
+    typealias Dependencies = HasAuthManager //& HasPostManager
+    private let dependencies: Dependencies
     //var interactionController: UIPercentDrivenInteractiveTransition?
-
+    
+    private lazy var infoFlowController: UIViewController = {
+        let flowController = UIViewController()
+        flowController.tabBarItem = .init(title: "關於本店",
+                                        image: UIImage(systemName: "info.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal),
+                                        selectedImage:  UIImage(systemName: "info.circle.fill")?.withTintColor(.lightYellow, renderingMode: .alwaysOriginal))
+        return flowController
+    }()
+    
+    
+    private lazy var postFlowController: PostFlowController = {
+        let flowController = PostFlowController()
+        flowController.tabBarItem = .init(title: "店長動態",
+                                         image: UIImage(named: "post"),
+                                         selectedImage: UIImage(named: "post.fill"))
+        return flowController
+    }()
+    
+    private lazy var shopFlowController: ShopFlowController = {
+        let flowController = ShopFlowController()
+        flowController.tabBarItem = .init(title: "來去逛逛",
+                                         image: UIImage(named: "shop"),
+                                         selectedImage: UIImage(named: "shop.fill"))
+        return flowController
+    }()
+    
+    private lazy var settingFlowController: SettingFlowController = {
+        let flowController = SettingFlowController(dependencies: dependencies)
+        flowController.flowDelegate = self
+        flowController.tabBarItem = .init(title: "我的會員",
+                                         image: UIImage(named: "user"),
+                                         selectedImage: UIImage(named: "user.fill"))
+        return flowController
+    }()
+    
+    
     init(dependencies: Dependencies){
         self.dependencies = dependencies
         super.init(nibName: nil, bundle: nil)
-        embeddedTabBarController.tabBar.isTranslucent = false
-        embeddedTabBarController.tabBar.barTintColor = .backgroundWhite
-        embeddedTabBarController.tabBar.tintColor = .black
-        embeddedTabBarController.tabBar.unselectedItemTintColor = .black
-        
-       // embeddedTabBarController.delegate = self
+   
     }
     
     required init?(coder: NSCoder) {
@@ -41,33 +78,16 @@ class MainFlowController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        transition(to: embeddedTabBarController)
         
-        let settingFlowVC = SettingFlowController(dependencies: dependencies)
-        settingFlowVC.flowDelegate = self
-        settingFlowVC.tabBarItem = UITabBarItem(title: "我的會員", image: UIImage(named: "Profile")!.withTintColor(.black, renderingMode: .alwaysOriginal),
-                                                selectedImage:  UIImage(named: "Profile-1"))
-        settingFlowVC.start()
-
-        
-        let vc1 = UIViewController()
-        vc1.tabBarItem = UITabBarItem(title: "來去逛逛", image: UIImage(named: "Shop")!.withTintColor(.black, renderingMode: .alwaysOriginal),
-                                       selectedImage:  UIImage(named: "Shop-1"))
-        
-//        let postFlowController = PostFlowController(dependencies: dependencies)
-//        //postFlowController.flowDelegate = self
-//        postFlowController.tabBarItem = UITabBarItem(title: "店長動態", image: UIImage(named: "News")!.withTintColor(.black, renderingMode: .alwaysOriginal),selectedImage:  UIImage(named: "News-1"))
-//        postFlowController.start()
-        
-        let vc3 = MediaDetailViewController(viewModel: MediaDetailViewModel())
-        vc3.tabBarItem = UITabBarItem(title: "關於本店", image: UIImage(systemName: "info.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal),selectedImage:  UIImage(systemName: "info.circle.fill")?.withTintColor(.lightYellow, renderingMode: .alwaysOriginal))
-
-        embeddedTabBarController.setViewControllers([vc3,FeedListViewController(),settingFlowVC], animated: false)
+        let tabViewControllers = [infoFlowController,
+                                  shopFlowController,
+                                  postFlowController,
+                                  settingFlowController]
+        embeddedTabBarController.setViewControllers(tabViewControllers, animated: false)
         embeddedTabBarController.selectedIndex = 1
+     
         
-        addChild(embeddedTabBarController)
-        view.addSubview(embeddedTabBarController.view)
-        didMove(toParent: self)
-       
 //        let pan = UIPanGestureRecognizer(target: self, action: #selector(didPan(_:)))
 //        pan.delegate = self
 //        embeddedTabBarController.view.addGestureRecognizer(pan)

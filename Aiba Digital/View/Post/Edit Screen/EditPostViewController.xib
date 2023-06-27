@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditPostViewController" customModule="Aiba_Digital" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="DdD-fu-PJ5" id="uzr-eL-tqv"/>
+                <outlet property="collectionViewHeightConstraint" destination="Owj-EJ-Usq" id="ckm-a8-lok"/>
+                <outlet property="dismissButton" destination="qA1-qa-vEu" id="PuY-5t-a4b"/>
+                <outlet property="postButton" destination="unM-am-gcs" id="rP4-79-Wo0"/>
+                <outlet property="scrollView" destination="es5-lk-9Nh" id="WTV-Pg-Zwe"/>
+                <outlet property="textView" destination="592-o5-dYl" id="7EW-Iv-Uhu"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" translatesAutoresizingMaskIntoConstraints="NO" id="es5-lk-9Nh">
+                    <rect key="frame" x="0.0" y="84" width="414" height="812"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="OrD-cn-9q3">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="1059.6666666666667"/>
+                            <subviews>
+                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" contentInsetAdjustmentBehavior="never" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="DdD-fu-PJ5">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" priority="999" constant="1" id="Owj-EJ-Usq"/>
+                                    </constraints>
+                                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="6Lo-qN-znm">
+                                        <size key="itemSize" width="128" height="128"/>
+                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    </collectionViewFlowLayout>
+                                </collectionView>
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" bouncesZoom="NO" layoutManager="textKit1" translatesAutoresizingMaskIntoConstraints="NO" id="592-o5-dYl">
+                                    <rect key="frame" x="0.0" y="9" width="414" height="1050.6666666666667"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <string key="text">看夠了政客的面目可憎與人性卑劣，最近卻有兩個「非人類」以「可愛」之名竄升崛起，成為台灣的超人氣明星：圓仔與黃小鴨，這兩個寶使「可愛」成為一種「奇觀」與「產業」！
+
+「可愛」其實是一個被忽視的情感類型與美學範疇。什麼樣的對象會讓人感動直呼「好可愛」？圓仔是典型範例：圓滾的卡通造型與笨拙動作，真是個活寶，令人見了就忍不住想笑，想摸摸牠的頭。圓仔的可愛與小叮噹、史奴比屬同一類型──卡通寵物型，而寵物其實是嬰兒或兒童的替代。以此類推，「可愛」是幼小生命特有的魅力，它們笨拙活寶的樣子其實反映了為生存而努力掙扎的弱小孤伶無助。孔子說：「老者安之，少者懷之。」幼小生命的可愛喚起人性最原始的愛心，想把它們抱在懷裡呵護照顧。「少者懷之」喚起的「監護人意識」是道德責任感的起源，擴充延伸就是孟子的「幼吾幼以及人之幼」，張載的「民吾同胞，物吾與也」
+
+千萬不要小看「可愛」！人性中兩種最重要、最強烈的情感──親情與愛情皆是以「可愛」為對象。在父母眼中，子女都是可愛的。孩子的可愛就是父母愛心的最大回報。可愛也是愛情投注的對象。什麼性質構成戀人的「所愛」？當然就是「可愛」，不可愛怎能成為戀人的最愛？情人眼裡未必出西施，但一定要可愛。
+
+人性之初，可愛無敵！可愛的力量就在於它的脆弱易受傷，喚起無限的溫柔與耐心，要守護著它成長獨立。所以可愛總是個活寶，而活寶不只是好玩好笑的造型，如小叮噹與史奴比，更是幼小生命在這個世界努力掙扎，跌撞探索的成長軌跡，如圓仔學爬。所以小叮噹與史奴比的可愛包含許多活寶的故事，反映了東西方社會的兒童的不同成長狀況。
+
+康德說：「審美」是一種品味判斷。「可愛」當然也需要一種品味判斷，而審美品味的最終判準在於生命力與生命感的增進提升。就此而言，圓仔是「真可愛」，黃小鴨則是「裝可愛」。有如一個莫名放大的「兒童鏡像」，黃小鴨反映了觀眾本身已退化到兒童鏡像階段，故作阿達笨童狀的「裝可愛」：幼稚弱智的廉價小趣味，平板僵化的造型，毫無內涵的空洞無聊，黃小鴨「裝可愛」的廉價虛矯品味，就如同廉價塑膠玩具被發現「有毒」，是生命力與生命感的自我麻痺與衰退敗壞。
+
+圓仔的「真可愛」喚起「少者懷之」的愛心與溫柔，則可視為一種道德情感教育，正如讓兒童養寵物可培養其愛心與責任感。擴而充之就是「幼吾幼以及人之幼」、「民吾同胞，物吾與也」的仁民愛物精神，這是人類社會得以存在與進步的終極動力。</string>
+                                    <color key="textColor" systemColor="labelColor"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="Qyy-0v-n1f"/>
+                                    </connections>
+                                </textView>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="OrD-cn-9q3" firstAttribute="top" secondItem="T6m-So-Yyc" secondAttribute="top" id="Sk5-en-W1G"/>
+                        <constraint firstItem="OrD-cn-9q3" firstAttribute="trailing" secondItem="T6m-So-Yyc" secondAttribute="trailing" id="ds5-0H-GUr"/>
+                        <constraint firstItem="OrD-cn-9q3" firstAttribute="width" secondItem="tBa-zt-xms" secondAttribute="width" id="wty-So-aSL"/>
+                        <constraint firstItem="OrD-cn-9q3" firstAttribute="leading" secondItem="T6m-So-Yyc" secondAttribute="leading" id="yit-Z6-fTB"/>
+                        <constraint firstItem="OrD-cn-9q3" firstAttribute="bottom" secondItem="T6m-So-Yyc" secondAttribute="bottom" id="yvD-Mb-8mX"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="T6m-So-Yyc"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="tBa-zt-xms"/>
+                </scrollView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vje-kr-cAe" userLabel="Top Banner View">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="84"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="df8-Hh-DGM">
+                            <rect key="frame" x="0.0" y="44" width="414" height="40"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qA1-qa-vEu" userLabel="Dismiss Button">
+                                    <rect key="frame" x="14.999999999999998" y="8" width="22.333333333333329" height="24"/>
+                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal">
+                                        <imageReference key="image" image="xmark" catalog="system" symbolScale="large"/>
+                                    </state>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="unM-am-gcs" userLabel="Post Button">
+                                    <rect key="frame" x="362" y="8" width="37" height="24"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                    <color key="tintColor" systemColor="tintColor"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="貼文"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                            <integer key="value" value="5"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="o2q-Np-rG7"/>
+                            </constraints>
+                            <edgeInsets key="layoutMargins" top="8" left="15" bottom="8" right="15"/>
+                        </stackView>
+                    </subviews>
+                    <viewLayoutGuide key="safeArea" id="Cnr-rT-GdG"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="df8-Hh-DGM" secondAttribute="bottom" id="I87-Ml-lVZ"/>
+                        <constraint firstItem="Cnr-rT-GdG" firstAttribute="trailing" secondItem="df8-Hh-DGM" secondAttribute="trailing" id="M3y-6S-xnU"/>
+                        <constraint firstItem="df8-Hh-DGM" firstAttribute="leading" secondItem="Cnr-rT-GdG" secondAttribute="leading" id="maQ-83-4Kn"/>
+                        <constraint firstItem="df8-Hh-DGM" firstAttribute="top" secondItem="Cnr-rT-GdG" secondAttribute="top" id="r4l-eA-df4"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="es5-lk-9Nh" secondAttribute="bottom" id="37M-WQ-iOy"/>
+                <constraint firstItem="es5-lk-9Nh" firstAttribute="top" secondItem="vje-kr-cAe" secondAttribute="bottom" id="Ojw-1u-37o"/>
+                <constraint firstItem="vje-kr-cAe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="TdD-Xp-cUa"/>
+                <constraint firstItem="es5-lk-9Nh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Xq7-AG-4n8"/>
+                <constraint firstItem="vje-kr-cAe" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Zri-3Z-BIk"/>
+                <constraint firstItem="es5-lk-9Nh" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="j6Z-eY-64P"/>
+                <constraint firstAttribute="trailing" secondItem="vje-kr-cAe" secondAttribute="trailing" id="tAa-5h-Ah1"/>
+            </constraints>
+            <point key="canvasLocation" x="102.89855072463769" y="-30.133928571428569"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="xmark" catalog="system" width="128" height="113"/>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tintColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
