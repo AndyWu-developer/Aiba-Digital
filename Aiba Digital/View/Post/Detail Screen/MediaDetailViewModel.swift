@@ -46,9 +46,9 @@ class MediaDetailViewModel{
         mediaViewModels = post.media.map{ media in
             switch media.type{
             case .photo:
-                return PhotoViewModel(media: media, imageProvider: MediaProvider.shared)
+                return PhotoViewModel(media: media, imageProvider: MediaManager.shared)
             case .video:
-                return VideoViewModel(videoAsset: media, videoProvider: MediaProvider.shared)
+                return VideoViewModel(videoAsset: media, videoProvider: MediaManager.shared)
             case .gif: fatalError("code should not go here")
             }
         }
@@ -66,4 +66,8 @@ class MediaDetailViewModel{
                         text: $userText.eraseToAnyPublisher() )
     }
     
+    
+    deinit{
+        print("MediaDetailViewModel deinit")
+    }
 }

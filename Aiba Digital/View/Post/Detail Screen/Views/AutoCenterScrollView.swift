@@ -17,7 +17,7 @@ class AutoCenterScrollView: UIScrollView {
         let yOffset = max(0, (bounds.height - zoomedView.frame.height) / 2)
        // zoomedView.frame.origin = CGPoint(x: xOffset, y: yOffset)
         contentInset = .init(top: yOffset, left: xOffset, bottom: yOffset, right: xOffset)
-        //when using autolayout & bounce on zoom enabled, the frame method will cause the release bounce animation start at the top left, while contentInset wont
+        //when using autolayout & bounce on zoom enabled, the frame method will cause the release bounce animation start at the top left, while using the contentInset method wont
     }
 
 }

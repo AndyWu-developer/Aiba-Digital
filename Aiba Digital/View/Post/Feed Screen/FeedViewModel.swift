@@ -8,7 +8,7 @@
 import Foundation
 
 class PostSectionViewModel {
-    var ID: String = UUID().uuidString
+    let ID: String
     var header: PostHeaderViewModel?
     var media: PostMediaViewModel?
     var text: PostTextViewModel?
@@ -17,12 +17,16 @@ class PostSectionViewModel {
     
     init(post: Post){
         self.post = post
+        self.ID = post.postID!
         header = PostHeaderViewModel(post: post)
         media = PostMediaViewModel(post: post)
         text = PostTextViewModel(post: post)
         action = PostActionViewModel(post: post)
     }
     
+    deinit {
+        print("PostSectionViewModel deinit")
+    }
    
 }
 

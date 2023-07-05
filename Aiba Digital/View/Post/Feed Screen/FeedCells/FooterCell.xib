@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="xhb-eZ-sxF" customClass="FooterCell" customModule="Aiba_Digital" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="337" height="93"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="eKm-E9-Nbo">
+                <rect key="frame" x="0.0" y="0.0" width="337" height="93"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="RcX-UA-eFn">
+                        <rect key="frame" x="158.66666666666666" y="36.666666666666664" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="UMY-4T-k5F"/>
+                            <constraint firstAttribute="height" constant="20" id="Yni-sf-znv"/>
+                        </constraints>
+                    </activityIndicatorView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已顯示全部" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UOJ-hX-B2g">
+                        <rect key="frame" x="135.33333333333334" y="38.666666666666664" width="66.666666666666657" height="15.666666666666664"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="43H-jd-837">
+                        <rect key="frame" x="156.66666666666666" y="30" width="24" height="28.666666666666671"/>
+                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal">
+                            <imageReference key="image" image="arrow.clockwise" catalog="system" symbolScale="large"/>
+                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="18"/>
+                        </state>
+                        <connections>
+                            <action selector="refresh:" destination="xhb-eZ-sxF" eventType="touchUpInside" id="m5d-2k-DGm"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nEZ-6O-yoQ" userLabel="ErrorLabel">
+                        <rect key="frame" x="152" y="63.666666666666664" width="33" height="15.666666666666664"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="RcX-UA-eFn" firstAttribute="centerY" secondItem="eKm-E9-Nbo" secondAttribute="centerY" id="3GE-ej-cZ9"/>
+                    <constraint firstItem="RcX-UA-eFn" firstAttribute="centerX" secondItem="eKm-E9-Nbo" secondAttribute="centerX" id="AIV-iv-VfP"/>
+                    <constraint firstItem="43H-jd-837" firstAttribute="top" secondItem="eKm-E9-Nbo" secondAttribute="top" constant="30" id="UrF-yt-meQ"/>
+                    <constraint firstItem="UOJ-hX-B2g" firstAttribute="centerX" secondItem="eKm-E9-Nbo" secondAttribute="centerX" id="XaO-c0-0MT"/>
+                    <constraint firstItem="nEZ-6O-yoQ" firstAttribute="top" secondItem="43H-jd-837" secondAttribute="bottom" constant="5" id="YaS-RX-efu"/>
+                    <constraint firstItem="nEZ-6O-yoQ" firstAttribute="centerX" secondItem="eKm-E9-Nbo" secondAttribute="centerX" id="fVg-Oy-z9U"/>
+                    <constraint firstItem="UOJ-hX-B2g" firstAttribute="centerY" secondItem="eKm-E9-Nbo" secondAttribute="centerY" id="sMm-lY-w3t"/>
+                    <constraint firstItem="43H-jd-837" firstAttribute="centerX" secondItem="eKm-E9-Nbo" secondAttribute="centerX" id="whT-bb-vdi"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="337" height="93"/>
+            <connections>
+                <outlet property="errorLabel" destination="nEZ-6O-yoQ" id="cqC-Ki-Ue4"/>
+                <outlet property="reachedBottomLabel" destination="UOJ-hX-B2g" id="cgs-XJ-Tg2"/>
+                <outlet property="refreshButton" destination="43H-jd-837" id="ORQ-u7-akd"/>
+                <outlet property="spinner" destination="RcX-UA-eFn" id="CWr-xK-hcg"/>
+            </connections>
+            <point key="canvasLocation" x="425.19083969465646" y="35.563380281690144"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="arrow.clockwise" catalog="system" width="113" height="128"/>
+    </resources>
+</document>

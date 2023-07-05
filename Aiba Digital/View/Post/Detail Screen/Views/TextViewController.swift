@@ -11,7 +11,6 @@ import Combine
 class TextViewController: UIViewController {
     var textViewHeightConstraint: NSLayoutConstraint!
     
-    
     var subscriptions = Set<AnyCancellable>()
     let text = "哈雷腳踏車，帶你開啟一場極速之旅！以哈雷摩托車經典造型為藍本，融入最新科技，打造出極致速度和極致體驗的完美結合。搭配強大的中央驅動系統和智能電動技術，讓你輕鬆應對各種路況。無論是市區街道還是山路崎嶇，Serial one都能讓你快速穿越。現在就加入Serial one的行列，感受極速之美吧！"
     override func viewDidLoad() {

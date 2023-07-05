@@ -10,15 +10,19 @@ import Combine
 
 class PostMediaCell: UICollectionViewCell {
 
+    deinit {
+        print("PostMediaCell deinit")
+    }
+    
     @IBOutlet weak var collectionView: UICollectionView!
     private enum Section { case main, sub }
     
     var canPlayVideo = false {
         didSet{
+          
             if let videoCell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? VideoPreviewCell{
                 canPlayVideo ? videoCell.playVideo() : videoCell.stopVideo()
             }
-  
         }
     }
     
@@ -45,35 +49,6 @@ class PostMediaCell: UICollectionViewCell {
         return layoutAttributes
     }
    
-    private let mygridLayout: UICollectionViewLayout = {
-        let configuration = UICollectionViewCompositionalLayoutConfiguration()
-        configuration.interSectionSpacing = 1
-        
-        let layout = UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, layoutEnvironment in
-                if sectionIndex == 0{
-                    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(300))
-                    let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                    let topGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension:  .estimated(300))
-                    let topGroup = NSCollectionLayoutGroup.vertical(layoutSize: topGroupSize,
-                                                                      subitems: [item])
-                    let section = NSCollectionLayoutSection(group: topGroup)
-                    return section
-                }else{
-                    let bottomItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),heightDimension: .fractionalHeight(1))
-                    let bottomItem = NSCollectionLayoutItem(layoutSize: bottomItemSize)
-                    let pages: CGFloat = 2 + 0.7
-                    let bottomGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/pages), heightDimension: .fractionalWidth(1/pages))
-                    let bottomGroup = NSCollectionLayoutGroup.horizontal(layoutSize: bottomGroupSize, subitems: [bottomItem])
-                    let section = NSCollectionLayoutSection(group: bottomGroup)
-                    section.interGroupSpacing = 1
-                    section.orthogonalScrollingBehavior = .continuous
-                    return section
-                }
-        }, configuration: configuration)
-        return layout
-    }()
-    
-    
     private func configureCollectionViewDataSource(){
         
         let photoCellRegistration = UICollectionView.CellRegistration<PhotoPreviewCell,PhotoViewModel>(cellNib: UINib(nibName: String(describing: PhotoPreviewCell.self), bundle: nil)) { cell, indexPath, viewModel in
@@ -95,6 +70,12 @@ class PostMediaCell: UICollectionViewCell {
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let videoCell = cell as? VideoPreviewCell{
+            videoCell.stopVideo()
+        }
+    }
+    
     func bindViewModelOutput(){
         
         subscriptions.removeAll()
@@ -112,7 +93,7 @@ class PostMediaCell: UICollectionViewCell {
         switch cellViewModels.count{
         case 0:
             snapshot.appendItems(cellViewModels, toSection: .main)
-            layout = .oneItemGridLayout
+            layout = .squareGridLayout(itemsPerRow: 3)
         case 1:
             snapshot.appendItems(cellViewModels, toSection: .main)
             layout = .oneItemGridLayout
@@ -134,7 +115,7 @@ class PostMediaCell: UICollectionViewCell {
         default:
             snapshot.appendItems([cellViewModels.first!], toSection: .main)
             snapshot.appendItems(Array(cellViewModels.dropFirst(1)), toSection: .sub)
-            layout = mygridLayout
+            layout = .scrollableGridLayout()
         }
         dataSource.apply(snapshot,animatingDifferences: false)
         collectionView.setCollectionViewLayout(layout, animated: false)

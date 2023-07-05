@@ -10,6 +10,7 @@ import Combine
 
 class UploadPostViewController: UIViewController {
 
+    @IBOutlet weak var uploadStatusLabel: UILabel!
     private let viewModel: UploadPostViewModel
     private var subscriptions = Set<AnyCancellable>()
     
@@ -26,8 +27,11 @@ class UploadPostViewController: UIViewController {
         super.viewDidLoad()
         
         Just(()).bind(to: viewModel.input.startUpload).store(in: &subscriptions)
+        
+        viewModel.output.uploadSuccess
+            .receive(on: DispatchQueue.main)
+            .sink { [unowned self] _ in
+                self.uploadStatusLabel.text = "上傳成功！"
+            }.store(in: &subscriptions)
     }
-
-
-   
 }

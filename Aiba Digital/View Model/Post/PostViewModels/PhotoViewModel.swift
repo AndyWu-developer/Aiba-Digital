@@ -1,5 +1,5 @@
 //
-//  PhotoCellViewModel.swift
+//  PhotoViewModel.swift
 //  Aiba Digital
 //
 //  Created by Andy Wu on 2023/5/15.
@@ -10,7 +10,6 @@ import Combine
 
 
 class PhotoViewModel: MediaViewModel{
-    
     
     override var contentPixelWidth: Int{
         imageAsset.dimensions.width
@@ -29,36 +28,51 @@ class PhotoViewModel: MediaViewModel{
     private(set) var input: Input!
     private(set) var output: Output!
 
-    @Published private var imageData: Data?
+    @Published private var imageAsset: MediaAsset
+    private let imageProvider: MediaDownloading
     
-    private var imageURL: String {
-        imageAsset.url
-    }
-    
-    private var subscriptions = Set<AnyCancellable>()
- 
-    private let imageAsset: MediaAsset
-    private let imageProvider: MediaProviding
-    
-    init(media: MediaAsset, imageProvider: MediaProviding){
+    init(media: MediaAsset, imageProvider: MediaDownloading){
         self.imageAsset = media
         self.imageProvider = imageProvider
         super.init()
         configureOutput()
     }
     
+    deinit{
+        print("PhotoViewModel deinit")
+    }
+
     private func configureOutput(){
-       
-        Just(imageURL)
-            .flatMap { [weak self] url -> AnyPublisher<Data?, Never> in
-                guard let self = self else { return Empty().eraseToAnyPublisher() }
-                return self.imageProvider.fetchImage(for: url)
-            }.assign(to: &$imageData)
+
+        let imageDataPublisher = $imageAsset
+            .compactMap{ URL(string: $0.url) }
+            .flatMap{ imageURL -> AnyPublisher<Data?,Never> in
+                Deferred{
+                    Future{ promise in
+                        Task(priority: .high){
+                            do{
+                                let imageData = try await MediaManager.shared.fetchImageData(from: imageURL, progressHandler: nil)
+                                promise(.success(imageData))
+                            }catch{
+                                print(error)
+                                promise(.success(nil))
+                            }
+                        }
+                    }
+                }.eraseToAnyPublisher()
+            }
+            .compactMap{$0}
         
-        output = Output(imageData: $imageData.compactMap{$0}.eraseToAnyPublisher())
+        output = Output(imageData: imageDataPublisher.eraseToAnyPublisher())
     }
     
-    deinit{
-        print("PhotoCellViewModel deinit")
-    }
 }
+
+
+//        let imageDataPublisher = $imageAsset
+//            .map{$0.url}
+//            .flatMap { [weak self] url -> AnyPublisher<Data?, Never> in
+//                guard let self = self else { return Empty().eraseToAnyPublisher() }
+//                return self.imageProvider.fetchImage(for: url)
+//            }
+//            .compactMap{$0}

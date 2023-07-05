@@ -15,9 +15,11 @@ class MainFlowController: UIViewController {
     
     private lazy var embeddedTabBarController: UITabBarController = {
         let tabBarController = UITabBarController()
-        tabBarController.tabBar.barTintColor = .backgroundWhite
+        tabBarController.tabBar.isTranslucent = false
+        tabBarController.tabBar.barTintColor = .white//.backgroundWhite
         tabBarController.tabBar.tintColor = .black
         tabBarController.tabBar.unselectedItemTintColor = .black
+     
         // embeddedTabBarController.delegate = self
         return tabBarController
     }()
@@ -28,7 +30,7 @@ class MainFlowController: UIViewController {
     //var interactionController: UIPercentDrivenInteractiveTransition?
     
     private lazy var infoFlowController: UIViewController = {
-        let flowController = UIViewController()
+        let flowController = TestViewController()
         flowController.tabBarItem = .init(title: "關於本店",
                                         image: UIImage(systemName: "info.circle")?.withTintColor(.black, renderingMode: .alwaysOriginal),
                                         selectedImage:  UIImage(systemName: "info.circle.fill")?.withTintColor(.lightYellow, renderingMode: .alwaysOriginal))
@@ -85,7 +87,7 @@ class MainFlowController: UIViewController {
                                   postFlowController,
                                   settingFlowController]
         embeddedTabBarController.setViewControllers(tabViewControllers, animated: false)
-        embeddedTabBarController.selectedIndex = 1
+        embeddedTabBarController.selectedIndex = 2
      
         
 //        let pan = UIPanGestureRecognizer(target: self, action: #selector(didPan(_:)))

@@ -63,14 +63,10 @@ class EditPostViewModel {
             didFinishEditing?(mediaPicks.pickedAssets, textSubject.value)
         }.store(in: &subscriptions)
         
-        
-        
-        
         input = Input(cancelPosting: cancelPostingSubject.eraseToAnySubscriber(),
                       finishPosting: finishPostingSubject.eraseToAnySubscriber(),
                       text: textSubject.eraseToAnySubscriber())
         output = Output(selectedMediaViewModels: $cellViewModels.eraseToAnyPublisher())
-        
     }
     
     

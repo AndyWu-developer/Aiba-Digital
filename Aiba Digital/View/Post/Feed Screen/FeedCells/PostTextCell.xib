@@ -31,7 +31,7 @@
                     <constraint firstAttribute="trailing" secondItem="IB2-mv-f7E" secondAttribute="trailing" constant="15" id="8tx-yg-Aek"/>
                     <constraint firstItem="IB2-mv-f7E" firstAttribute="top" secondItem="X73-YA-UfY" secondAttribute="top" constant="8" id="D2Q-34-ZQr"/>
                     <constraint firstItem="IB2-mv-f7E" firstAttribute="leading" secondItem="X73-YA-UfY" secondAttribute="leading" constant="15" id="goA-LA-gEt"/>
-                    <constraint firstAttribute="bottom" secondItem="IB2-mv-f7E" secondAttribute="bottom" constant="8" id="prr-4M-670"/>
+                    <constraint firstAttribute="bottom" secondItem="IB2-mv-f7E" secondAttribute="bottom" priority="999" constant="8" id="prr-4M-670"/>
                 </constraints>
             </collectionViewCellContentView>
             <size key="customSize" width="402" height="196"/>

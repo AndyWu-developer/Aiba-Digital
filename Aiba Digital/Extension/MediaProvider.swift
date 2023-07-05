@@ -29,11 +29,13 @@ class MediaProvider: MediaProviding {
         Deferred{ () -> AnyPublisher<Data?, Never> in
           
             if let cachedImageData = self.imageCache.object(forKey: urlString as NSString) as Data?{
+                print("cached :)")
                 return Just(cachedImageData).eraseToAnyPublisher()
             }else if let pendingPublisher = self.pendingImagePublishers[urlString] {
                 return pendingPublisher
             }else{
                 guard let url = URL(string: urlString) else { return Just(nil).eraseToAnyPublisher() }
+                print("fetching image")
                 let publisher =
                 URLSession.shared.dataTaskPublisher(for: url)
                     .map {$0.data}
@@ -72,8 +74,11 @@ class MediaProvider: MediaProviding {
                     DispatchQueue.global(qos: .userInitiated).async{
                         let thumbnailGenerator = AVAssetImageGenerator(asset: AVAsset(url: url))
                         thumbnailGenerator.appliesPreferredTrackTransform = true
-                        thumbnailGenerator.maximumSize = UIScreen.main.bounds.size
-                        let thumnailTime = CMTimeMake(value: 1, timescale: 1)
+                        let screenSize = UIScreen.main.bounds
+                        let screenScale = UIScreen.main.scale
+                        thumbnailGenerator.maximumSize = CGSize(width: screenSize.width * screenScale , height: screenSize.height * screenScale)
+//                        thumbnailGenerator.maximumSize = .zero
+                        let thumnailTime = CMTimeMake(value: 2, timescale: 1)
                         do {
                             let cgThumbImage = try thumbnailGenerator.copyCGImage(at: thumnailTime, actualTime: nil)
                             let thumbImage = UIImage(cgImage: cgThumbImage)
@@ -86,7 +91,7 @@ class MediaProvider: MediaProviding {
                                 promise(.success(nil))
                             }
                         } catch {
-                            print("cannot fetch thumbnail \(error.localizedDescription)") //10
+                            print("cannot fetch thumbnail \(error)") //10
                             promise(.success(nil))
                         }
                     }
@@ -117,9 +122,12 @@ class MediaProvider: MediaProviding {
 
     func fetchVideo(for urlString: String) -> AnyPublisher<AVURLAsset?, Never> {
        Deferred { () -> AnyPublisher<AVURLAsset?, Never> in
+         
             if let cachedAsset = self.videoAssetCache.object(forKey: urlString as NSString){
-                //print("asset cached :)")
+                print("asset cached :)")
                 return Just(cachedAsset).eraseToAnyPublisher()
+            }else{
+                print("not cached")
             }
             guard let url = URL(string: urlString) else { return Just(nil).eraseToAnyPublisher() }
             //print("fetching asset...")
@@ -132,7 +140,8 @@ class MediaProvider: MediaProviding {
                     let status = asset.statusOfValue(forKey: track, error: nil)
                     if status == .loaded{
                         // print("asset fetched :)")
-                        self?.videoAssetCache.setObject(asset, forKey: urlString as NSString)
+                     //   if self == nil { print("FUCK")}
+                        self!.videoAssetCache.setObject(asset, forKey: urlString as NSString)
                         promise(.success(asset))
                     }else{
                         print("asset not fetched :(")

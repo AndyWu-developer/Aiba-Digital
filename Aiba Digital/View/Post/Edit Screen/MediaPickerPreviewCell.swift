@@ -54,7 +54,7 @@ class MediaPickerPreviewCell: UICollectionViewCell {
     private func bindViewModelInput(){
         
         ratioConstraint?.isActive = false
-        var ratio = CGFloat(viewModel.contentHeight) / CGFloat(viewModel.contentWidth)
+        var ratio = CGFloat(viewModel.contentPixelHeight) / CGFloat(viewModel.contentPixelWidth)
         ratio = max(minRatio, min(ratio, maxRatio))
         ratioConstraint = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: ratio)
         ratioConstraint.priority = .init(999)

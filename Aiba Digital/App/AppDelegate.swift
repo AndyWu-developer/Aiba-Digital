@@ -6,12 +6,12 @@
 //
 
 import UIKit
+import AVFoundation
 import FirebaseCore
 import GoogleSignIn
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
          //CONFIGURE PUSH NOTIFICATION
@@ -26,6 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             
         FirebaseApp.configure()
         
+        let sess = AVAudioSession.sharedInstance()
+        try? sess.setCategory(.ambient, mode:.default)
+        try? sess.setActive(true)
         return true
     }
     

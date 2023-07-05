@@ -17,7 +17,7 @@ class UploadPostViewModel{
     }
     
     struct Output {
-        let uploadProgress: AnyPublisher<Double,Never>
+       // let uploadProgress: AnyPublisher<Double,Never>
         let uploadSuccess: AnyPublisher<Void,Never>
         let uploadError: AnyPublisher<String,Never>
     }
@@ -39,7 +39,7 @@ class UploadPostViewModel{
         configureInput()
     }
     
-    let uploadSuccessSubject = PassthroughSubject<Bool,Never>()
+    let uploadSuccessSubject = PassthroughSubject<Void,Never>()
     let uploadErrorSubject = PassthroughSubject<String,Never>()
     let uploadProgressSubject = PassthroughSubject<Double,Never>()
     
@@ -75,14 +75,18 @@ class UploadPostViewModel{
                 }
             }
             .filter{$0}
+            .map { _ in}
             .subscribe(uploadSuccessSubject)
             .store(in: &subscriptions)
         
         uploadSuccessSubject.sink { _ in
-            print("upload success :)")
+            print("post upload success :)")
         }.store(in: &subscriptions)
+        
         input = Input(startUpload: uploadSubject.eraseToAnySubscriber(),
                       cancelUpload: uploadSubject.eraseToAnySubscriber())
+        
+        output = Output(uploadSuccess: uploadSuccessSubject.eraseToAnyPublisher(), uploadError: uploadErrorSubject.eraseToAnyPublisher())
     }
     
     private func uploadPost(assets: [PHAsset]) async throws {
@@ -102,14 +106,20 @@ class UploadPostViewModel{
                 case .image:
                     group.addTask {
                         let imageURL = try await self.fetchImageURL(from: asset)
-                        let localURL = try await self.mediaManager.compressImage(from: imageURL)
-                        let remoteURL = try await self.mediaManager.uploadImage(from: localURL,progressHandler: nil)
+                        let localURL = try await self.mediaManager.compressImage(from: imageURL, maxDimentionInPixels: 1080)
+                        defer{
+                            try! FileManager.default.removeItem(at: localURL)
+                        }
+                        let remoteURL = try await self.mediaManager.uploadImage(from: localURL, progressHandler: nil)
                         return (asset, remoteURL)
                     }
                 case .video:
                     group.addTask {
                         let videoURL = try await self.fetchVideoURL(from: asset)
-                        let localURL = try await self.mediaManager.compressVideo(from: videoURL, progressHandler: nil)
+                        let localURL = try await self.mediaManager.compressVideo(from: videoURL, maxDimentionInPixels: 1920, progressHandler: { print($0) })
+                        defer{
+                            try! FileManager.default.removeItem(at: localURL)
+                        }
                         let remoteURL = try await self.mediaManager.uploadVideo(from: localURL, progressHandler: nil)
                         return (asset, remoteURL)
                     }
@@ -127,6 +137,7 @@ class UploadPostViewModel{
         }
         
         let mediaAssets = sortedTuples.map { (asset,url) in
+            
             MediaAsset(type: asset.mediaType == .video ? .video : .photo,
                       dimensions: .init(width: asset.pixelWidth, height: asset.pixelHeight),
                       url: url.absoluteString)
@@ -144,7 +155,7 @@ extension UploadPostViewModel{
     private func fetchImageURL(from asset: PHAsset) async throws -> URL{
         
         try await withCheckedThrowingContinuation{ continuation in
-            
+         
             let options = PHContentEditingInputRequestOptions()
             
             asset.requestContentEditingInput(with: options){ eidtingInput, info in
@@ -174,81 +185,6 @@ extension UploadPostViewModel{
         }
     }
 }
-// MARK: - To be deleted
-extension UploadPostViewModel{
-//    private func loadImage(from asset: PHAsset) async throws -> UIImage {
-//
-//        try await withCheckedThrowingContinuation{ continuation in
-//            let options = PHImageRequestOptions()
-//            options.deliveryMode = .highQualityFormat
-//            options.isNetworkAccessAllowed = true
-//            options.resizeMode = .exact
-//
-//            PHImageManager.default().requestImage(for: asset, targetSize: CGSize(width: asset.pixelWidth, height: asset.pixelHeight), contentMode: .aspectFill, options: options) { image, info in
-//                if let image = image{
-//                    continuation.resume(returning: image)
-//                }else{
-//                    continuation.resume(throwing: UploadError.failedToFetchImageURL)
-//                }
-//            }
-//        }
-//    }
-//
-//    private func loadVideo(from asset: PHAsset) async throws -> AVAsset{
-//
-//        try await withCheckedThrowingContinuation{ continuation in
-//            let options = PHVideoRequestOptions()
-//            options.deliveryMode = .highQualityFormat
-//            options.isNetworkAccessAllowed = true
-//
-//            PHImageManager.default().requestAVAsset(forVideo: asset, options: options){ videoAsset,_,_ in
-//                if let videoAsset = videoAsset{
-//                    continuation.resume(returning: videoAsset)
-//                }else{
-//                    continuation.resume(throwing: UploadError.failedToFetchVideoURL)
-//                }
-//            }
-//        }
-//    }
-//
-//    private func uploadMedia(for assets: [PHAsset]) async throws -> [(PHAsset,URL)] {
-//        var tuples = [(asset: PHAsset, url: URL)]()
-//
-//        try await withThrowingTaskGroup(of: (PHAsset,URL).self){ group in
-//
-//            assets.forEach{ asset in
-//                switch asset.mediaType{
-//                case .image:
-//                    group.addTask {
-//                        let imageURL = try await self.fetchImageURL(from: asset)
-//                        let localURL = try await self.mediaManager.compressImage(from: imageURL)
-//                        let remoteURL = try await self.mediaManager.uploadImage(from: localURL)
-//                        return (asset, remoteURL)
-//                    }
-//                case .video:
-//                    group.addTask {
-//                        let videoURL = try await self.fetchVideoURL(from: asset)
-//                        let localURL = try await self.mediaManager.compressVideo(from: videoURL)
-//                        let remoteURL = try await self.mediaManager.uploadVideo(from: localURL)
-//                        return (asset, remoteURL)
-//                    }
-//                default: fatalError("Unsupported upload media type '\(String(describing: asset.mediaType))'")
-//                }
-//            }
-//
-//            for try await tuple in group {
-//                tuples.append(tuple)
-//            }
-//        }
-//
-//        let sortedTuples = assets.map{ asset in
-//            tuples.first{$0.asset.localIdentifier == asset.localIdentifier}!
-//        }
-//        return sortedTuples
-//    }
-    
-}
-
 
 extension UploadPostViewModel{
     

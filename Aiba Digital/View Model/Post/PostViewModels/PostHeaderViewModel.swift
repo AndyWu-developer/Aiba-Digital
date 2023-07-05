@@ -8,14 +8,18 @@
 import Foundation
 import Combine
 
-protocol HasMediaProvider{
-    var mediaProvider: MediaProviding { get }
-}
+//protocol HasMediaProvider{
+//    var mediaProvider: MediaProviding { get }
+//}
+
 
 class PostHeaderViewModel: FeedViewModel{
     
+    deinit {
+        print("PostHeaderViewModel")
+    }
     struct Input {
-        let shouldPinToTop: AnySubscriber<Bool,Never>
+        let delete: AnySubscriber<Void,Never>
     }
     
     struct Output {
@@ -25,6 +29,7 @@ class PostHeaderViewModel: FeedViewModel{
     
     private(set) var input: Input!
     private(set) var output: Output!
+    
     let post: Post
   //  typealias Dependencies = HasPostManager
    // private let dependencies: Dependencies
@@ -39,6 +44,7 @@ class PostHeaderViewModel: FeedViewModel{
     }
     
     private func configureInput(){
+        
        
     }
     

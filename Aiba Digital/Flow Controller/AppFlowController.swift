@@ -7,16 +7,16 @@
 
 import UIKit
 
-class AppDependency: HasAuthManager & HasMediaProvider {
+class AppDependency: HasAuthManager {
     let authManager: AuthManaging
     let postManager: PostManaging
-    let mediaProvider: MediaProviding
+   
     //static let shared: AppDependency = AppDependency()
     
     init(){
         authManager = AuthManager()
         postManager = PostManager()
-        mediaProvider = MediaProvider.shared
+      
     }
 
     deinit{

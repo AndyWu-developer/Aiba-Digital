@@ -30,7 +30,7 @@
                     <rect key="frame" x="0.0" y="84" width="414" height="812"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="OrD-cn-9q3">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="1059.6666666666667"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="45.333333333333336"/>
                             <subviews>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" contentInsetAdjustmentBehavior="never" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="DdD-fu-PJ5">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
@@ -46,19 +46,8 @@
                                     </collectionViewFlowLayout>
                                 </collectionView>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" bouncesZoom="NO" layoutManager="textKit1" translatesAutoresizingMaskIntoConstraints="NO" id="592-o5-dYl">
-                                    <rect key="frame" x="0.0" y="9" width="414" height="1050.6666666666667"/>
+                                    <rect key="frame" x="0.0" y="9" width="414" height="36.333333333333336"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    <string key="text">看夠了政客的面目可憎與人性卑劣，最近卻有兩個「非人類」以「可愛」之名竄升崛起，成為台灣的超人氣明星：圓仔與黃小鴨，這兩個寶使「可愛」成為一種「奇觀」與「產業」！
-
-「可愛」其實是一個被忽視的情感類型與美學範疇。什麼樣的對象會讓人感動直呼「好可愛」？圓仔是典型範例：圓滾的卡通造型與笨拙動作，真是個活寶，令人見了就忍不住想笑，想摸摸牠的頭。圓仔的可愛與小叮噹、史奴比屬同一類型──卡通寵物型，而寵物其實是嬰兒或兒童的替代。以此類推，「可愛」是幼小生命特有的魅力，它們笨拙活寶的樣子其實反映了為生存而努力掙扎的弱小孤伶無助。孔子說：「老者安之，少者懷之。」幼小生命的可愛喚起人性最原始的愛心，想把它們抱在懷裡呵護照顧。「少者懷之」喚起的「監護人意識」是道德責任感的起源，擴充延伸就是孟子的「幼吾幼以及人之幼」，張載的「民吾同胞，物吾與也」
-
-千萬不要小看「可愛」！人性中兩種最重要、最強烈的情感──親情與愛情皆是以「可愛」為對象。在父母眼中，子女都是可愛的。孩子的可愛就是父母愛心的最大回報。可愛也是愛情投注的對象。什麼性質構成戀人的「所愛」？當然就是「可愛」，不可愛怎能成為戀人的最愛？情人眼裡未必出西施，但一定要可愛。
-
-人性之初，可愛無敵！可愛的力量就在於它的脆弱易受傷，喚起無限的溫柔與耐心，要守護著它成長獨立。所以可愛總是個活寶，而活寶不只是好玩好笑的造型，如小叮噹與史奴比，更是幼小生命在這個世界努力掙扎，跌撞探索的成長軌跡，如圓仔學爬。所以小叮噹與史奴比的可愛包含許多活寶的故事，反映了東西方社會的兒童的不同成長狀況。
-
-康德說：「審美」是一種品味判斷。「可愛」當然也需要一種品味判斷，而審美品味的最終判準在於生命力與生命感的增進提升。就此而言，圓仔是「真可愛」，黃小鴨則是「裝可愛」。有如一個莫名放大的「兒童鏡像」，黃小鴨反映了觀眾本身已退化到兒童鏡像階段，故作阿達笨童狀的「裝可愛」：幼稚弱智的廉價小趣味，平板僵化的造型，毫無內涵的空洞無聊，黃小鴨「裝可愛」的廉價虛矯品味，就如同廉價塑膠玩具被發現「有毒」，是生命力與生命感的自我麻痺與衰退敗壞。
-
-圓仔的「真可愛」喚起「少者懷之」的愛心與溫柔，則可視為一種道德情感教育，正如讓兒童養寵物可培養其愛心與責任感。擴而充之就是「幼吾幼以及人之幼」、「民吾同胞，物吾與也」的仁民愛物精神，這是人類社會得以存在與進步的終極動力。</string>
                                     <color key="textColor" systemColor="labelColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

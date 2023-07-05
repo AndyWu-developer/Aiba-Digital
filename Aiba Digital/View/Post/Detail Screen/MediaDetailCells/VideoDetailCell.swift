@@ -28,6 +28,12 @@ class VideoDetailCell: UICollectionViewCell {
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
     
+    var viewModel: VideoViewModel! {
+        didSet{
+            bindViewModelOutput()
+        }
+    }
+    
     private var currentIsLandscape = false
     private var ratioConstraint: NSLayoutConstraint!
     private let player = AVPlayer()
@@ -38,18 +44,14 @@ class VideoDetailCell: UICollectionViewCell {
     lazy var isDraggingPublisher = playbackSlider.publisher(for: \.isTracking)
         .removeDuplicates().eraseToAnyPublisher()
     
-    private let singleTap: UITapGestureRecognizer = {
-        let tap = UITapGestureRecognizer()
-        tap.numberOfTapsRequired = 1
-        return tap
-    }()
+    private let singleTap = UITapGestureRecognizer()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         videoView.player = player
         player.isMuted = true
+        scrollView.maximumZoomScale = 5
         scrollView.decelerationRate = .fast
-        scrollView.maximumZoomScale = 4
         configurePlayerUI()
         configureButtonActions()
         configureGestures()
@@ -71,11 +73,10 @@ class VideoDetailCell: UICollectionViewCell {
         player.pause()
     }
     
-    func configure(with viewModel: VideoViewModel, index : Int){
-        
+    private func bindViewModelOutput(){
         videoProcessSubscription .removeAll()
         
-        videoView.thumbnailImage = nil //Wrap in DispatchQueue.main?
+        videoView.thumbnail = nil //Wrap in DispatchQueue.main?
         videoView.video = nil
        
         ratioConstraint?.isActive = false
@@ -84,13 +85,13 @@ class VideoDetailCell: UICollectionViewCell {
         layoutIfNeeded()
         
         // Attempted to read an unowned reference but the object was already deallocated, use weak self instead of unowned self
-        viewModel.output.thumbnailData
-            .receive(on: DispatchQueue.main)
-            .map(UIImage.init(data:))
-            .sink { [weak self] image in
-                self?.videoView.thumbnailImage = image
-            }.store(in: &videoProcessSubscription)
-        
+//        viewModel.output.thumbnailData
+//            .receive(on: DispatchQueue.main)
+//            .map(UIImage.init(data:))
+//            .sink { [weak self] image in
+//                self?.videoView.thumbnailImage = image
+//            }.store(in: &videoProcessSubscription)
+//        
         viewModel.output.videoData
             .receive(on: DispatchQueue.main)
             .sink { [weak self] video in
@@ -101,6 +102,8 @@ class VideoDetailCell: UICollectionViewCell {
                 print("cell \(index) receieved video")
             }
             .store(in: &videoProcessSubscription)
+        
+        
     }
     
     func playVideo(){

@@ -62,8 +62,7 @@ class EditPostViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
+   
     private lazy var addPhotoBackgroundView: UIView = {
         let backgroundView = Bundle.main.loadNibNamed( "CollectionViewBackgroundView", owner : nil)!.first as! UIView // owner has to be self or will error
         let tap = UITapGestureRecognizer()
@@ -87,7 +86,6 @@ class EditPostViewController: UIViewController {
         configureKeyboardActions()
    
      //   textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-        textView.text = nil
         textView.delegate = self
         textView.placeholder = "想說些什麼？"
     }
@@ -128,7 +126,7 @@ class EditPostViewController: UIViewController {
         }
         
         var snapshot = NSDiffableDataSourceSnapshot<Section,MediaPickerCellViewModel>()
-        snapshot.appendSections([.main])
+        snapshot.appendSections([.main, .sub])
         dataSource.apply(snapshot, animatingDifferences: false)
     }
     
@@ -146,19 +144,57 @@ class EditPostViewController: UIViewController {
         
         viewModel.output.selectedMediaViewModels
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] viewModels in
+            .sink { [weak self] cellViewModels in
                 guard let self else { return }
                 var oldSnapshot = dataSource.snapshot()
-                print("before \(oldSnapshot.numberOfItems) ")
-                let deleteItems = Set(oldSnapshot.itemIdentifiers).subtracting(Set(viewModels))
-                print("deleted \(deleteItems.count) items")
-                oldSnapshot.deleteItems(Array(deleteItems))
-                let addItems = Set(viewModels).subtracting(Set(oldSnapshot.itemIdentifiers))
-                print("added \(addItems.count) items")
-                oldSnapshot.appendItems(Array(addItems),toSection: .main)
                 
+                
+                if cellViewModels.count < oldSnapshot.numberOfItems {
+                    print("delete")
+                    let deletedItems = Set(oldSnapshot.itemIdentifiers).subtracting(Set(cellViewModels))
+                    oldSnapshot.deleteItems(Array(deletedItems))
+
+                    if oldSnapshot.numberOfItems > 4, oldSnapshot.itemIdentifiers(inSection: .main).count == 0{
+                        let item = oldSnapshot.itemIdentifiers(inSection: .sub).first!
+                        oldSnapshot.deleteItems([item])
+                        oldSnapshot.appendItems([item], toSection: .main)
+                    }
+
+                    if oldSnapshot.numberOfItems <= 4, oldSnapshot.itemIdentifiers(inSection: .sub).count != 0{
+                        print("here")
+                        let items = oldSnapshot.itemIdentifiers(inSection: .sub)
+
+                        oldSnapshot.deleteItems(items)
+                        dataSource.apply(oldSnapshot,animatingDifferences: false)
+                        oldSnapshot = dataSource.snapshot()
+                        oldSnapshot.appendItems(items, toSection: .main)
+                    }
+                }
+
+                else if cellViewModels.count > oldSnapshot.numberOfItems {
+
+                    print("added")
+                    let addedItems = Set(cellViewModels).subtracting(Set(oldSnapshot.itemIdentifiers))
+
+
+                    if oldSnapshot.numberOfItems == 4 {
+                        var items = Array(oldSnapshot.itemIdentifiers(inSection: .main).dropFirst(1))
+                        oldSnapshot.deleteItems(items)
+                        items += addedItems
+                        oldSnapshot.appendItems(items, toSection: .sub)
+                    }
+
+                    if oldSnapshot.numberOfItems > 4 {
+                        oldSnapshot.appendItems(Array(addedItems), toSection: .sub)
+                    }
+
+                    if oldSnapshot.numberOfItems < 4 {
+                        oldSnapshot.appendItems(Array(addedItems), toSection: .main)
+                    }
+                }
+
                 var layout: UICollectionViewLayout
-//                snapshot.appendSections([.main, .sub])
+               
                 switch oldSnapshot.numberOfItems{
                 case 0:
                     layout = .oneItemGridLayout
@@ -167,20 +203,22 @@ class EditPostViewController: UIViewController {
                 case 2:
                     layout = .squareGridLayout(itemsPerRow: 2)
                 case 3:
-                    layout = .threeGridLayout()
+                    let item = cellViewModels.first!
+                    if item.contentPixelHeight > item.contentPixelWidth {
+                        layout = .threeItemHorizontalGridLayout
+                    }else{
+                        layout = .threeItemVerticalGridLayout
+                    }
                 case 4:
                     layout = .squareGridLayout(itemsPerRow: 2)
                 default:
-//                    snapshot.appendItems([cellViewModels.first!], toSection: .main)
-//                    snapshot.appendItems(Array(cellViewModels.dropFirst(1)), toSection: .sub)
-                    layout = .squareGridLayout(itemsPerRow: 2)
+                    layout = .scrollableGridLayout()
                 }
                 
                 collectionView.setCollectionViewLayout(layout, animated: true)
                 dataSource.apply(oldSnapshot,animatingDifferences: true)
-              
                 view.setNeedsLayout()
-                
+            //    collectionView.scrollToItem(at: I, at: .left, animated: true)
                 scrollView.contentOffset.y = -scrollView.adjustedContentInset.top
             }.store(in: &subscriptions)
     }

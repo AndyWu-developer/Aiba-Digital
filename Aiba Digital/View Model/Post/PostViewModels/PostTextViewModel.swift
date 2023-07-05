@@ -10,9 +10,7 @@ import Combine
 
 class PostTextViewModel: FeedViewModel{
     
-    struct Input {
-        
-    }
+    struct Input { }
     
     struct Output {
         

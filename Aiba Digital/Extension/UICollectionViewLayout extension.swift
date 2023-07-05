@@ -9,7 +9,7 @@ import UIKit
 
 extension UICollectionViewLayout {
     
-    class func squareGridLayout(itemsPerRow: Int, spacing: CGFloat = 1) -> UICollectionViewLayout {
+    static func squareGridLayout(itemsPerRow: Int, spacing: CGFloat = 1) -> UICollectionViewLayout {
         /// there are exactly n cells per row and they have equal widths; the item’s layoutSize: width dimension is effectively ignored
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1/CGFloat(itemsPerRow)))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -25,7 +25,7 @@ extension UICollectionViewLayout {
         return layout
     }
     
-    class func threeGridLayout() -> UICollectionViewLayout{
+    static func threeGridLayout() -> UICollectionViewLayout{
         
         let topItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                               heightDimension: .fractionalHeight(1))
@@ -73,7 +73,7 @@ extension UICollectionViewLayout {
         return layout
     }
     
-    class func scrollableGridLayout() -> UICollectionViewLayout {
+    static func scrollableGridLayout() -> UICollectionViewLayout {
         let configuration = UICollectionViewCompositionalLayoutConfiguration()
         configuration.interSectionSpacing = 1
         

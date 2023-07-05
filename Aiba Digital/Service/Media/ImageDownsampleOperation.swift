@@ -5,11 +5,11 @@
 //  Created by Andy Wu on 2023/6/13.
 //
 
-import UIKit
-import UniformTypeIdentifiers
+import Foundation
+import ImageIO
 
 /// `ImageDownsamplingOperation` intended for downsampling an image. In current version assumed that image will be taken from the local storage. The operation could be extended to download the image from server and then apply downsampling.
-class ImageDownsamplingOperation: Operation {
+class ImageDownsampleOperation: Operation {
    
     let imageURL: URL
     private(set) var downsampledImage: CGImage?

@@ -25,10 +25,10 @@ class MMediaCell: UICollectionViewCell {
         }
     }
     
-    func configure(with viewModel: FeedMediaViewModel){
-            
-        
-    }
+//    func configure(with viewModel: FeedMediaViewModel){
+//            
+//        
+//    }
     
     enum Mode {
         case view

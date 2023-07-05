@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>STORAGE_PULL_ZONE</key>
+	<string>PullZone0625.b-cdn.net</string>
+	<key>STORAGE_HOSTNAME</key>
+	<string>sg.storage.bunnycdn.com</string>
+	<key>STORAGE_NAME</key>
+	<string>storage0625</string>
+	<key>STORAGE_DIRECTORY</key>
+	<string>Post</string>
+	<key>STORAGE_API_KEY</key>
+	<string>cd5445ad-072d-46db-89f758f11310-e848-4550</string>
+	<key>STREAM_LIBRARY_ID</key>
+	<string>134459</string>
+	<key>STREAM_COLLECTION_ID</key>
+	<string>a50ae069-04b1-48e0-bbeb-9d7dec7c4079</string>
+	<key>STREAM_PULL_ZONE</key>
+	<string>vz-1419dd2c-fff.b-cdn.net</string>
+	<key>STREAM_API_KEY</key>
+	<string>9094a934-e45f-43ce-94bd563d4354-15c8-4017</string>
+</dict>
+</plist>

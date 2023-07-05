@@ -28,8 +28,7 @@ class PostFlowController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     //   extendedLayoutIncludesOpaqueBars = true
-     //   tabBarController?.tabBar.isTranslucent = true
+        extendedLayoutIncludesOpaqueBars = true // prevent phantom black bar bug
         transition(to: embeddedNavigationController)
         startPostFlow()
     }
@@ -120,4 +119,20 @@ class KeyboardSizePresentationController: UIPresentationController{
             print("yes")
         }
     }
+}
+
+
+class TestUIViewController: UIViewController{
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .yellow
+    }
+    
+    deinit{
+        print("TEST deinit")
+    }
+    
+    var d: (() -> ())?
+    
 }

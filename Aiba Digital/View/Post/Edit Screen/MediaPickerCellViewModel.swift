@@ -42,14 +42,19 @@ class MediaPickerCellViewModel {
     private let toggleSelectionSubject = PassthroughSubject<Void,Never>()
     private let imageSubject = PassthroughSubject<UIImage?,Never>()
     
-    private(set) var contentWidth: Int
-    private(set) var contentHeight: Int
     
+    var contentPixelWidth: Int {
+        asset.pixelWidth
+    }
+    
+    var contentPixelHeight: Int {
+        asset.pixelHeight
+    }
+    
+
     init(asset: PHAsset, imageCacheManager: PHCachingImageManager){
         self.asset = asset
         self.imageManager = imageCacheManager
-        contentWidth = asset.pixelWidth
-        contentHeight = asset.pixelHeight
         configureInput()
         configureOutput()
     }

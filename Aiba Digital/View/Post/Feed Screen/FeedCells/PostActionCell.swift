@@ -12,8 +12,5 @@ class PostActionCell: UICollectionViewCell {
     func configure(with viewModel: PostActionViewModel){
         
     }
-    
-    
-    
-    
+
 }

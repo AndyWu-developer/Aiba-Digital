@@ -20,7 +20,7 @@ class PostActionViewModel: FeedViewModel{
     
     private(set) var input: Input!
     private(set) var output: Output!
-    private(set) var postID: String
+
     private var subscriptions = Set<AnyCancellable>()
    // typealias Dependencies = HasPostManager 
    // private var dependencies: Dependencies!
@@ -29,7 +29,6 @@ class PostActionViewModel: FeedViewModel{
     
     init(post: Post){
         self.post = post
-        postID = UUID().uuidString
       //  self.dependencies = dependencies
         super.init()
         configureInput()

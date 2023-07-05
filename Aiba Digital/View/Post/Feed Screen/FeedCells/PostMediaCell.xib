@@ -37,7 +37,7 @@
                     <constraint firstItem="IMP-2o-2re" firstAttribute="top" secondItem="cAd-ux-VMA" secondAttribute="top" id="E5K-vl-20m"/>
                     <constraint firstItem="IMP-2o-2re" firstAttribute="leading" secondItem="cAd-ux-VMA" secondAttribute="leading" id="Y4p-aM-KuI"/>
                     <constraint firstAttribute="trailing" secondItem="IMP-2o-2re" secondAttribute="trailing" id="bbC-Ud-hHz"/>
-                    <constraint firstAttribute="bottom" secondItem="IMP-2o-2re" secondAttribute="bottom" id="oJU-Wh-2bm"/>
+                    <constraint firstAttribute="bottom" secondItem="IMP-2o-2re" secondAttribute="bottom" priority="999" id="oJU-Wh-2bm"/>
                 </constraints>
             </collectionViewCellContentView>
             <size key="customSize" width="128" height="124"/>

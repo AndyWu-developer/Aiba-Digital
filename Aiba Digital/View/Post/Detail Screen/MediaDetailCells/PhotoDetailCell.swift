@@ -18,12 +18,20 @@ class PhotoDetailCell: UICollectionViewCell {
     
     @IBOutlet weak var scrollView: AutoCenterScrollView!
     @IBOutlet weak var imageView: UIImageView!
+    
     private var ratioConstraint: NSLayoutConstraint!
     weak var delegate: PhotoDetailCellDelegate?
     
     private var hasZoomedIn = false
     private var imageProcessSubscription = Set<AnyCancellable>()
     private var subscriptions = Set<AnyCancellable>()
+    
+    var viewModel: PhotoViewModel! {
+        didSet{
+            bindViewModelOutput()
+        }
+    }
+    
     
     private let singleTap: UITapGestureRecognizer = {
         let tap = UITapGestureRecognizer()
@@ -49,24 +57,6 @@ class PhotoDetailCell: UICollectionViewCell {
         imageProcessSubscription.removeAll()
     }
     
-    func configure(with viewModel: PhotoViewModel){
-      
-        imageProcessSubscription.removeAll()
-        imageView.image = nil
-   
-        
-        ratioConstraint?.isActive = false
-        ratioConstraint = imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: CGFloat(viewModel.contentPixelWidth) / CGFloat(viewModel.contentPixelHeight))
-        ratioConstraint.isActive = true
-        
-        viewModel.output.imageData
-            .receive(on: DispatchQueue.main)
-            .map(UIImage.init(data:))
-            .sink { [weak self] image in
-                self?.imageView.image = image
-            }.store(in: &imageProcessSubscription)
-    }
-    
     private func configureGestures(){
         contentView.addGestureRecognizer(singleTap)
         imageView.addGestureRecognizer(doubleTap)
@@ -77,6 +67,7 @@ class PhotoDetailCell: UICollectionViewCell {
                 guard let self = self else { return }
                 delegate?.cellDidTap(self)
             }.store(in: &subscriptions)
+        
         
 //        doubleTap.publisher()
 //            .sink { [weak self] gestureRecognizer in
@@ -97,6 +88,22 @@ class PhotoDetailCell: UICollectionViewCell {
 //                let rectToZoomTo = CGRect(x: originX, y: originY, width: width, height: height)
 //                scrollView.zoom(to: rectToZoomTo, animated: true)
 //            }.store(in: &subscriptions)
+    }
+    
+    private func bindViewModelOutput(){
+        imageProcessSubscription.removeAll()
+        imageView.image = nil
+
+        ratioConstraint?.isActive = false
+        ratioConstraint = imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: CGFloat(viewModel.contentPixelWidth) / CGFloat(viewModel.contentPixelHeight))
+        ratioConstraint.isActive = true
+        
+        viewModel.output.imageData
+            .receive(on: DispatchQueue.main)
+            .map(UIImage.init(data:))
+            .sink { [weak self] image in
+                self?.imageView.image = image
+            }.store(in: &imageProcessSubscription)
     }
 }
 

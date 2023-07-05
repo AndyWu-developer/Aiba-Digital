@@ -7,7 +7,8 @@
 
 import UIKit
 import Combine
-//For iOS 14 Apparently there is a new bug in UICollectionView that is causing scrollToItem to not work when paging is enabled. The work around is to disable paging before calling scrollToItem, then re-enabling it afterwards:
+
+
 class MediaDetailViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -17,7 +18,7 @@ class MediaDetailViewController: UIViewController {
     @IBOutlet weak var dismissButton: UIButton!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
-    @IBOutlet weak var textPreviewLabel: ShowMoreLabel!
+    @IBOutlet weak var textPreviewLabel: UILabel!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var likeButton: UIButton!
@@ -26,18 +27,14 @@ class MediaDetailViewController: UIViewController {
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var pageNumberLabel: UILabel!
     @IBOutlet weak var textContainerView: UIView!
-    @IBOutlet var singleTap: UITapGestureRecognizer!
     
+   // @IBOutlet var singleTap: UITapGestureRecognizer!
     private var compressHeight: CGFloat!
     private var pageBeforeRotate: Int?
-    private var dataSource: UICollectionViewDiffableDataSource<Section,MediaViewModel>!
+    private var dataSource: UICollectionViewDiffableDataSource<Int,MediaViewModel>!
     private var subscriptions = Set<AnyCancellable>()
     private let viewModel: MediaDetailViewModel
     private let startIndex: Int
-    
-    enum Section: Int, CaseIterable {
-        case main
-    }
     
     init(viewModel: MediaDetailViewModel, startIndex: Int = 0){
         self.viewModel = viewModel
@@ -47,6 +44,10 @@ class MediaDetailViewController: UIViewController {
     
     required init?(coder: NSCoder){fatalError("init(coder:) has not been implemented")}
     
+    deinit{
+        print("MediaDetailViewController deinit")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.collectionViewLayout = .pageCarouselLayout
@@ -54,7 +55,7 @@ class MediaDetailViewController: UIViewController {
         bindViewModelInput()
         bindViewModelOutput()
         configureButtonActions()
-        configureGestureActions()
+     //   configureGestureActions()
         textView.textContainer.lineFragmentPadding = .zero
         textView.textContainerInset = .zero
         textView.layoutManager.usesFontLeading = false
@@ -73,15 +74,15 @@ class MediaDetailViewController: UIViewController {
             collectionView.setContentOffset(CGPoint(x: offset, y: 0), animated: false)
         }
         pageBeforeRotate = nil // key
-        
+
         if !appeared{
             appeared = true
             collectionView.scrollToItem(at: IndexPath(item: startIndex, section: 0), at: .centeredHorizontally, animated: false)
         }
-        
+
         updatePageNumber(for: collectionView)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         autoPlayVisibleCell()
@@ -92,7 +93,7 @@ class MediaDetailViewController: UIViewController {
         guard collectionView != nil else { return }
         let isLandscape = size.width > size.height
         pageBeforeRotate = Int(collectionView.contentOffset.x / (collectionView.frame.width))
-        
+
         coordinator.animate(alongsideTransition: { context in
             self.topView.alpha = isLandscape ? 0 : 1
             self.bottomView.alpha = isLandscape ? 0 : 1
@@ -102,18 +103,18 @@ class MediaDetailViewController: UIViewController {
     }
     
     private func configureCollectionViewDataSource(){
-        
-        let photoCellRegistration = UICollectionView.CellRegistration<PhotoDetailCell,PhotoViewModel>(cellNib: UINib(nibName: String(describing: PhotoDetailCell.self), bundle: nil)) { cell, indexPath, viewModel in
-            cell.configure(with: viewModel)
+        // Must add unowned self here !
+        let photoCellRegistration = UICollectionView.CellRegistration<PhotoDetailCell,PhotoViewModel>(cellNib: UINib(nibName: String(describing: PhotoDetailCell.self), bundle: nil)) { [unowned self] cell, indexPath, viewModel in
+            cell.viewModel = viewModel
             cell.delegate = self
         }
         
-        let videoCellRegistration = UICollectionView.CellRegistration<VideoDetailCell,VideoViewModel>(cellNib: UINib(nibName: String(describing: VideoDetailCell.self), bundle: nil)) { cell, indexPath, viewModel in
-            cell.configure(with: viewModel,index: indexPath.row)
+        let videoCellRegistration = UICollectionView.CellRegistration<VideoDetailCell,VideoViewModel>(cellNib: UINib(nibName: String(describing: VideoDetailCell.self), bundle: nil)) { [unowned self] cell, indexPath, viewModel in
+            cell.viewModel = viewModel
             cell.delegate = self
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section,MediaViewModel>(collectionView: collectionView){ collectionView, indexPath, item in
+        dataSource = UICollectionViewDiffableDataSource<Int,MediaViewModel>(collectionView: collectionView){ collectionView, indexPath, item in
             switch item {
             case let viewModel as PhotoViewModel:
                 return collectionView.dequeueConfiguredReusableCell(using: photoCellRegistration, for: indexPath, item: viewModel)
@@ -123,8 +124,8 @@ class MediaDetailViewController: UIViewController {
             }
         }
 
-        var snapshot = NSDiffableDataSourceSnapshot<Section,MediaViewModel>()
-        snapshot.appendSections([.main])
+        var snapshot = NSDiffableDataSourceSnapshot<Int,MediaViewModel>()
+        snapshot.appendSections([0])
         dataSource.apply(snapshot,animatingDifferences: false)
     }
     
@@ -138,13 +139,19 @@ class MediaDetailViewController: UIViewController {
     private func bindViewModelOutput(){
         
         viewModel.output.userName
-            .assign(to: \.text!, on: userNameLabel)
+            .sink{ [unowned self] in
+                userNameLabel.text = $0
+            }
+            // .assign(to: \.text!, on: userNameLabel)
             .store(in: &subscriptions)
         
         viewModel.output.userImageData
             .receive(on: DispatchQueue.main)
             .map(UIImage.init(data:))
-            .assign(to: \.image, on: userImageView)
+            .sink{ [unowned self] in
+                userImageView.image = $0
+            }
+         //   .assign(to: \.image, on: userImageView)
             .store(in: &subscriptions)
         
         viewModel.output.mediaViewModels
@@ -153,10 +160,10 @@ class MediaDetailViewController: UIViewController {
                 guard let self = self else { return }
                 var snapshot = dataSource.snapshot()
                 if snapshot.numberOfItems == 0{
-                    snapshot.appendItems(cellViewModels, toSection: .main)
+                    snapshot.appendItems(cellViewModels, toSection: 0)
                     dataSource.apply(snapshot,animatingDifferences: false)
                 }else{
-                    snapshot.appendItems(cellViewModels, toSection: .main)
+                    snapshot.appendItems(cellViewModels, toSection: 0)
                     dataSource.apply(snapshot,animatingDifferences: false)
                 }
             }.store(in: &subscriptions)
@@ -190,16 +197,16 @@ class MediaDetailViewController: UIViewController {
                 self?.present(TODO("商品頁面"), animated: true)
             }.store(in: &subscriptions)
     }
-    
-    private func configureGestureActions(){
-    
-        textContainerView.addGestureRecognizer(singleTap)
-        singleTap.publisher()
-            .sink { [weak self] _ in
-                guard let self = self else { return }
-                textView.isTextTruncated ? expandText() : shrinkText()
-            }.store(in: &subscriptions)
-    }
+//
+//    private func configureGestureActions(){
+//
+//        textContainerView.addGestureRecognizer(singleTap)
+//        singleTap.publisher()
+//            .sink { [weak self] _ in
+//                guard let self = self else { return }
+//                textView.isTextTruncated ? expandText() : shrinkText()
+//            }.store(in: &subscriptions)
+//    }
     
     private func autoPlayVisibleCell(){
         let indexPathToPlay = collectionView.indexPathsForVisibleItems.filter({ indexPath in
@@ -251,6 +258,8 @@ class MediaDetailViewController: UIViewController {
             self.textView.isScrollEnabled = false
         }
     }
+    
+  
 
 }
 
@@ -263,11 +272,11 @@ extension MediaDetailViewController: UICollectionViewDelegate, UIScrollViewDeleg
             (cell as? VideoDetailCell)?.playbackControlView.alpha = 1
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         (cell as? VideoDetailCell)?.stopVideo()
     }
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updatePageNumber(for: scrollView)
         let minContentOffsetX = CGFloat(0)
@@ -279,12 +288,12 @@ extension MediaDetailViewController: UICollectionViewDelegate, UIScrollViewDeleg
             }
         }
     }
-    
+
     // this method will always be called when paging is enabled or user flicks
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         autoPlayVisibleCell()
     }
-    
+
     private func updatePageNumber(for scrollView: UIScrollView){
         let pageWidth = scrollView.bounds.width
         let totalPages = Int(max(1, scrollView.contentSize.width / pageWidth))
@@ -294,14 +303,14 @@ extension MediaDetailViewController: UICollectionViewDelegate, UIScrollViewDeleg
             self.pageNumberLabel.text = "\(currentPage) / \(totalPages)"
         }
     }
-    
+
     private func hideAllViews(){
         UIView.animate(withDuration: 0.2) {
             self.topView.alpha = 0
             self.bottomView.alpha = 0
         }
     }
-    
+
     private func showAllViews(){
         topView.alpha = 1
         bottomView.alpha = 1

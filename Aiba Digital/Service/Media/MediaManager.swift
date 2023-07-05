@@ -7,42 +7,72 @@
 
 import Foundation
 import AVFoundation
-import UIKit.UIImage
 
 typealias progressHandler = ((Double) -> ())
 
 protocol MediaDownloading: AnyObject {
     func fetchImageData(from url: URL, progressHandler: progressHandler?) async throws -> Data
-    func fetchVideoTumbnail(from url: URL, progressHandler: progressHandler?) async throws -> Data
-    func fetchVideo(from url: URL, progressHandler: progressHandler?) async throws -> AVURLAsset
+    func fetchVideoAsset(from url: URL, progressHandler: progressHandler?) async throws -> AVURLAsset
 }
 
 protocol MediaUploading: AnyObject {
     func uploadImage(from url: URL, progressHandler: progressHandler?) async throws -> URL
     func uploadVideo(from url: URL, progressHandler: progressHandler?) async throws -> URL
-    //TODO: uploadGif
 }
 
 protocol MediaCompressing: AnyObject {
-    func compressVideo(from url: URL, progressHandler: progressHandler?) async throws -> URL
-    func compressImage(from url: URL) async throws -> URL
+    func compressVideo(from url: URL, maxDimentionInPixels: Int, progressHandler: progressHandler?) async throws -> URL
+    func compressImage(from url: URL, maxDimentionInPixels: Int) async throws -> URL
 }
 
 
-final class MediaManager{
+final class MediaManager {
     
-    private let uploadAPIKey: String = {
-        let filePath = Bundle.main.path(forResource: "BunnyCDN-Info", ofType: "plist")!
-        let plist = NSDictionary(contentsOfFile: filePath)!
-        let value = plist.object(forKey: "API_KEY") as! String
-        return value
-    }()
+    static let shared: MediaManager = MediaManager()
+    
+    private let imageLoader = BunnyImageLoader()
+    private let videoLoader = BunnyVideoLoader()
     
     private let imageCompressor = ImageCompressor()
     private let videoCompressor = VideoCompressor()
-  
-    private let imageCache = NSCache<NSString, NSData>()
-    private let videoCache = NSCache<NSString, AVURLAsset>()
+    
+    private let imageUploader = BunnyImageUploader()
+    private let videoUploader = BunnyVideoUploader()
+}
+
+// MARK: - MediaUploading
+extension MediaManager: MediaUploading {
+    
+    func uploadImage(from url: URL, progressHandler: progressHandler?) async throws -> URL{
+        return try await imageUploader.uploadImage(from: url, progressHandler: progressHandler)
+    }
+    
+    func uploadVideo(from url: URL, progressHandler: progressHandler?) async throws -> URL{
+        return try await videoUploader.uploadVideo(from: url, progressHandler: progressHandler)
+    }
+    
+    func uploadImages(from urls: [URL], progressHandler: progressHandler?) async throws -> [URL] {
+       return []
+    }
+    
+    func uploadVideos(from urls: [URL], progressHandler: progressHandler?) async throws -> [URL] {
+        return []
+     }
+}
+
+extension MediaManager: MediaDownloading {
+    
+    func fetchVideoAsset(from url: URL, progressHandler: progressHandler?) async throws -> AVURLAsset {
+        return try await videoLoader.loadVideoAsset(from: url) as! AVURLAsset
+    }
+    
+    func fetchImageData(from url: URL, progressHandler: progressHandler?) async throws -> Data {
+        return try await imageLoader.downloadImageData(from: url)
+    }
+    
+    func fetchVideoThumbnail(from url: URL, progressHandler: progressHandler?) async throws -> Data {
+        return try await imageLoader.loadVideoThumbnailData(from: url)
+    }
 }
 
 // MARK: - MediaCompressing
@@ -50,23 +80,27 @@ extension MediaManager: MediaCompressing {
     
     enum MediaCompressError: Error { case cannotCompressVideo, cannotCompressImage }
     
+    func compressVideo(from url: URL, maxDimentionInPixels: Int, progressHandler: progressHandler?) async throws -> URL {
+        let outputURL = try await videoCompressor.compressVideo(from: url, maxDimentionInPixels: maxDimentionInPixels)
+        return outputURL
+    }
     //When compressing image, do not wrapping the compressed cgImage to UIImage and convert to jpg will increase file size, save the cgImage to jpeg directly :)
-    func compressImage(from url: URL) async throws -> URL {
+    func compressImage(from url: URL, maxDimentionInPixels: Int) async throws -> URL {
        
         try await withCheckedThrowingContinuation { continuation in
-            let id = UUID().uuidString
-            let imageData = try! Data(contentsOf: url)
-            print("image before compression: \(Double(imageData.count) / (1024 * 1024)) MB")
+
+            //let imageData = try! Data(contentsOf: url)
+            //print("image before compression: \(Double(imageData.count) / (1024 * 1024)) MB")
          
-            imageCompressor.compressImage(from: url, maxDimentionInPixels: 1080){ image in
+            imageCompressor.compressImage(from: url, maxDimentionInPixels: maxDimentionInPixels){ image in
          
                 let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
                 
                 if let cgImage = image, let destination = CGImageDestinationCreateWithURL(fileURL as CFURL, UTType.jpeg.identifier as CFString, 1, nil) {
                     CGImageDestinationAddImage(destination, cgImage, nil)
                     if CGImageDestinationFinalize(destination) {
-                        let data = try! Data(contentsOf: fileURL)
-                        print("image after compression: \(Double(data.count) / (1024 * 1024)) MB")
+                        //let data = try! Data(contentsOf: fileURL)
+                        //print("image after compression: \(Double(data.count) / (1024 * 1024)) MB")
                         continuation.resume(returning: fileURL)
                     }else{
                         continuation.resume(throwing: MediaCompressError.cannotCompressImage)
@@ -78,69 +112,12 @@ extension MediaManager: MediaCompressing {
         }
 
     }
+
+}
+
+extension MediaManager {
     
-    func compressVideo(from url: URL, progressHandler: progressHandler?) async throws -> URL {
-        let asset = AVAsset(url: url)
-        do{
-            let url = try await videoCompressor.compress(asset: asset, progressHandler: progressHandler)
-            return url
-        }catch{
-            print(error)
-            throw MediaCompressError.cannotCompressVideo
-        }
-    }
     
 }
 
 
-// MARK: - MediaUploading
-extension MediaManager: MediaUploading{
-    
-    enum MediaUploadError: Error { case uploadError }
-    
-    func uploadImage(from url: URL, progressHandler: progressHandler?) async throws -> URL{
-        let id = UUID().uuidString
-        let uploadURL = URL(string:"https://sg.storage.bunnycdn.com/storage0625/Post/\(id).jpg")!
-        var request = URLRequest(url: uploadURL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30)
-        request.httpMethod = "PUT"
-        request.setValue(uploadAPIKey, forHTTPHeaderField: "AccessKey")
-        
-        do{
-            let (_, response) = try await URLSession.shared.upload(for: request, fromFile: url)
-            let statusCode = (response as! HTTPURLResponse).statusCode
-            if (200...299).contains(statusCode){
-                print("upload sucess")
-            }else{
-                throw MediaUploadError.uploadError
-            }
-        }catch{
-            print(error)
-            throw error
-        }
-        
-        return URL(string: "https://PullZone0625.b-cdn.net/Post/\(id).jpg")!
-    }
-    
-    func uploadVideo(from url: URL, progressHandler: progressHandler?) async throws -> URL{
-        let id = UUID().uuidString
-        let uploadURL = URL(string:"https://sg.storage.bunnycdn.com/storage0625/Post/\(id).mp4")!
-        var request = URLRequest(url: uploadURL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 30)
-        request.httpMethod = "PUT"
-        request.setValue(uploadAPIKey, forHTTPHeaderField: "AccessKey")
-        
-        do{
-            let (_, response) = try await URLSession.shared.upload(for: request, fromFile: url)
-            let statusCode = (response as! HTTPURLResponse).statusCode
-            if (200...299).contains(statusCode){
-                print("upload sucess")
-            }else{
-                throw MediaUploadError.uploadError
-            }
-        }catch{
-            print(error)
-            throw error
-        }
-        
-        return URL(string: "https://PullZone0625.b-cdn.net/Post/\(id).mp4")!
-    }
-}

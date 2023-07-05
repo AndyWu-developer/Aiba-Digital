@@ -12,7 +12,7 @@ final class VideoCompressor{
     private var assetReaders: [AVAssetReader] = []
     private var assetWriters: [AVAssetWriter] = []
     
-    private let defaultCompressVideoBitRate: Float = 2496000
+    private let defaultCompressVideoBitRate: Float = 4992000//2496000
     private let defaultCompressAudioBitRate: Float = 128000
 
     private let videoReaderSettings = [kCVPixelBufferPixelFormatTypeKey as String : kCVPixelFormatType_32ARGB]
@@ -21,7 +21,9 @@ final class VideoCompressor{
                                     AVSampleRateKey: 44100,
                                     AVNumberOfChannelsKey: 2]
     
-    func compress(asset: AVAsset, progressHandler: ((Double) -> ())? = nil) async throws -> URL {
+    func compressVideo(from url: URL, maxDimentionInPixels: Int, progressHandler: ((Double) -> ())? = nil) async throws -> URL {
+        
+        let asset = AVAsset(url: url)
         
         let videoData = try Data(contentsOf: (asset as! AVURLAsset).url)
         print("Video before compression: \( Double(videoData.count) / (1024 * 1024)) MB")
@@ -29,6 +31,7 @@ final class VideoCompressor{
         try await loadKeysForCompression(for: asset)
        
         let videoTrack = asset.tracks(withMediaType: .video).first
+        print(asset.tracks(withMediaType: .video).count)
         let audioTrack = asset.tracks(withMediaType: .audio).first
         let outputURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         
@@ -38,6 +41,7 @@ final class VideoCompressor{
         let videoOutput: AVAssetReaderTrackOutput? = {
             guard let track = videoTrack else { return nil }
             let output = AVAssetReaderTrackOutput(track: track, outputSettings: videoReaderSettings)
+            output.alwaysCopiesSampleData = false
             guard reader.canAdd(output) else { return nil  }
             reader.add(output)
             return output
@@ -46,6 +50,7 @@ final class VideoCompressor{
         let audioOutput: AVAssetReaderTrackOutput? = {
             guard let track = audioTrack else { return nil }
             let output = AVAssetReaderTrackOutput(track: track, outputSettings: audioReaderSettings)
+            output.alwaysCopiesSampleData = false
             guard reader.canAdd(output) else { return nil }
             reader.add(output)
             return output
@@ -135,8 +140,8 @@ final class VideoCompressor{
                 throw VideoCompressorError.CustomError
             }
         }
-        
-        guard let videoTrack = asset.tracks(withMediaCharacteristic: .visual).first else{
+      
+        guard let videoTrack = asset.tracks(withMediaType: .video).first else{
             print("no video")
             throw VideoCompressorError.CustomError
         }
@@ -155,16 +160,22 @@ final class VideoCompressor{
     private func writerVideoSettings(for videoTrack: AVAssetTrack) -> [String : Any]{
         let compressBitRate = {
             let bitRate = videoTrack.estimatedDataRate
+            print("video bitrate before compression: \(bitRate)")
             return bitRate == .zero ? defaultCompressVideoBitRate : min(bitRate, defaultCompressVideoBitRate)
         }()
 
+        let adjustSize = adjustResolution(width: Int(videoTrack.naturalSize.width),
+                                        height: Int(videoTrack.naturalSize.height),
+                                        maxResolution: 1920)
+        print("video dimension before compression: \(Int(videoTrack.naturalSize.width)) x \(adjustSize.height)")
+        print("video dimension after compression: \(adjustSize.width) x \(Int(videoTrack.naturalSize.height))")
         let videoInputSettings: [String:Any] = [
             AVVideoCompressionPropertiesKey: [AVVideoAverageBitRateKey: compressBitRate,
-                                           AVVideoProfileLevelKey: AVVideoProfileLevelH264HighAutoLevel
+                                           AVVideoProfileLevelKey: AVVideoProfileLevelH264High41
             ] as [String : Any],
             AVVideoCodecKey: AVVideoCodecType.h264,
-            AVVideoWidthKey: videoTrack.naturalSize.width,
-            AVVideoHeightKey: videoTrack.naturalSize.height,
+            AVVideoWidthKey: adjustSize.width,
+            AVVideoHeightKey: adjustSize.height,
             AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill
         ]
         return videoInputSettings
@@ -176,7 +187,7 @@ final class VideoCompressor{
             return bitRate == .zero ? defaultCompressAudioBitRate : min(bitRate, defaultCompressAudioBitRate)
         }()
         let audioInputSettings: [String:Any] = [AVFormatIDKey: kAudioFormatMPEG4AAC,
-                                               AVEncoderBitRateKey: 128000,
+                                               AVEncoderBitRateKey: defaultCompressAudioBitRate,
                                                AVSampleRateKey: 44100,
                                                AVNumberOfChannelsKey: 2]
         return audioInputSettings
@@ -201,6 +212,25 @@ final class VideoCompressor{
                 }
             }
         }
+    }
+    
+    private func adjustResolution(width: Int, height: Int, maxResolution: Int) -> (width: Int, height: Int) {
+        var adjustedWidth = width
+        var adjustedHeight = height
+        
+        if width > maxResolution || height > maxResolution {
+            let ratio = Double(width) / Double(height)
+            
+            if width > height {
+                adjustedWidth = maxResolution
+                adjustedHeight = Int(Double(adjustedWidth) / ratio)
+            } else {
+                adjustedHeight = maxResolution
+                adjustedWidth = Int(Double(adjustedHeight) * ratio)
+            }
+        }
+        
+        return (width: adjustedWidth, height: adjustedHeight)
     }
 }
 

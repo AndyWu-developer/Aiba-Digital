@@ -4,7 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,9 +20,9 @@
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="N3L-zW-Qeo">
                         <rect key="frame" x="0.0" y="0.0" width="252" height="253"/>
-                        <color key="backgroundColor" systemColor="systemYellowColor"/>
                     </imageView>
                 </subviews>
+                <color key="backgroundColor" name="IGgray"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="N3L-zW-Qeo" secondAttribute="trailing" id="MY3-OH-IhI"/>
                     <constraint firstItem="N3L-zW-Qeo" firstAttribute="top" secondItem="TH2-dI-CbI" secondAttribute="top" id="Muf-WZ-vQx"/>
@@ -38,8 +38,8 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
+        <namedColor name="IGgray">
+            <color red="0.96100002527236938" green="0.96100002527236938" blue="0.96100002527236938" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
