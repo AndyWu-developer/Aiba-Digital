@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>上傳照片須開啟相簿權限</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -14,6 +12,26 @@
 				<string>com.googleusercontent.apps.177867456312-glge0cm997dlisl4o570d1etbrv8he8b</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>line3rdp.$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>app-1-177867456312-ios-10b4f22a911a75265ecbcd</string>
+			</array>
+		</dict>
+	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>lineauth2</string>
 	</array>
 	<key>UIAppFonts</key>
 	<array>

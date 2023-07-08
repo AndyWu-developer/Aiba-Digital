@@ -12,7 +12,6 @@ class SpinningView: UIView {
     override init(frame: CGRect){
         super.init(frame: frame)
         isOpaque = false
-        isHidden = false //start spin
     }
     
     required init?(coder: NSCoder) {
@@ -20,16 +19,6 @@ class SpinningView: UIView {
         isOpaque = false
     }
     
-    override var isHidden: Bool{
-        get{
-            super.isHidden
-        }
-        set(hide){
-            hide ? stopSpinning() : startSpinning()
-            super.isHidden = hide
-         
-        }
-    }
     
     override func draw(_ rect: CGRect) {
        
@@ -59,7 +48,7 @@ class SpinningView: UIView {
         }
     }
     
-    private func startSpinning(){
+    func startSpinning(){
         let rotate = CABasicAnimation(keyPath: "transform")
         rotate.valueFunction = CAValueFunction(name: .rotateZ)
         rotate.fromValue = 0
@@ -70,8 +59,11 @@ class SpinningView: UIView {
         layer.add(rotate, forKey: nil)
     }
     
-    private func stopSpinning(){
+    func stopSpinning(){
         layer.removeAllAnimations()
     }
+    
+    
+    
 
 }

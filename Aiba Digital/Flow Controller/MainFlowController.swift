@@ -26,7 +26,7 @@ class MainFlowController: UIViewController {
     
     weak var flowDelegate: MainFlowControllerDelegate?
     typealias Dependencies = HasAuthManager //& HasPostManager
-    private let dependencies: Dependencies
+    //private let dependencies: Dependencies
     //var interactionController: UIPercentDrivenInteractiveTransition?
     
     private lazy var infoFlowController: UIViewController = {
@@ -54,18 +54,18 @@ class MainFlowController: UIViewController {
         return flowController
     }()
     
-    private lazy var settingFlowController: SettingFlowController = {
-        let flowController = SettingFlowController(dependencies: dependencies)
-        flowController.flowDelegate = self
-        flowController.tabBarItem = .init(title: "我的會員",
-                                         image: UIImage(named: "user"),
-                                         selectedImage: UIImage(named: "user.fill"))
-        return flowController
-    }()
+//    private lazy var settingFlowController: SettingFlowController = {
+//        let flowController = SettingFlowController(dependencies: dependencies)
+//        flowController.flowDelegate = self
+//        flowController.tabBarItem = .init(title: "我的會員",
+//                                         image: UIImage(named: "user"),
+//                                         selectedImage: UIImage(named: "user.fill"))
+//        return flowController
+//    }()
+//
     
-    
-    init(dependencies: Dependencies){
-        self.dependencies = dependencies
+    init(){
+       // self.dependencies = dependencies
         super.init(nibName: nil, bundle: nil)
    
     }
@@ -84,8 +84,8 @@ class MainFlowController: UIViewController {
         
         let tabViewControllers = [infoFlowController,
                                   shopFlowController,
-                                  postFlowController,
-                                  settingFlowController]
+                                  postFlowController]
+                                  //settingFlowController]
         embeddedTabBarController.setViewControllers(tabViewControllers, animated: false)
         embeddedTabBarController.selectedIndex = 2
      

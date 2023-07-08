@@ -27,6 +27,7 @@ protocol AuthManaging {
 class AuthManager: NSObject, AuthManaging {
     
     private(set) var user: User?
+    
     private var subscriptions = Set<AnyCancellable>()
     private var currentNonce: String?  // Unhashed nonce for apple sign-in
     private var appleLoginSuccessPublisher: PassthroughSubject<Bool,AuthError>?

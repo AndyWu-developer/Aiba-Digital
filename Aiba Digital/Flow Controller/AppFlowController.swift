@@ -6,50 +6,50 @@
 //
 
 import UIKit
-
-class AppDependency: HasAuthManager {
-    let authManager: AuthManaging
-    let postManager: PostManaging
-   
-    //static let shared: AppDependency = AppDependency()
-    
-    init(){
-        authManager = AuthManager()
-        postManager = PostManager()
-      
-    }
-
-    deinit{
-        print("AppDependency deinit")
-    }
-}
+//
+//class AppDependency {
+//    let authManager: MemberManaging
+//    let postManager: PostManaging
+//
+//    //static let shared: AppDependency = AppDependency()
+//
+//    init(){
+//        authManager = MemberManager()
+//        postManager = PostManager()
+//    }
+//
+//    deinit{
+//        print("AppDependency deinit")
+//    }
+//}
 
 class AppFlowController: UIViewController {
     
-    let appDependency = AppDependency()
-    
+    //let appDependency = AppDependency()
+    let memberManager = AccountManager()
     override func viewDidLoad() {
         super.viewDidLoad()
-        startLaunchFlow()
+        showLaunchScreen()
     }
     
-    private func startLaunchFlow(){
+    private func showLaunchScreen(){
         let launchVC = LaunchViewController()
         launchVC.delegate = self
         transition(to: launchVC)
     }
     
     private func startLoginFlow() {
-        let loginFlowController = LoginFlowController(dependencies: appDependency)
+        
+        let loginFlowController = LoginFlowController(memberManager: memberManager)
         loginFlowController.flowDelegate = self
         transition(to: loginFlowController){ [unowned self] _ in
             setNeedsStatusBarAppearanceUpdate()
         }
-        loginFlowController.start()
+
     }
     
     private func startMainFlow(){
-        let mainFlowController = MainFlowController(dependencies: appDependency)
+        let mainFlowController = MainFlowController()
         mainFlowController.flowDelegate = self
         transition(to: mainFlowController){ [unowned self] _ in
             setNeedsStatusBarAppearanceUpdate()
@@ -60,9 +60,11 @@ class AppFlowController: UIViewController {
 
 extension AppFlowController: LaunchViewControllerDelegate{
     func launchAnimationDidFinish() {
-        if appDependency.authManager.isUserLoggedIn() {
-            startMainFlow()
+        if let member = memberManager.currentMember {
+            print("會員 \(member.id) 已登入")
+            startLoginFlow()
         }else{
+            print("尚未登入")
             startLoginFlow()
         }
     }

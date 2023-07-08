@@ -11,6 +11,7 @@ import GoogleSignIn
 import FirebaseFirestore
 import AuthenticationServices
 
+
 enum AuthError: Error, LocalizedError, Equatable{
 
     case phoneSignInError(String)

@@ -47,8 +47,10 @@ class FooterCell: UICollectionViewCell {
     }
     
     private func hideAllViews(except views: [UIView] = []){
+        if !views.contains(spinner) { spinner.stopAnimating() }
         let allViews: [UIView] = [refreshButton, reachedBottomLabel, spinner, errorLabel]
         allViews.forEach{ $0.isHidden = !views.contains($0)}
+        
     }
 
 }

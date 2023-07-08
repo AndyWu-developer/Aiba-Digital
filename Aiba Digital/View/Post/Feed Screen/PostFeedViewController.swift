@@ -18,8 +18,6 @@ class PostFeedViewController: UIViewController {
         didSet{
             if let visibleFooter = collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionFooter).first as? FooterCell{
                 visibleFooter.configure(with: fetchingState)
-               // collectionView.collectionViewLayout.invalidateLayout()
-               // view.layoutIfNeeded()
             }
         }
     }
@@ -35,7 +33,6 @@ class PostFeedViewController: UIViewController {
         didSet{
             if allPostLoaded {
                 print("all post loaded :)")
-            
             }
         }
     }
@@ -46,9 +43,6 @@ class PostFeedViewController: UIViewController {
         let c = UIRefreshControl()
         return c
     }()
-    
-    private let latestNum = 2
-    private let oldNum = 1
     
     private var playingIndexPath: IndexPath? {
         didSet{
@@ -95,7 +89,7 @@ class PostFeedViewController: UIViewController {
         print("PostFeedViewController deinit")
     }
     
-    func hideLoadingUI(){
+    private func hideLoadingUI(){
         isLoadingPost = false
         if refreshControl.isRefreshing {
             refreshControl.endRefreshing()
@@ -108,25 +102,36 @@ class PostFeedViewController: UIViewController {
     }
     
     func loadMorePost(){
-        guard !isLoadingPost, !allPostLoaded else { print("denied request") ; return }
-        print("start loading more post")
+        //guard !isLoadingPost, !allPostLoaded else { print("denied request") ; return }
+        if isLoadingPost {
+            print("Post already loading :)")
+            return
+        }
+        
+        if allPostLoaded {
+            print("All post loaded :)")
+            return
+        }
+        print("Fetching more post.....")
         isLoadingPost = true
-        loadMorePosts.send(())
         fetchingState = .loading
+        loadMorePosts.send(())
+     
     }
     
     func loadLatestPost(){
         isLoadingPost = true
-        loadLatestPosts.send(())
         fetchingState = .idle
+        loadLatestPosts.send(())
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureCollectionViewLayout()
+        configureCollectionView()
+        
         configureCollectionViewDataSource()
         configureAutoPlayback()
-        collectionView.refreshControl = refreshControl
+        
         bindViewModelInput()
         bindViewModelOutput()
      
@@ -145,21 +150,14 @@ class PostFeedViewController: UIViewController {
     }
     
     private func startRefreshing(){
-        guard let refreshControl = collectionView.refreshControl else {return}
-        let top = collectionView.adjustedContentInset.top
-        let y = refreshControl.frame.maxY + top
+        let y = collectionView.refreshControl!.bounds.height + collectionView.adjustedContentInset.top
         collectionView.setContentOffset(CGPoint(x: 0, y: -y), animated: true)
-        refreshControl.beginRefreshing()
-        refreshControl.sendActions(for: .valueChanged)
+        collectionView.refreshControl!.beginRefreshing()
+        collectionView.refreshControl!.sendActions(for: .valueChanged)
     }
     
     @objc func barButtonTapped() {
-        //createPostSubject.send(())
-        //fetchingState = .error(message: "Try Again")
-        loadMorePost()
-        // var snap = dataSource.snapshot()
-        // setting animatingDifferences to false will cause collectionview to jump on each update
-        //dataSource.apply(snap, animatingDifferences: true)
+        createPostSubject.send()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -172,9 +170,20 @@ class PostFeedViewController: UIViewController {
         playingIndexPath = nil
     }
    
-    private func configureCollectionViewLayout(){
+    private func configureCollectionView(){
+    
+        collectionView.backgroundColor = .gapGray
         
-       let listStyleLayout: UICollectionViewLayout = {
+        // Even if when the post is Loading (because of loading more), we want to fetch anyway
+        refreshControl.publisher(for: .valueChanged)
+            .sink{ [unowned self] _ in
+                loadLatestPost()
+            }
+            .store(in: &subscriptions)
+        
+        collectionView.refreshControl = refreshControl
+        
+        collectionView.collectionViewLayout = {
             let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100)))
             let group = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(100)), subitems: [item])
             let section = NSCollectionLayoutSection(group: group)
@@ -189,9 +198,6 @@ class PostFeedViewController: UIViewController {
             let layout = UICollectionViewCompositionalLayout(section: section, configuration: layoutConfig)
             return layout
         }()
-   
-        collectionView.collectionViewLayout = listStyleLayout
-        collectionView.backgroundColor = .gapGray
     }
      
     private func configureCollectionViewDataSource(){
@@ -245,16 +251,10 @@ class PostFeedViewController: UIViewController {
     private func bindViewModelInput(){
     
         loadLatestPosts
-            .map{ [unowned self] in
-                return latestNum
-            }
             .bind(to: viewModel.input.loadLatestPosts)
             .store(in: &subscriptions)
 
         loadMorePosts
-            .map{ [unowned self] in
-                return oldNum
-            }
             .bind(to: viewModel.input.loadMorePosts)
             .store(in: &subscriptions)
         
@@ -265,50 +265,14 @@ class PostFeedViewController: UIViewController {
     
 
     private func bindViewModelOutput(){
-//        
-//        viewModel.output.latestPostViewModels
-//            .receive(on: DispatchQueue.main)
-//            .delay(for: 1, scheduler: DispatchQueue.main)
-//
-//            .sink { [unowned self] viewModels in
-//                defer { hideLoadingUI() }
-//                allPostLoaded = viewModels.isEmpty
-//                if viewModels.isEmpty { return }
-//           
-//                var snap = dataSource.snapshot()
-//                snap.deleteSections(snap.sectionIdentifiers)
-//                snap.deleteAllItems()
-//                viewModels.forEach { post in
-//                    snap.appendSections([post.ID])
-//                    snap.appendItems([post.header, post.media, post.text, post.action].compactMap{$0})
-//                }
-//                dataSource.apply(snap, animatingDifferences: true)
-//            }.store(in: &subscriptions)
-//        
-//        viewModel.output.oldPostViewModels
-//            .receive(on: DispatchQueue.main)
-//            .delay(for: 3, scheduler: DispatchQueue.main)
-//            .sink { [unowned self] viewModels in
-//                defer { hideLoadingUI() }
-//                allPostLoaded = viewModels.isEmpty
-//                if viewModels.isEmpty { return }
-//                
-//                var snap = dataSource.snapshot()
-//                viewModels.forEach { feed in
-//                    snap.appendSections([feed.ID])
-//                    snap.appendItems([feed.header, feed.media, feed.text, feed.action].compactMap{$0})
-//                }
-//                // setting animatingDifferences to false will cause collectionview to jump on each update
-//                dataSource.apply(snap, animatingDifferences: true)
-//            }.store(in: &subscriptions)
-        
-        
+
         viewModel.output.latestPosts
             .receive(on: DispatchQueue.main)
+            .delay(for: 1, scheduler: DispatchQueue.main)
             .sink { [unowned self] result in
-                defer { hideLoadingUI() }
+                defer { hideLoadingUI() ; print("New post loaded") }
                 
-                switch result{
+                switch result {
                 case .success(let viewModels):
                     allPostLoaded = viewModels.isEmpty
                     var snap = dataSource.snapshot()
@@ -359,12 +323,7 @@ class PostFeedViewController: UIViewController {
     }
     
     private func configureButtonActions(){
-        // Even if when the post is Loading (because of loading more), we want to fetch anyway
-        collectionView.refreshControl?.publisher(for: .valueChanged)
-            .sink{ [unowned self] c in
-                loadLatestPost()
-            }
-            .store(in: &subscriptions)
+        
     
     }
  
@@ -376,38 +335,32 @@ extension PostFeedViewController: UICollectionViewDelegate{
  
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         playCellIfNeeded()
-//        let offsetY = scrollView.contentOffset.y
-//        let contentHeight = scrollView.contentSize.height
-//
-//        if (offsetY >= contentHeight - scrollView.frame.height * 3) && !isLoading{
-//            print("loadMoreData")
-//            isLoading = true
-//            loadMorePosts.send(())
-//        }
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if collectionView.numberOfSections - indexPath.section <= 2 {
             print("request more posts")
-            //loadMorePost()
+            loadMorePost()
         }
     }
     
-    // This is important or the cell will still play when not on screen!
+    // This is important or the cell will still still play when not on screen!
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-    
         if let mediaCell = cell as? PostMediaCell {
-            print("DID END DISPLAY")
             mediaCell.canPlayVideo = false
         }
     }
  
-
+    
 //    // user drags and stops (willDecelerate is false).
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        playCellIfNeeded()
-//    }
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        //playCellIfNeeded()
+        decelerate ? print("going") : print("stop")
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        print("evgoertnrt")
+    }
 //    // user drags and the scroll continues afterward.
 //    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
 //        playCellIfNeeded()
@@ -420,9 +373,21 @@ extension PostFeedViewController: UICollectionViewDelegate{
 //    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
 //        playCellIfNeeded()
 //    }
-   
     private func playCellIfNeeded(){
        
+        let maxContentOffset = collectionView.contentSize.height - collectionView.bounds.height
+        if collectionView.contentOffset.y >= maxContentOffset {
+            let cellToPlay = collectionView.visibleCells
+                .filter {$0 is PostMediaCell}
+                .max{$0.frame.midY < $1.frame.midY}
+            
+            if cellToPlay != nil {
+                playingIndexPath = collectionView.indexPath(for: cellToPlay!)
+            }
+            return
+        }
+        
+        
         let cellToPlay = collectionView.visibleCells
             .filter {$0 is PostMediaCell}
             .filter {
@@ -447,7 +412,6 @@ extension PostFeedViewController: UICollectionViewDelegate{
         NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
             .filter { [unowned self] _ in view.window != nil}
             .sink { [unowned self] _ in
-                print("Active")
                 playCellIfNeeded()
             }.store(in: &subscriptions)
     }
@@ -485,3 +449,8 @@ extension PostFeedViewController: FooterCellDelegate{
     }
     
 }
+
+
+
+
+

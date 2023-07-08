@@ -18,7 +18,7 @@ extension Publisher {
     /// - Parameter transform: A closure that takes an element as a parameter and returns a publisher that produces elements of that type.
     /// - Returns: A publisher that transforms elements from an upstream  publisher into a publisher of that element's type.
     func `await`<T>(_ transform: @escaping (Output) async -> T) -> AnyPublisher<T, Failure> {
-        flatMap { value -> Future<T, Failure> in
+        flatMap(maxPublishers: .max(1)) { value -> Future<T, Failure> in
             Future { promise in
                 Task {
                     let result = await transform(value)

@@ -9,6 +9,7 @@ protocol LoginViewControllerDelegate : AnyObject {
 
 class LoginViewController: UIViewController {
     
+    @IBOutlet weak var debugButton: UIButton!
     @IBOutlet weak var logo: LogoView!
     @IBOutlet weak var signInView: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -18,13 +19,13 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var googleSignInButton: SignInButton!
     @IBOutlet weak var appleSignInButton: SignInButton!
     
-    private let viewModel: SignInViewModel
+    private let viewModel: MemberSignInViewModel
     weak var flowDelegate: LoginViewControllerDelegate?
     
     private var subscriptions = Set<AnyCancellable>()
     private var pressedButtton: SignInButton?
   
-    init(viewModel: SignInViewModel){
+    init(viewModel: MemberSignInViewModel){
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -52,37 +53,52 @@ class LoginViewController: UIViewController {
         phoneNumberField.publisher(for: .editingChanged)
             .compactMap{ $0.text! }
             .prepend(phoneNumberField.text!)
-            .subscribe(viewModel.input.phoneNumber)
+            .bind(to: viewModel.input.phoneNumber)
+            .store(in: &subscriptions)
 
         verificationCodeField.publisher(for: .editingChanged)
             .compactMap{ $0.text! }
             .prepend(verificationCodeField.text!)
-            .subscribe(viewModel.input.verificationCode)
+            .bind(to: viewModel.input.verificationCode)
+            .store(in: &subscriptions)
 
         verificationCodeField.sendButton.publisher(for: .touchUpInside)
             .map{_ in}
             .subscribe(viewModel.input.sendSMS)
+        
+       debugButton.publisher(for: .touchUpInside)
+            .map{_ in}
+            .subscribe(viewModel.input.debug)
 
         phoneSignInButton.publisher(for: .touchUpInside)
             .flatMap{ phoneButton in
                 Future<Void,Never>{ promise in
                     phoneButton.startLoadingAnimation{ promise(.success(())) }
                 }
-            }.subscribe(viewModel.input.phoneSignIn)
+            }
+            .map{ MemberSignInViewModel.SignInMethod.phone }
+            .bind(to: viewModel.input.signIn)
+            .store(in: &subscriptions)
 
         appleSignInButton.publisher(for: .touchUpInside)
             .flatMap{ appleButton in
                 Future<Void,Never>{ promise in
                     appleButton.startLoadingAnimation{ promise(.success(()))}
                 }
-            }.subscribe(viewModel.input.appleSignIn)
+            }
+            .map{ MemberSignInViewModel.SignInMethod.apple }
+            .bind(to: viewModel.input.signIn)
+            .store(in: &subscriptions)
         
         googleSignInButton.publisher(for: .touchUpInside)
             .flatMap{ googleButton in
                 Future<Void,Never>{ promise in
                     googleButton.startLoadingAnimation{ promise(.success(()))}
                 }
-            }.subscribe(viewModel.input.googleSignIn)
+            }
+            .map{ MemberSignInViewModel.SignInMethod.google }
+            .bind(to: viewModel.input.signIn)
+            .store(in: &subscriptions)
     }
    
     private func bindViewModelOutput(){
@@ -92,40 +108,40 @@ class LoginViewController: UIViewController {
             .assign(to: \.countryCode, on: phoneNumberField)
             .store(in: &subscriptions)
 
-        viewModel.output.sendSMSEnable
+        viewModel.output.canSendSMS
             .receive(on: DispatchQueue.main)
             .assign(to: \.isEnabled, on: verificationCodeField.sendButton)
             .store(in: &subscriptions)
         
-        viewModel.output.sendSMSButtonText
-            .receive(on: DispatchQueue.main)
-            .sink { [unowned self] in
-                verificationCodeField.sendButton.setTitle($0, for: .normal)
-            }.store(in: &subscriptions)
+//        viewModel.output.sendSMSButtonText
+//            .receive(on: DispatchQueue.main)
+//            .sink { [unowned self] in
+//                verificationCodeField.sendButton.setTitle($0, for: .normal)
+//            }.store(in: &subscriptions)
         
-        viewModel.output.phoneSignInEnable
+        viewModel.output.canSignInWithPhone
             .receive(on: DispatchQueue.main)
             .assign(to: \.isEnabled, on: phoneSignInButton)
             .store(in: &subscriptions)
 
-        viewModel.output.signInErrorMessage
-            .receive(on: DispatchQueue.main)
-            .sink(){ [unowned self] in
-                showMessageAlert($0)
-            }.store(in: &subscriptions)
-
-        viewModel.output.signInSuccess
-            .receive(on: DispatchQueue.main)
-            .sink { [unowned self] success in
-                if success {
-                    pressedButtton?.startSuccessAnimation{
-                        flowDelegate?.loginDidSuccess(self)
-                    }
-                }else{
-                    pressedButtton?.stopAnimating()
-                    view.isUserInteractionEnabled = true
-                }
-            }.store(in: &subscriptions)
+//        viewModel.output.signInErrorMessage
+//            .receive(on: DispatchQueue.main)
+//            .sink(){ [unowned self] in
+//                showMessageAlert($0)
+//            }.store(in: &subscriptions)
+//
+//        viewModel.output.signInSuccess
+//            .receive(on: DispatchQueue.main)
+//            .sink { [unowned self] success in
+//                if success {
+//                    pressedButtton?.startSuccessAnimation{
+//                        flowDelegate?.loginDidSuccess(self)
+//                    }
+//                }else{
+//                    pressedButtton?.stopAnimating()
+//                    view.isUserInteractionEnabled = true
+//                }
+//            }.store(in: &subscriptions)
     }
     
     private func setupNavigationFlow(){

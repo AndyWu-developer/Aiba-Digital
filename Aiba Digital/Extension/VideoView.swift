@@ -16,8 +16,33 @@ class VideoView: UIView {
     var player: AVPlayer? {
         get { playerLayer.player }
         set {
-          //  newValue?.automaticallyWaitsToMinimizeStalling = false
             playerLayer.player = newValue
+            playerObserver = playerLayer.player?.publisher(for: \.timeControlStatus)
+                .sink{ [unowned self] status in
+                    switch status {
+                    case .playing:
+                        spinner.stopSpinning()
+                        spinner.isHidden = true
+                        
+                    case .paused:
+                        spinner.stopSpinning()
+                        spinner.isHidden = true
+
+                    case .waitingToPlayAtSpecifiedRate:
+                        if shouldAutoPlay{
+                       //     DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                if self.shouldAutoPlay{
+                                    self.spinner.startSpinning()
+                                    self.spinner.isHidden = false
+                                }
+                            //}
+                           
+                        }
+                    @unknown default:
+                        fatalError("New timeControlStatus case to handle")
+                    }
+
+                }
             
         }
     }
@@ -42,26 +67,27 @@ class VideoView: UIView {
                         }
                     }
                 playerLayer.player?.replaceCurrentItem(with: playerItem)
-                if shouldAutoPlay { player?.play() }
+                if shouldAutoPlay { player?.playImmediately(atRate: 1) }
             } else {
                 playerLayer.player?.replaceCurrentItem(with: nil)
+                // the player will then enter .waitingToPlayAtSpecifiedRate state
             }
         }
     }
     
     @Published var shouldAutoPlay: Bool = false {
         didSet{
-            shouldAutoPlay ? player?.play() : player?.pause()
+            shouldAutoPlay ? player?.playImmediately(atRate: 1) : player?.pause()
         }
     }
     
     var playerLayer: AVPlayerLayer { layer as! AVPlayerLayer }
     private var playerItemObserver: AnyCancellable?
+    private var playerObserver: AnyCancellable?
     private var subscriptions = Set<AnyCancellable>()
-    
+    private let spinner = SpinningView()
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .systemYellow
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
@@ -79,10 +105,15 @@ class VideoView: UIView {
     
     override func layoutSubviews() {
         imageView.frame = self.bounds
+        spinner.frame = CGRect(x: bounds.midX - 20, y: bounds.midY - 20, width: 40, height: 40)
+        
     }
     
     private func customInit(){
         addSubview(imageView)
+        addSubview(spinner)
+        
+        
         playerLayer.videoGravity = .resizeAspectFill
         
         playerLayer.publisher(for: \.isReadyForDisplay)
@@ -100,7 +131,7 @@ class VideoView: UIView {
             .filter{ [unowned self] in $0 == player?.currentItem }
             .sink{ [unowned self] _ in
                 player?.seek(to: .zero)
-                if shouldAutoPlay { player?.play() }
+                if shouldAutoPlay { player?.playImmediately(atRate: 1) }
             }
             .store(in: &subscriptions)
         

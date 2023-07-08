@@ -8,10 +8,10 @@ target 'Aiba Digital' do
   # Pods for Aiba Digital
     pod 'FirebaseAuth'
     pod 'FirebaseFirestore'
-    pod 'FirebaseStorage'
     pod 'FirebaseDatabase'
     pod 'GoogleSignIn'
     pod 'FirebaseFirestoreSwift'
+    pod 'LineSDKSwift'
     pod "Mobile-Buy-SDK"
 
 

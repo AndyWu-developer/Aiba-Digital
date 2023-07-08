@@ -9,6 +9,7 @@ import UIKit
 import AVFoundation
 import FirebaseCore
 import GoogleSignIn
+import LineSDK
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -24,11 +25,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             UNUserNotificationCenter.current().delegate = self
             application.registerForRemoteNotifications() // here your alert with Permission will appear
             
+        LoginManager.shared.setup(channelID: "2000076716", universalLinkURL: nil)
         FirebaseApp.configure()
+        let link = "https://aiba-digital.firebaseapp.com/__/auth/handler"
+      
         
-        let sess = AVAudioSession.sharedInstance()
-        try? sess.setCategory(.ambient, mode:.default)
-        try? sess.setActive(true)
+//        let sess = AVAudioSession.sharedInstance()
+//        try? sess.setCategory(.ambient, mode:.default)
+//        try? sess.setActive(true)
         return true
     }
     
@@ -52,16 +56,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        
+        print("Here")
         var handled: Bool = false
-        if url.absoluteString.contains("fb"){ // fb sign in
-           
-        }else{ //google sign in
+        return LoginManager.shared.application(app, open: url, options: options)
+        if url.absoluteString.contains("google") { // fb sign in
             handled = GIDSignIn.sharedInstance.handle(url)
         }
+        
+//        if url.absoluteString.contains("aiba") { //google sign in
+//            if let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
+//                  let host = components.host,
+//               let deeplink = DeepLink(rawValue: host){
+//                  print(deeplink)
+//            }
+//        }else{
+//
+//        }
         return handled
     }
 
    
+    func application(
+        _ application: UIApplication,
+        continue userActivity: NSUserActivity,
+        restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool
+    {
+        return LoginManager.shared.application(application, open: userActivity.webpageURL)
+    }
 }
 

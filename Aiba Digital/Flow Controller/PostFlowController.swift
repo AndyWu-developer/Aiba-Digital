@@ -30,12 +30,11 @@ class PostFlowController: UIViewController {
         super.viewDidLoad()
         extendedLayoutIncludesOpaqueBars = true // prevent phantom black bar bug
         transition(to: embeddedNavigationController)
-        startPostFlow()
+        showFeedScreen()
+       // let p = PostManager()
+      //  p.updateAllDocuments()
     }
     
-    private func startPostFlow(){
-        showFeedScreen()
-    }
 
     private func showFeedScreen(){
         let viewModel = PostFeedViewModel()

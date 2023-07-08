@@ -13,15 +13,13 @@ class PostFeedViewModel {
     typealias PostID = String
     
     struct Input {
-        let loadLatestPosts: AnySubscriber<Int,Never>
-        let loadMorePosts: AnySubscriber<Int,Never>
+        let loadLatestPosts: AnySubscriber<Void,Never>
+        let loadMorePosts: AnySubscriber<Void,Never>
         let createPost: AnySubscriber<Void,Never>
         let deletePostID: AnySubscriber<PostID,Never>
     }
     
     struct Output {
-        //let latestPostViewModels: AnyPublisher<[PostSectionViewModel],Never>
-        //let oldPostViewModels: AnyPublisher<[PostSectionViewModel],Never>
         let latestPosts: AnyPublisher<Result<[PostSectionViewModel],Error>,Never>
         let oldPosts: AnyPublisher<Result<[PostSectionViewModel],Error>,Never>
     }
@@ -35,9 +33,11 @@ class PostFeedViewModel {
     
     private var posts: [Post] = []
     private var subscriptions = Set<AnyCancellable>()
-    private let loadMoreSubject = PassthroughSubject<Int,Never>()
-    private let loadLatestSubject = PassthroughSubject<Int,Never>()
+    private let loadMoreSubject = PassthroughSubject<Void,Never>()
+    private let loadLatestSubject = PassthroughSubject<Void,Never>()
     private let postManager: PostManaging
+    private let numberOfLatestPostsToLoad = 5
+    private let numberOfMorePostsToLoad = 10
     
     deinit{
         print("PostFeedViewModel deinit")
@@ -62,8 +62,9 @@ class PostFeedViewModel {
         
         deletePostSubject
             .sink{ [unowned self] postID in
-                let post = posts.first{ $0.postID == postID }!
+                let post = posts.first{ $0.id == postID }!
                 try! postManager.deletePost(post)
+                posts.removeAll{$0.id == postID}
             }
             .store(in: &subscriptions)
         
@@ -75,44 +76,9 @@ class PostFeedViewModel {
     
     private func configureOutputs(){
         
-//        let latestViewModelPubisher = loadLatestSubject
-//            .map{ [unowned self] limit -> AnyPublisher<[Post], Never> in
-//                fetchLatestPosts(limit: limit)
-//                    .catch{ error in
-//                        print("unable to fetch latest posts \(error)")
-//                        return Empty<[Post],Never>(completeImmediately: false)
-//                    }
-//                    .eraseToAnyPublisher()
-//            }
-//            .switchToLatest()
-//            .map{ [unowned self] posts -> [PostSectionViewModel] in
-//                self.posts = posts
-//                let sectionModels = posts.map(PostSectionViewModel.init)
-//                sectionModels.forEach{ [unowned self] in $0.media?.delegate = self }
-//                return sectionModels
-//            }
-//
-//        let moreViewModelPublisher = loadMoreSubject
-//            .map{ [unowned self] limit -> AnyPublisher<[Post], Never> in
-//                fetchMorePosts(limit: limit)
-//                    .catch{ error in
-//                        print("unable to fetch more posts")
-//                        return Empty<[Post],Never>(completeImmediately: false)
-//                    }
-//                    .eraseToAnyPublisher()
-//            }
-//            .switchToLatest()
-//            .map{ [unowned self] posts -> [PostSectionViewModel] in
-//                self.posts += posts
-//                let sectionModels = posts.map(PostSectionViewModel.init)
-//                sectionModels.forEach{ [unowned self] in $0.media?.delegate = self }
-//                return sectionModels
-//            }
-        
-        
         let latestViewModelPubisher = loadLatestSubject
-            .map{ [unowned self] limit -> AnyPublisher<Result<[PostSectionViewModel],Error>, Never> in
-                fetchLatestPosts(limit: limit)
+            .map{ [unowned self] _ -> AnyPublisher<Result<[PostSectionViewModel],Error>, Never> in
+                fetchLatestPosts(limit: numberOfLatestPostsToLoad)
                     .map{ [unowned self] posts in
                         self.posts = posts
                         let sectionModels = posts.map(PostSectionViewModel.init)
@@ -126,11 +92,11 @@ class PostFeedViewModel {
                     .eraseToAnyPublisher()
             }
             .switchToLatest()
-            
+        
         
         let moreViewModelPublisher = loadMoreSubject
-            .map{ [unowned self] limit -> AnyPublisher<Result<[PostSectionViewModel],Error>, Never> in
-                fetchMorePosts(limit: limit)
+            .map{ [unowned self] _ -> AnyPublisher<Result<[PostSectionViewModel],Error>, Never> in
+                fetchMorePosts(limit: numberOfMorePostsToLoad)
                     .map{ [unowned self] posts in
                         self.posts += posts
                         let sectionModels = posts.map(PostSectionViewModel.init)
@@ -146,7 +112,7 @@ class PostFeedViewModel {
             .switchToLatest()
         
         output = Output(latestPosts: latestViewModelPubisher.eraseToAnyPublisher(),
-                        oldPosts: moreViewModelPublisher.eraseToAnyPublisher())
+                         oldPosts: moreViewModelPublisher.eraseToAnyPublisher())
     }
     
     

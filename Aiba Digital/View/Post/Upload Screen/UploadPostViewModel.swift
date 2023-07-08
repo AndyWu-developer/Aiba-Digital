@@ -140,7 +140,7 @@ class UploadPostViewModel{
             
             MediaAsset(type: asset.mediaType == .video ? .video : .photo,
                       dimensions: .init(width: asset.pixelWidth, height: asset.pixelHeight),
-                      url: url.absoluteString)
+                      url: url)
         }
         
         return mediaAssets

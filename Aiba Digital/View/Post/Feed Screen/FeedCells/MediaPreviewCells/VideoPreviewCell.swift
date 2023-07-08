@@ -141,6 +141,7 @@ class VideoPreviewCell: UICollectionViewCell {
 
 
 extension VideoPreviewCell: UIGestureRecognizerDelegate  {
+    
     @objc private func pinch(sender: UIPinchGestureRecognizer) {
         if sender.state == .began {
             let currentScale = videoView.frame.size.width / videoView.bounds.size.width
@@ -166,6 +167,7 @@ extension VideoPreviewCell: UIGestureRecognizerDelegate  {
                     .filter{ $0 }
                     .sink { [unowned self] _ in
                         print("ready")
+                        windowVideoView.shouldAutoPlay = true
                         UIView.animate(withDuration: 0.1,animations: {
                              windowVideoView.alpha = 1
                         }){ _ in

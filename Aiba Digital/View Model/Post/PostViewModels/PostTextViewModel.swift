@@ -24,7 +24,7 @@ class PostTextViewModel: FeedViewModel{
    // private var dependencies: Dependencies!
     var isTextExpanded = false
     private let post: Post
-    let postText: String
+    let postText: String?
     init(post: Post){
         self.post = post
         postText = post.text

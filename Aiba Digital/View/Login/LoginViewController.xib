@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoginViewController" customModule="Aiba_Digital" customModuleProvider="target">
             <connections>
                 <outlet property="appleSignInButton" destination="otC-d5-kTQ" id="Ciy-XN-OT3"/>
+                <outlet property="debugButton" destination="tLy-Gk-1Ld" id="GKl-Fh-kIa"/>
                 <outlet property="googleSignInButton" destination="eGl-ab-mTL" id="CiZ-Tm-WBP"/>
                 <outlet property="logo" destination="YYl-JC-GYy" id="QBq-4C-Pdf"/>
                 <outlet property="phoneNumberField" destination="GYc-zd-5Wg" id="PwE-bA-fOu"/>
@@ -187,6 +188,15 @@
                                         <constraint firstItem="8az-Oh-UKj" firstAttribute="width" secondItem="nrb-Wd-quq" secondAttribute="width" multiplier="0.9" id="z6H-bB-eLH"/>
                                     </constraints>
                                 </view>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tLy-Gk-1Ld">
+                                    <rect key="frame" x="314" y="50" width="50" height="50"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="50" id="Lyk-eP-6kx"/>
+                                        <constraint firstAttribute="width" constant="50" id="ZO3-PF-1jr"/>
+                                    </constraints>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" image="gearshape" catalog="system"/>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" red="0.98237353559999996" green="0.82003986839999998" blue="0.19923976060000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -194,7 +204,9 @@
                                 <constraint firstItem="8rv-KS-h27" firstAttribute="width" secondItem="cci-K4-cOj" secondAttribute="width" multiplier="0.85" id="3vO-2w-qwa"/>
                                 <constraint firstItem="8rv-KS-h27" firstAttribute="centerX" secondItem="cci-K4-cOj" secondAttribute="centerX" id="EOD-0D-ePc"/>
                                 <constraint firstItem="YYl-JC-GYy" firstAttribute="centerX" secondItem="cci-K4-cOj" secondAttribute="centerX" id="FD6-Yz-WTT"/>
+                                <constraint firstItem="tLy-Gk-1Ld" firstAttribute="top" secondItem="cci-K4-cOj" secondAttribute="top" constant="50" id="OjT-PV-Bwg"/>
                                 <constraint firstItem="YYl-JC-GYy" firstAttribute="centerY" secondItem="cci-K4-cOj" secondAttribute="centerY" multiplier="0.65" id="U7e-VD-OJQ"/>
+                                <constraint firstAttribute="trailing" secondItem="tLy-Gk-1Ld" secondAttribute="trailing" constant="50" id="sOu-nf-Mfe"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -232,9 +244,10 @@
     </designables>
     <resources>
         <image name="Logo - SIWA - Logo-only - White" width="44" height="44"/>
+        <image name="gearshape" catalog="system" width="128" height="123"/>
         <image name="image (2)" width="44" height="44"/>
         <systemColor name="quaternaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.17999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.17647058823529413" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>

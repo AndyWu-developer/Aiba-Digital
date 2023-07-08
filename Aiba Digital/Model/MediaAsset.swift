@@ -10,7 +10,7 @@ import Foundation
 struct MediaAsset: Codable {
     let type: MediaType
     let dimensions: MediaDimensions
-    let url: String
+    let url: URL
 }
 
 extension MediaAsset {

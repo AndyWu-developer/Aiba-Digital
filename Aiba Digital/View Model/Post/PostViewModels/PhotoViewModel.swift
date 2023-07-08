@@ -45,7 +45,7 @@ class PhotoViewModel: MediaViewModel{
     private func configureOutput(){
 
         let imageDataPublisher = $imageAsset
-            .compactMap{ URL(string: $0.url) }
+            .map(\.url)
             .flatMap{ imageURL -> AnyPublisher<Data?,Never> in
                 Deferred{
                     Future{ promise in

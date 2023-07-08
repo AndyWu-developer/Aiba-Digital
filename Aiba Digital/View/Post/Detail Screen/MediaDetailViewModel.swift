@@ -41,7 +41,7 @@ class MediaDetailViewModel{
     
     init(post: Post){
         self.post = post
-        userText = post.text
+        userText = post.text ?? ""
         
         mediaViewModels = post.media.map{ media in
             switch media.type{

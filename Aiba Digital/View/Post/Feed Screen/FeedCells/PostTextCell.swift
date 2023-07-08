@@ -48,7 +48,8 @@ class PostTextCell: UICollectionViewCell {
     
     func configure(with viewModel: PostTextViewModel){
         self.viewModel = viewModel
-        t = viewModel.postText
+        guard let text = viewModel.postText else {return }
+        t = text
         t = t.replacingOccurrences(of: "\\n", with: "\n")
         textLabel.numberOfLines = viewModel.isTextExpanded ? 0 : 2
         textLabel.text = t

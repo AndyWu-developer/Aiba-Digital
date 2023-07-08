@@ -12,13 +12,17 @@ protocol LoginFlowControllerDelegate: AnyObject {
 }
 
 class LoginFlowController: UIViewController {
-    
-    typealias Dependencies = HasAuthManager
-    private let dependencies: Dependencies
+ 
     weak var flowDelegate: LoginFlowControllerDelegate?
-
-    init(dependencies: Dependencies){
-        self.dependencies = dependencies
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        start()
+    }
+    private let memberManager: AccountManaging
+    
+    init(memberManager: AccountManaging){
+        self.memberManager = memberManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -27,7 +31,7 @@ class LoginFlowController: UIViewController {
     }
     
     func start(){
-        let loginViewModel = SignInViewModel(dependencies: dependencies)
+        let loginViewModel = MemberSignInViewModel(memberManager: memberManager)
         let loginVC = LoginViewController(viewModel: loginViewModel)
         loginVC.flowDelegate = self
         transition(to: loginVC, animation: .transitionCrossDissolve){ _ in

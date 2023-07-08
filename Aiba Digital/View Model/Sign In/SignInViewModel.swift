@@ -71,6 +71,7 @@ class SignInViewModel {
             signInSuccessSubject.send(false)
         }
     }
+    
     private let sendSMSSuccessSubject = PassthroughSubject<Bool,Never>()
     
     private func handleResult(_ result: Result<Bool,AuthError>){

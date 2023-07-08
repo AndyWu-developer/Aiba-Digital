@@ -17,7 +17,7 @@ class PostSectionViewModel {
     
     init(post: Post){
         self.post = post
-        self.ID = post.postID!
+        self.ID = post.id!
         header = PostHeaderViewModel(post: post)
         media = PostMediaViewModel(post: post)
         text = PostTextViewModel(post: post)

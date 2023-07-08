@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import LineSDK
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -45,6 +46,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        print("Line callback")
+        _ = LoginManager.shared.application(.shared, open: URLContexts.first?.url)
     }
 
 

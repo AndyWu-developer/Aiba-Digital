@@ -46,7 +46,7 @@ class VideoViewModel: MediaViewModel {
     private func configureOutput(){
 
         let videoDataPublisher = $videoAsset
-            .compactMap { URL(string: $0.url) }
+            .map(\.url)
             .flatMap{ videoURL -> AnyPublisher<AVURLAsset?,Never> in
                 Deferred{
                     Future{ promise in
@@ -66,7 +66,7 @@ class VideoViewModel: MediaViewModel {
             .map{$0 as AVAsset}
 //
         let videoThumbnailPublisher = $videoAsset
-            .compactMap { URL(string: $0.url) }
+            .map(\.url)
             .flatMap{ imageURL -> AnyPublisher<Data?,Never> in
                 Deferred{
                     Future{ promise in
